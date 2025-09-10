@@ -1,0 +1,66 @@
+{
+  "epoch_summaries": {
+    "description": "Résumés d'époque basés sur les combinaisons de technologies préservées",
+    "style": "Borges facétieux - perspective omnisciente avec touches d'humour cosmique",
+    
+    "prehistoric_combinations": {
+      "fire_language": {
+        "technologies": ["fire_control", "language_complex"],
+        "title": "L'Époque des Premiers Conteurs",
+        "summary": "C'est autour des premières flammes que l'humanité découvre sa vocation secrète : celle de conteuse universelle. Le feu apprivoisé devient le premier amphithéâtre de l'histoire, et le langage complexe son premier spectacle. Nos ancêtres, sans le savoir, viennent d'inventer le théâtre - cette alliance sacrée entre la lumière qui révèle et les mots qui transforment. Dans les bibliothèques célestes, cette période est répertoriée sous l'étiquette 'Premières Soirées Magiques'. Un archiviste angélique note en marge : 'Début de la littérature orale. Qualité prometteuse, audience captive (littéralement - ils ne peuvent pas s'éloigner du feu sans mourir de froid).'"
+      },
+      
+      "fire_tools_agriculture": {
+        "technologies": ["fire_control", "stone_tools", "agriculture_basic"],
+        "title": "La Trinité Fondatrice",
+        "summary": "Voici l'époque où l'humanité apprend les trois gestes qui définiront son destin : allumer, façonner, planter. Le feu pour transformer, les outils pour créer, l'agriculture pour durer. Cette combinaison crée les premiers humains véritablement sédentaires - non par paresse, mais par génie. Ils découvrent qu'on peut être nomade dans le temps tout en restant immobile dans l'espace. C'est l'invention du foyer au sens le plus noble : ce point fixe autour duquel peut tourner l'univers entier. Un observateur extraterrestre, témoin de cette époque, consigne : 'Espèce fascinante. Vient d'inventer la civilisation et ne semble même pas s'en rendre compte.'"
+      },
+      
+      "language_ritual": {
+        "technologies": ["language_complex", "ritual_burial"],
+        "title": "Les Premiers Archivistes de l'Éternité",
+        "summary": "Quand les mots complexes rencontrent les rituels funéraires, naît quelque chose d'extraordinaire : la première tentative humaine pour créer une bibliothèque de l'immortalité. Nos ancêtres découvrent qu'ils peuvent transformer la mort en histoire, l'absence en présence narrative. C'est l'époque où l'humanité comprend qu'elle est à la fois l'auteur, le livre et le lecteur de sa propre épopée. Les premiers récits mythologiques naissent autour des tombes, transformant chaque disparu en personnage éternel. Dans les archives cosmiques, cette période porte la mention : 'Début de la mythologie. Note pour l'éternité : cette espèce refuse catégoriquement d'accepter la finitude.'"
+      },
+      
+      "complete_foundation": {
+        "technologies": ["fire_control", "language_complex", "stone_tools", "agriculture_basic", "ritual_burial"],
+        "title": "La Grande Symphonie Préhistorique",
+        "summary": "Voici l'humanité qui maîtrise tous les instruments de sa première symphonie civilisationnelle. Le feu bat la mesure, les outils créent la mélodie, l'agriculture tisse l'harmonie, le langage chante les paroles, et les rituels funéraires composent l'éternelle coda. C'est l'époque où nos ancêtres cessent définitivement d'être des spectateurs de l'existence pour en devenir les chefs d'orchestre. Ils ont inventé la culture - cette capacité miraculeuse à faire du temps qui passe une œuvre d'art qui demeure. Un chroniqueur céleste note : 'Phase de civilisation primaire achevée avec succès. Prêts pour l'expansion vers les mystères suivants. Mention spéciale pour l'originalité : première espèce connue à transformer la survie en poésie.'"
+      }
+    },
+    
+    "transition_themes": {
+      "fire_heritage": "Le feu préservé traverse les âges comme un témoin silencieux, transformant les métiers, éclairant les esprits, forgeant les empires.",
+      "language_evolution": "Les mots complexes se muent en écriture, puis en littérature, puis en philosophie - cette chaîne dorée qui relie la première métaphore aux derniers poèmes de l'humanité.",
+      "tool_mastery": "Des silex taillés aux machines quantiques, l'alliance entre intelligence et matière n'a jamais cessé de se complexifier.",
+      "agricultural_revolution": "De la première graine plantée aux jardins spatiaux, l'humanité reste fidèle à son pacte originel avec la croissance.",
+      "memory_preservation": "Les rituels funéraires évoluent en monuments, puis en histoires, puis en archives numériques - mais l'intention demeure : rien de précieux ne doit être oublié."
+    }
+  },
+  
+  "narrative_techniques": {
+    "omniscient_perspective": "Le narrateur connaît l'histoire complète, du Big Bang aux dernières étoiles",
+    "cosmic_humor": "Humour tendre sur l'échelle cosmique des actions humaines",
+    "library_metaphors": "Références constantes à des archives, bibliothèques, catalogues universels",
+    "temporal_paradoxes": "Jeu sur les boucles temporelles et les échos à travers les âges",
+    "scientific_poetry": "Mélange de précision historique et d'envolées lyriques"
+  },
+  
+  "memory_words_bank": [
+    "vestige", "empreinte", "murmure", "écho", "trace", "souvenir", "fragment",
+    "archives", "chronique", "témoignage", "héritage", "legs", "transmission",
+    "rémanence", "persistance", "permanence", "durée", "continuité"
+  ],
+  
+  "borges_elements": [
+    "Bibliothèques infinies", "Catalogues impossibles", "Labyrinthes temporels",
+    "Miroirs qui reflètent l'éternité", "Encyclopédies universelles",
+    "Cartographies de l'absolu", "Jardins aux sentiers qui bifurquent"
+  ],
+  
+  "pratchett_touches": [
+    "Observations décalées sur l'humanité", "Notes en bas de page cosmiques",
+    "Personnification d'abstractions", "Humour sur les bureaucraties universelles",
+    "Tendresse pour les petitesses humaines", "Ironie affectueuse"
+  ]
+}

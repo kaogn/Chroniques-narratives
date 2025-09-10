@@ -1,0 +1,207 @@
+{
+  "narrative_style_guide": {
+    "voice": "Borges facétieux",
+    "tone": "Érudit mais malicieux, cosmique mais tendre",
+    "techniques": [
+      "Références à des bibliothèques imaginaires",
+      "Paradoxes temporels légers", 
+      "Méta-commentaires sur la mémoire collective",
+      "Humour subtil à la Pratchett",
+      "Perspective omnisciente bienveillante"
+    ],
+    "memory_words": ["souvenir", "oubli", "trace", "écho", "vestige", "empreinte", "murmure", "fragment"]
+  },
+  
+  "technologies": [
+    {
+      "id": "fire_control",
+      "name": "Maîtrise du Feu",
+      "period": "prehistoric",
+      "category": "survival", 
+      "rarity": "pillar",
+      "description": "La première alliance consciente avec l'élément qui transforme tout ce qu'il touche.",
+      "historical_context": "Vers 400 000 ans avant notre ère, quelque part entre les grottes d'Afrique et les steppes d'Asie, l'humanité scelle son premier pacte avec l'énergie pure.",
+      "discovery_date_range": "400000-200000 BCE",
+      
+      "dependencies": {
+        "prerequisites": [],
+        "enables": ["cooking", "metal_working", "ceramics"],
+        "blocks": [],
+        "synergies": [
+          {
+            "with": ["stone_tools"],
+            "effect": "Forge primitive",
+            "description": "Les pierres taillées et le feu créent les premiers ateliers de l'humanité"
+          }
+        ]
+      },
+      
+      "effects": {
+        "survival": 3,
+        "social": 2,
+        "technological": 2
+      },
+      
+      "narratives": {
+        "immediate": "Dans les vastes archives de la Mémoire Collective, le feu occupe une place particulière : c'est le premier chapitre où l'humanité cesse d'être simplement lectrice de son environnement pour en devenir co-autrice. Imaginez, si vous le voulez bien, ce moment où une main tremblante apprivoise la première flamme - non pas celle, brutale, de la foudre, mais celle, patiente, née du frottement de deux silex. Cette main ne sait pas encore qu'elle vient d'écrire la première ligne d'un poème de quatre cent mille ans, dont chaque strophe sera une civilisation.",
+        
+        "epoch_impact": "Le feu, ce premier domestique de l'humanité, a transformé nos ancêtres en alchimistes involontaires. Ils découvrent, avec une surprise que nous peinons à imaginer, que la chaleur révèle des saveurs cachées dans la chair crue, qu'elle durcit l'argile en récipients, qu'elle fait fuir les prédateurs nocturnes. Dans les bibliothèques perdues de Babylone, un scribe anonyme noterait plus tard : 'Le feu fut notre première université.' Il n'avait pas tort - c'est autour des premières braises que sont nées nos premières histoires, nos premiers débats, nos premières tentatives pour comprendre le monde.",
+        
+        "final_consequence": "Quatre cent mille ans plus tard, quand les derniers humains contemplent les étoiles depuis leurs vaisseaux, ils emportent encore cette mémoire primitive : celle du feu qui rassemble, qui transforme, qui révèle. Chaque moteur à fusion, chaque étoile artificielle, chaque lumière qui perce l'obscurité de l'espace n'est que l'écho de ce premier geste - une main qui tend un brandon vers l'inconnu."
+      }
+    },
+    
+    {
+      "id": "language_complex",
+      "name": "Langage Complexe", 
+      "period": "prehistoric",
+      "category": "cognitive",
+      "rarity": "pillar",
+      "description": "L'invention du mensonge, de la métaphore et de la promesse - les trois piliers de la civilisation.",
+      "historical_context": "Entre 200 000 et 50 000 ans avant notre ère, l'humanité découvre qu'elle peut non seulement nommer le monde, mais le réinventer par les mots.",
+      "discovery_date_range": "200000-50000 BCE",
+      
+      "dependencies": {
+        "prerequisites": [],
+        "enables": ["storytelling", "abstract_thought", "social_contracts"],
+        "blocks": [],
+        "synergies": [
+          {
+            "with": ["fire_control"],
+            "effect": "Tradition orale",
+            "description": "Le feu et les mots créent les premières soirées d'histoires de l'humanité"
+          }
+        ]
+      },
+      
+      "effects": {
+        "cognitive": 4,
+        "social": 3,
+        "spiritual": 2
+      },
+      
+      "narratives": {
+        "immediate": "Ah, le langage complexe ! Si j'étais un bibliothécaire céleste (et qui vous dit que je ne le suis pas ?), je placerais cette invention sur l'étagère marquée 'Paradoxes Fondamentaux'. Car voyez-vous, le jour où l'humanité apprend à mentir, elle découvre simultanément la vérité. Le jour où elle invente la métaphore, elle touche du doigt l'essence même du réel. Et le jour où elle formule sa première promesse, elle crée le temps - non plus seulement ce présent éternel des animaux, mais ce tissage complexe entre passé, présent et futur qui deviendra l'étoffe même de la conscience humaine.",
+        
+        "epoch_impact": "Les mots complexes se répandent de tribu en tribu comme une contagion bienveillante. Soudain, l'humanité découvre qu'elle peut partager non seulement des informations ('Le mammouth est là-bas') mais des idées ('Et si nous étions plus que des chasseurs ?'). C'est l'époque où naissent les premiers concepts abstraits : justice, beauté, espoir. Un observateur extraterrestre, s'il en existait un, noterait dans son rapport : 'Espèce remarquable. Vient d'inventer l'impossible et s'en porte à merveille.'",
+        
+        "final_consequence": "Quand les dernières intelligences humaines exploreront les confins de l'univers, elles découvriront peut-être que tout ce voyage cosmique n'était qu'une très longue conversation - une phrase commencée autour d'un feu de camp préhistorique et qui cherche encore, quelque part entre les galaxies, son point final."
+      }
+    },
+    
+    {
+      "id": "stone_tools",
+      "name": "Outils de Pierre Taillée",
+      "period": "prehistoric", 
+      "category": "technological",
+      "rarity": "common",
+      "description": "La pierre devient complice : première collaboration entre l'intelligence et la matière.",
+      "historical_context": "Dès 3,3 millions d'années, nos ancêtres découvrent que frapper deux pierres ensemble peut créer quelque chose de plus utile que la somme de ses parties.",
+      "discovery_date_range": "3300000-1000000 BCE",
+      
+      "dependencies": {
+        "prerequisites": [],
+        "enables": ["hunting_organized", "shelter_construction", "art_cave"],
+        "blocks": [],
+        "synergies": [
+          {
+            "with": ["fire_control"],
+            "effect": "Forge primitive",
+            "description": "Pierre et feu créent les premiers ateliers"
+          }
+        ]
+      },
+      
+      "effects": {
+        "technological": 3,
+        "survival": 3,
+        "artistic": 1
+      },
+      
+      "narratives": {
+        "immediate": "Il existe, dans les archives infinies de la Mémoire Collective, un dossier intitulé 'Premières Collaborations'. Le chapitre inaugural raconte l'histoire d'un silex et d'un ancêtre anonyme qui, un matin banal d'il y a trois millions d'années, découvrent qu'ils peuvent s'entraider. Le silex offre sa dureté, l'ancêtre son intention. De cette alliance naît le premier outil - et avec lui, la première preuve que l'humanité ne se contente pas de subir le monde, mais peut le façonner à son image.",
+        
+        "epoch_impact": "Les outils de pierre se perfectionnent avec une constance qui émerveille les paléontologues. Chaque génération ajoute sa pierre à l'édifice - littéralement. Les techniques se transmettent, s'affinent, se complexifient. C'est la première école de l'humanité : l'École du Caillou Bien Taillé. Ses diplômés ne reçoivent pas de parchemin, mais quelque chose de plus précieux : la certitude que l'intelligence peut triompher de la matière brute.",
+        
+        "final_consequence": "Des milliards d'années plus tard, quand les intelligences artificielles créées par l'humanité contemplent l'univers, elles portent encore en elles l'écho de ce premier geste : transformer la matière par l'intention. Chaque circuit intégré, chaque processeur quantique n'est que l'arrière-arrière-petit-fils de ce premier silex taillé."
+      }
+    },
+    
+    {
+      "id": "agriculture_basic",
+      "name": "Agriculture Primitive",
+      "period": "prehistoric",
+      "category": "economic", 
+      "rarity": "pillar",
+      "description": "L'humanité cesse d'être l'invitée de la nature pour devenir son associée.",
+      "historical_context": "Vers 10 000 ans avant notre ère, plusieurs civilisations découvrent simultanément qu'elles peuvent négocier avec les plantes.",
+      "discovery_date_range": "12000-8000 BCE",
+      
+      "dependencies": {
+        "prerequisites": ["stone_tools"],
+        "enables": ["permanent_settlements", "social_hierarchy", "surplus_economy"],
+        "blocks": ["nomadism_pure"],
+        "synergies": [
+          {
+            "with": ["language_complex"],
+            "effect": "Transmission du savoir agricole",
+            "description": "Les mots permettent de partager les secrets des saisons"
+          }
+        ]
+      },
+      
+      "effects": {
+        "economic": 4,
+        "social": 3,
+        "survival": 2,
+        "political": 1
+      },
+      
+      "narratives": {
+        "immediate": "Dans l'immense bibliothèque de l'Évolution, l'agriculture occupe une section particulière : celle des 'Révolutions Silencieuses'. Car voyez-vous, contrairement aux volcans ou aux météorites, l'agriculture ne fait pas de bruit. Elle se contente de changer le monde. Un grain après l'autre, une saison après l'autre, elle transforme des chasseurs-cueilleurs en jardiniers du monde. Et les jardiniers, comme chacun sait, sont les plus patients des révolutionnaires.",
+        
+        "epoch_impact": "L'agriculture réinvente le temps humain. Fini le temps cyclique de la chasse, voici le temps linéaire des semences et des récoltes. Nos ancêtres découvrent l'art subtil de l'attente productive - planter aujourd'hui pour récolter demain. C'est la naissance de la planification, de l'épargne, de l'espoir organisé. Un anthropologue martien, s'il existait, noterait : 'Espèce curieuse. Vient d'inventer l'avenir et semble y prendre goût.'",
+        
+        "final_consequence": "Quand les derniers humains cultiveront des jardins hydroponiques dans les vaisseaux interstellaires, ils porteront encore en eux cette mémoire première : l'alliance avec la graine, la patience des saisons, la confiance dans le cycle éternel de la croissance. L'agriculture fut leur premier vaisseau spatial - celui qui leur apprit à voyager dans le temps."
+      }
+    },
+    
+    {
+      "id": "ritual_burial",
+      "name": "Rituels Funéraires",
+      "period": "prehistoric",
+      "category": "spiritual",
+      "rarity": "common",
+      "description": "La première tentative de l'humanité pour négocier avec l'éternité.",
+      "historical_context": "Dès 300 000 ans, nos ancêtres développent des pratiques pour honorer leurs morts, créant les premiers ponts entre le visible et l'invisible.",
+      "discovery_date_range": "300000-100000 BCE",
+      
+      "dependencies": {
+        "prerequisites": ["language_complex"],
+        "enables": ["ancestor_worship", "afterlife_concepts", "sacred_spaces"],
+        "blocks": [],
+        "synergies": [
+          {
+            "with": ["art_cave"],
+            "effect": "Mémoire visuelle des morts",
+            "description": "L'art et les rituels créent les premières mémoires permanentes"
+          }
+        ]
+      },
+      
+      "effects": {
+        "spiritual": 4,
+        "social": 2,
+        "cognitive": 2
+      },
+      
+      "narratives": {
+        "immediate": "Si la Mémoire Collective tenait un journal intime (et qui vous dit qu'elle ne le fait pas ?), elle daterait de ce jour-là l'entrée la plus émouvante : 'Aujourd'hui, l'humanité a découvert qu'elle refuse d'oublier.' Car c'est exactement cela, les rituels funéraires - le premier 'non' catégorique opposé à l'amnésie universelle. Face à la mort qui efface tout, nos ancêtres inventent la cérémonie qui conserve tout. C'est leur façon de dire à l'univers : 'Tu peux reprendre le corps, mais l'histoire, elle, nous appartient.'",
+        
+        "epoch_impact": "Les premiers cimetières changent la géographie de l'humanité. Soudain, certains lieux deviennent sacrés, non pas parce qu'ils sont beaux ou utiles, mais parce qu'ils se souviennent. C'est la naissance de la mémoire géographique, ces endroits où le passé continue de vivre. Nos ancêtres découvrent qu'ils peuvent être présents dans plusieurs temps à la fois - vivants dans le présent, héritiers du passé, ancêtres du futur.",
+        
+        "final_consequence": "Quand les dernières civilisations humaines s'éteindront doucement dans l'immensité cosmique, elles emporteront encore cette intuition première : que rien ne disparaît vraiment, que tout se transforme, que la mort elle-même n'est qu'un changement d'adresse dans la grande bibliothèque de l'existence."
+      }
+    }
+  ]
+}

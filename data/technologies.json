@@ -1,0 +1,389 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Human Memories - Technologies Database",
+  "description": "Base de données complète des technologies pour le jeu Human Memories",
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-15",
+  
+  "metadata": {
+    "totalTechnologies": 120,
+    "periods": 8,
+    "categories": ["military", "cultural", "economic", "social", "exploration", "industrial", "scientific"],
+    "gameMode": "civilizationMemory"
+  },
+  
+  "periods": {
+    "prehistoric": {
+      "id": "prehistoric",
+      "name": "Préhistoire",
+      "description": "Les premiers outils et la domestication",
+      "dateRange": { "start": -500000, "end": -3000 },
+      "averageTechsPerTurn": 4,
+      "iconColor": "#8B4513"
+    },
+    "ancient_early": {
+      "id": "ancient_early", 
+      "name": "Antiquité Ancienne",
+      "description": "Naissance des premières civilisations",
+      "dateRange": { "start": -3000, "end": -500 },
+      "averageTechsPerTurn": 4,
+      "iconColor": "#DAA520"
+    },
+    "ancient_classical": {
+      "id": "ancient_classical",
+      "name": "Antiquité Classique", 
+      "description": "Époque des empires et de la philosophie",
+      "dateRange": { "start": -500, "end": 500 },
+      "averageTechsPerTurn": 4,
+      "iconColor": "#CD853F"
+    },
+    "medieval_early": {
+      "id": "medieval_early",
+      "name": "Haut Moyen Âge",
+      "description": "Christianisation et innovations agricoles",
+      "dateRange": { "start": 500, "end": 1000 },
+      "averageTechsPerTurn": 4,
+      "iconColor": "#696969"
+    },
+    "medieval_late": {
+      "id": "medieval_late",
+      "name": "Bas Moyen Âge", 
+      "description": "Universités, cathédrales et premières poudres",
+      "dateRange": { "start": 1000, "end": 1500 },
+      "averageTechsPerTurn": 4,
+      "iconColor": "#2F4F4F"
+    },
+    "renaissance": {
+      "id": "renaissance",
+      "name": "Renaissance",
+      "description": "Humanisme, explorations et révolution artistique",
+      "dateRange": { "start": 1500, "end": 1700 },
+      "averageTechsPerTurn": 4,
+      "iconColor": "#8A2BE2"
+    },
+    "industrial": {
+      "id": "industrial", 
+      "name": "Révolution Industrielle",
+      "description": "Machines à vapeur et transformation sociale",
+      "dateRange": { "start": 1700, "end": 1900 },
+      "averageTechsPerTurn": 4,
+      "iconColor": "#4682B4"
+    },
+    "contemporary": {
+      "id": "contemporary",
+      "name": "Époque Contemporaine",
+      "description": "Électricité, informatique et futur proche",
+      "dateRange": { "start": 1900, "end": 2100 },
+      "averageTechsPerTurn": 4,
+      "iconColor": "#00CED1"
+    }
+  },
+  
+  "technologies": [
+    {
+      "id": "fire_control",
+      "name": "Maîtrise du feu",
+      "period": "prehistoric",
+      "category": "cultural",
+      "dateRange": { "min": -400000, "max": -100000 },
+      "rarity": "pillar",
+      "historicalAccuracy": 5,
+      "description": "Contrôle et usage domestique du feu, révolution fondamentale de l'humanité primitive",
+      
+      "dependencies": {
+        "prerequisites": [],
+        "enables": ["pottery", "bronze_working", "cooking"],
+        "blocks": [],
+        "synergies": [
+          {
+            "with": ["stone_tools"],
+            "effect": "enhanced_survival",
+            "description": "Outils + feu = survie assurée"
+          }
+        ]
+      },
+      
+      "effects": {
+        "military": 1,
+        "cultural": 2, 
+        "economic": 1,
+        "social": 2,
+        "exploration": 1
+      },
+      
+      "narrative": {
+        "memoryWord": "flamme",
+        "wordVariants": ["feu", "brasier", "foyer", "étincelle"],
+        "immediate": [
+          "La flamme, fatiguée de sa vie sauvage, accepta de cohabiter avec l'humanité.",
+          "Dans vos mémoires s'allume la première des alliances : le feu domestique.",
+          "Quelqu'un venait de convaincre la flamme de rester tranquille dans un cercle de pierres."
+        ],
+        "epochTemplate": "Cette ère primitive découvrit le paradoxe fondamental : apprivoiser ce qui était destiné à tout dévorer. La {memoryWord}, docile dans ses foyers, rêvait secrètement de forêts incendiées.",
+        "finalTemplate": "Depuis le jour où vous préservâtes la {memoryWord}, l'humanité vécut dans sa lumière et sa chaleur. Des cavernes aux centrales nucléaires, elle accompagna chaque étape de cette longue épopée."
+      },
+      
+      "gameplay": {
+        "appearanceWeight": 100,
+        "isRemovable": false,
+        "culturalVariants": {
+          "european": "Foyers centraux dans les habitations",
+          "asian": "Feux rituels et cuisine raffinée", 
+          "american": "Feux de signalisation et cérémonies"
+        }
+      }
+    },
+    
+    {
+      "id": "stone_tools",
+      "name": "Outils de pierre taillée",
+      "period": "prehistoric",
+      "category": "economic",
+      "dateRange": { "min": -300000, "max": -50000 },
+      "rarity": "common",
+      "historicalAccuracy": 5,
+      "description": "Fabrication d'outils en pierre taillée, première technologie manufacturière",
+      
+      "dependencies": {
+        "prerequisites": [],
+        "enables": ["agriculture", "hunting_advanced", "stone_polished"],
+        "blocks": [],
+        "synergies": [
+          {
+            "with": ["fire_control"],
+            "effect": "enhanced_survival", 
+            "description": "Combinaison primitive parfaite"
+          }
+        ]
+      },
+      
+      "effects": {
+        "military": 1,
+        "cultural": 1,
+        "economic": 3,
+        "social": 1,
+        "exploration": 1
+      },
+      
+      "narrative": {
+        "memoryWord": "silex",
+        "wordVariants": ["pierre", "lame", "éclat", "outil"],
+        "immediate": [
+          "Le silex accepta de révéler ses secrets tranchants à l'humanité.",
+          "Dans vos souvenirs tinte le premier éclat de pierre taillée.",
+          "Quelqu'un eut l'idée révolutionnaire de casser les cailloux avec méthode."
+        ],
+        "epochTemplate": "Cette époque primitive transforma le {memoryWord} en prolongement de la main humaine. Les roches cessèrent d'être de simples obstacles pour devenir les premiers collaborateurs de l'intelligence.",
+        "finalTemplate": "Du {memoryWord} primitif naquirent tous les outils. Chaque invention technique porta en elle l'écho de ce premier éclat, de ce premier geste qui fit de l'homme un façonneur du monde."
+      },
+      
+      "gameplay": {
+        "appearanceWeight": 90,
+        "isRemovable": true,
+        "culturalVariants": {
+          "african": "Outils de chasse spécialisés",
+          "european": "Outils domestiques polyvalents",
+          "asian": "Précision dans la taille"
+        }
+      }
+    },
+    
+    {
+      "id": "agriculture",
+      "name": "Agriculture primitive",
+      "period": "prehistoric",
+      "category": "economic", 
+      "dateRange": { "min": -10000, "max": -5000 },
+      "rarity": "pillar",
+      "historicalAccuracy": 5,
+      "description": "Domestication des plantes et début de la sédentarisation",
+      
+      "dependencies": {
+        "prerequisites": ["stone_tools"],
+        "enables": ["pottery", "animal_domestication", "settlements", "population_growth"],
+        "blocks": ["nomadic_lifestyle"],
+        "synergies": [
+          {
+            "with": ["animal_domestication"],
+            "effect": "agricultural_revolution",
+            "description": "Révolution néolithique complète"
+          }
+        ]
+      },
+      
+      "effects": {
+        "military": 0,
+        "cultural": 1,
+        "economic": 4,
+        "social": 3,
+        "exploration": -1
+      },
+      
+      "narrative": {
+        "memoryWord": "semence",
+        "wordVariants": ["graine", "récolte", "sillon", "terre"],
+        "immediate": [
+          "La semence de civilisation germe dans votre mémoire.",
+          "Dans vos souvenirs s'enracine la première promesse de demain.",
+          "Quelqu'un découvrit que les plantes pouvaient être des partenaires plutôt que des proies."
+        ],
+        "epochTemplate": "Vos choix plantèrent la {memoryWord} d'une humanité sédentaire. Les chasseurs-cueilleurs cessèrent d'errer : ils apprirent à attendre, à prévoir, à faire confiance aux saisons.",
+        "finalTemplate": "De cette première {memoryWord} préservée naquirent toutes les cités. L'agriculture transforma l'homme nomade en architecte du paysage, sculptant la terre selon ses besoins millénaire après millénaire."
+      },
+      
+      "gameplay": {
+        "appearanceWeight": 95,
+        "isRemovable": false,
+        "culturalVariants": {
+          "fertile_crescent": "Blé et orge",
+          "asia": "Riz et millet",
+          "americas": "Maïs, haricots, courges"
+        }
+      }
+    },
+    
+    {
+      "id": "writing_cuneiform",
+      "name": "Écriture cunéiforme",
+      "period": "ancient_early",
+      "category": "cultural",
+      "dateRange": { "min": -3500, "max": -3000 },
+      "rarity": "pillar",
+      "historicalAccuracy": 5,
+      "description": "Premier système d'écriture développé en Mésopotamie",
+      
+      "dependencies": {
+        "prerequisites": ["agriculture", "pottery"],
+        "enables": ["laws_written", "literature", "libraries", "bureaucracy", "mathematics"],
+        "blocks": [],
+        "synergies": [
+          {
+            "with": ["mathematics"],
+            "effect": "record_keeping",
+            "description": "Administration et commerce précis"
+          }
+        ]
+      },
+      
+      "effects": {
+        "military": 0,
+        "cultural": 4,
+        "economic": 2,
+        "social": 2,
+        "exploration": 1
+      },
+      
+      "narrative": {
+        "memoryWord": "tablette",
+        "wordVariants": ["cunéiforme", "argile", "scribe", "signe"],
+        "immediate": [
+          "La tablette grave les premiers mots du temps dans vos souvenirs.",
+          "Dans l'argile naît la mémoire des mémoires.",
+          "Quelqu'un eut l'idée saugrenue de faire parler la boue séchée."
+        ],
+        "epochTemplate": "L'écriture métamorphosa cette ère ancienne. Pour la première fois, la pensée humaine échappait aux limites de la voix et du souffle. Sur la {memoryWord} d'argile, les mots devinrent immortels.",
+        "finalTemplate": "De ces premières {memoryWord} coulèrent tous les fleuves de l'écrit. Contrats et poèmes, lois et légendes : l'humanité avait appris à converser avec l'éternité."
+      },
+      
+      "gameplay": {
+        "appearanceWeight": 100,
+        "isRemovable": false,
+        "culturalVariants": {
+          "sumerian": "Écriture administrative",
+          "akkadian": "Littérature épique", 
+          "babylonian": "Codes juridiques"
+        }
+      }
+    },
+    
+    {
+      "id": "bronze_working",
+      "name": "Métallurgie du bronze",
+      "period": "ancient_early",
+      "category": "military",
+      "dateRange": { "min": -3500, "max": -2000 },
+      "rarity": "common",
+      "historicalAccuracy": 5,
+      "description": "Alliage cuivre-étain révolutionnant outils et armes",
+      
+      "dependencies": {
+        "prerequisites": ["fire_control"],
+        "enables": ["iron_working", "weapons_advanced", "tools_metal"],
+        "blocks": [],
+        "synergies": [
+          {
+            "with": ["trade_routes"],
+            "effect": "bronze_age_trade",
+            "description": "Commerce international des métaux"
+          }
+        ]
+      },
+      
+      "effects": {
+        "military": 3,
+        "cultural": 1,
+        "economic": 2,
+        "social": 1,
+        "exploration": 1
+      },
+      
+      "narrative": {
+        "memoryWord": "métal",
+        "wordVariants": ["bronze", "alliage", "forge", "fusion"],
+        "immediate": [
+          "Le métal accepta d'abandonner sa forme première pour des usages plus... pratiques.",
+          "Dans vos souvenirs résonne le premier mensonge du cuivre : 'Je serai plus solide avec de l'étain.'",
+          "L'humanité venait d'apprendre à convaincre les roches de devenir des épées."
+        ],
+        "epochTemplate": "Le {memoryWord} de bronze transforma cette époque avec l'élégance d'un philosophe armé. Les guerriers découvrirent qu'il était plus facile de négocier avec une lame de bronze qu'avec des arguments de pierre.",
+        "finalTemplate": "Du premier {memoryWord} de bronze coulèrent tous les âges métallurgiques. L'humanité avait découvert l'alchimie pratique : transformer la terre en pouvoir."
+      },
+      
+      "gameplay": {
+        "appearanceWeight": 85,
+        "isRemovable": true,
+        "culturalVariants": {
+          "mediterranean": "Armes de guerre",
+          "celtic": "Objets décoratifs et rituels",
+          "chinese": "Vases cérémoniels"
+        }
+      }
+    }
+  ],
+  
+  "gameConfig": {
+    "maxTechsPerTurn": 3,
+    "maxPreservedPerTurn": 2,
+    "totalTurns": 8,
+    "difficultySettings": {
+      "easy": {
+        "techsOfferedPerTurn": 3,
+        "rareTechChance": 0.1
+      },
+      "normal": {
+        "techsOfferedPerTurn": 3, 
+        "rareTechChance": 0.15
+      },
+      "hard": {
+        "techsOfferedPerTurn": 4,
+        "rareTechChance": 0.2
+      }
+    },
+    
+    "narrativeRules": {
+      "immediateReactionLength": "8-15 words",
+      "epochSummaryLength": "2-3 sentences", 
+      "finalChronicleLength": "3-5 sentences",
+      "styleGuide": "Borges facétieux - poétique avec ironie bienveillante",
+      "mandatoryElements": ["memoryWord", "personnification", "humanité observée avec amusement"]
+    }
+  },
+  
+  "validationRules": {
+    "requiredFields": ["id", "name", "period", "category", "rarity", "narrative"],
+    "dateRangeConsistency": "dateRange must be within period bounds",
+    "dependencyValidation": "all prerequisites and enables must reference existing tech IDs",
+    "narrativeCompleteness": "immediate array must have 2-5 variants",
+    "effectBalance": "total effects should be between -2 and +6 per tech"
+  }
+}

@@ -1,0 +1,2258 @@
+{
+  "metadata": {
+    "version": "2.0",
+    "total_technologies": 120,
+    "periods": 8,
+    "creation_date": "2025-01-21",
+    "description": "Base de données étendue pour Human Memories - Distribution équilibrée"
+  },
+
+  "technologies": {
+    "fire_control": {
+      "id": "fire_control",
+      "name": "Maîtrise du Feu",
+      "period": "prehistoric",
+      "category": "survival",
+      "rarity": "pillar",
+      "description": "La première alliance consciente avec l'élément qui transforme tout.",
+      "historical_context": "Vers 400,000 ans avant notre ère - le premier pacte avec l'énergie pure.",
+      "discovery_date_range": "400000-200000 BCE",
+      "prerequisites": [],
+      "enables": ["cooking", "metalworking_basic", "pottery", "bronze_working", "practical_metallurgy"],
+      "blocks": [],
+      "synergies": [
+        {
+          "with": ["stone_tools"],
+          "effect": "Forge Primitive",
+          "description": "Les pierres taillées et le feu créent les premiers ateliers"
+        },
+        {
+          "with": ["cave_art"],
+          "effect": "Première Galerie",
+          "description": "La lumière du feu révèle l'art dans l'obscurité"
+        }
+      ],
+      "effects": { "survival": 3, "social": 2, "technological": 2 }
+    },
+
+    "lunar_calendar": {
+      "id": "lunar_calendar",
+      "name": "Calendrier Lunaire",
+      "period": "prehistoric",
+      "category": "cognitive",
+      "rarity": "common",
+      "description": "Observer la lune et compter ses cycles - le premier chronomètre céleste.",
+      "historical_context": "Dès 30,000 ans - l'humanité découvre le temps cyclique.",
+      "discovery_date_range": "30000-10000 BCE",
+      "prerequisites": [],
+      "enables": ["seasonal_awareness", "agricultural_planning"],
+      "blocks": [],
+      "synergies": [
+        {
+          "with": ["cave_art"],
+          "effect": "Première Astronomie Artistique",
+          "description": "Les phases lunaires inspirent les premiers symboles"
+        }
+      ],
+      "effects": { "cognitive": 2, "spiritual": 1, "survival": 2 }
+    },
+
+    "folk_medicine": {
+      "id": "folk_medicine",
+      "name": "Médecine Populaire",
+      "period": "prehistoric",
+      "category": "survival",
+      "rarity": "common",
+      "description": "Herbes, gestes et incantations - les premières pharmacies sauvages.",
+      "historical_context": "Depuis l'aube de l'humanité - soigner par instinct et expérience.",
+      "discovery_date_range": "100000-20000 BCE",
+      "prerequisites": [],
+      "enables": ["herbal_knowledge", "healing_rituals", "medical_knowledge"],
+      "blocks": [],
+      "synergies": [
+        {
+          "with": ["oral_language"],
+          "effect": "Transmission des Savoirs Médicaux",
+          "description": "Les recettes de guérison se transmettent par la parole"
+        }
+      ],
+      "effects": { "survival": 3, "spiritual": 1, "social": 1 }
+    },
+
+    "stone_tools": {
+      "id": "stone_tools",
+      "name": "Outils de Pierre",
+      "period": "prehistoric",
+      "category": "technological",
+      "rarity": "pillar",
+      "description": "La pierre devient complice de l'intelligence humaine.",
+      "historical_context": "Dès 3.3 millions d'années - première collaboration matière-esprit.",
+      "discovery_date_range": "3300000-1000000 BCE",
+      "prerequisites": [],
+      "enables": ["hunting_organized", "shelter_construction", "agriculture_basic"],
+      "blocks": [],
+      "synergies": [
+        {
+          "with": ["fire_control"],
+          "effect": "Forge Primitive",
+          "description": "Pierre et feu créent les premiers ateliers"
+        }
+      ],
+      "effects": { "technological": 3, "survival": 3, "artistic": 1 }
+    },
+
+    "oral_language": {
+      "id": "oral_language", 
+      "name": "Langage Oral",
+      "period": "prehistoric",
+      "category": "cognitive",
+      "rarity": "pillar",
+      "description": "L'invention du mensonge, de la métaphore et de la promesse.",
+      "historical_context": "Entre 200,000 et 50,000 ans - naissance de la conversation universelle.",
+      "discovery_date_range": "200000-50000 BCE",
+      "prerequisites": [],
+      "enables": ["cave_art", "ritual_burial", "tribal_alliances", "writing_systems"],
+      "blocks": [],
+      "synergies": [
+        {
+          "with": ["fire_control"],
+          "effect": "Première Soirée Littéraire",
+          "description": "Autour du feu naissent les premières histoires"
+        }
+      ],
+      "effects": { "cognitive": 4, "social": 3, "spiritual": 2 }
+    },
+
+    "cave_art": {
+      "id": "cave_art",
+      "name": "Peintures Rupestres", 
+      "period": "prehistoric",
+      "category": "artistic",
+      "rarity": "uncommon",
+      "description": "La première galerie d'art universelle dans l'obscurité des grottes.",
+      "historical_context": "Vers 40,000 ans - les murs deviennent les premières toiles.",
+      "discovery_date_range": "40000-10000 BCE",
+      "prerequisites": ["fire_control", "oral_language"],
+      "enables": ["symbolic_art", "written_language"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "artistic": 4, "spiritual": 2, "cognitive": 1 }
+    },
+
+    "animal_skins": {
+      "id": "animal_skins",
+      "name": "Vêtements en Peaux",
+      "period": "prehistoric", 
+      "category": "survival",
+      "rarity": "common",
+      "description": "La première mode : transformer la mort en protection.",
+      "historical_context": "Vers 100,000 ans - les humains découvrent qu'ils peuvent porter leurs proies.",
+      "discovery_date_range": "100000-30000 BCE",
+      "prerequisites": ["stone_tools"],
+      "enables": ["textile_weaving", "leather_working"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "survival": 3, "social": 1 }
+    },
+
+    "animal_domestication": {
+      "id": "animal_domestication",
+      "name": "Domestication Animale",
+      "period": "prehistoric",
+      "category": "economic", 
+      "rarity": "pillar",
+      "description": "Le premier traité de paix inter-espèces.",
+      "historical_context": "Vers 15,000 ans - les loups deviennent chiens, la chasse devient partenariat.",
+      "discovery_date_range": "15000-8000 BCE",
+      "prerequisites": ["stone_tools"],
+      "alternative_prerequisites": [["oral_language"], ["agriculture_basic"]],
+      "enables": ["agriculture_advanced", "transportation_animal", "pastoral_economy"],
+      "blocks": [],
+      "synergies": [
+        {
+          "with": ["agriculture_basic"],
+          "effect": "Économie Mixte",
+          "description": "Agriculture et élevage créent la première économie durable"
+        }
+      ],
+      "effects": { "economic": 3, "social": 2, "survival": 2 }
+    },
+
+    "agriculture_basic": {
+      "id": "agriculture_basic",
+      "name": "Agriculture",
+      "period": "prehistoric",
+      "category": "economic",
+      "rarity": "pillar", 
+      "description": "L'humanité cesse d'être invitée de la nature pour devenir associée.",
+      "historical_context": "Vers 10,000 ans - la révolution silencieuse qui change tout.",
+      "discovery_date_range": "12000-8000 BCE",
+      "prerequisites": ["stone_tools"],
+      "enables": ["permanent_settlements", "pottery", "surplus_economy"],
+      "blocks": ["nomadism_pure"],
+      "synergies": [
+        {
+          "with": ["animal_domestication"],
+          "effect": "Économie Mixte", 
+          "description": "L'alliance de l'agriculture et de l'élevage"
+        }
+      ],
+      "effects": { "economic": 4, "social": 3, "survival": 2 }
+    },
+
+    "pottery": {
+      "id": "pottery",
+      "name": "Poterie", 
+      "period": "prehistoric",
+      "category": "technological",
+      "rarity": "common",
+      "description": "L'argile docile révèle ses secrets sous les mains expertes.",
+      "historical_context": "Vers 20,000 ans - la terre devient récipient.",
+      "discovery_date_range": "20000-8000 BCE", 
+      "prerequisites": ["fire_control"],
+      "enables": ["ceramic_art", "food_storage", "cooking_advanced"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "technological": 2, "artistic": 2, "economic": 1 }
+    },
+
+    "hut_construction": {
+      "id": "hut_construction",
+      "name": "Construction de Huttes",
+      "period": "prehistoric",
+      "category": "technological", 
+      "rarity": "common",
+      "description": "La première architecture : dompter l'espace pour créer l'intimité.",
+      "historical_context": "Vers 40,000 ans - les premiers toits contre l'infini du ciel.",
+      "discovery_date_range": "40000-10000 BCE",
+      "prerequisites": ["stone_tools"],
+      "enables": ["permanent_settlements", "architectural_planning"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "survival": 3, "social": 2, "technological": 1 }
+    },
+
+    "organized_fishing": {
+      "id": "organized_fishing",
+      "name": "Pêche Organisée",
+      "period": "prehistoric",
+      "category": "survival",
+      "rarity": "common", 
+      "description": "La mer devient garde-manger grâce à la coopération.",
+      "historical_context": "Vers 50,000 ans - les premiers rendez-vous avec l'océan.",
+      "discovery_date_range": "50000-15000 BCE",
+      "prerequisites": ["stone_tools", "oral_language"],
+      "enables": ["boat_construction", "navigation_coastal"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "survival": 3, "economic": 2, "social": 1 }
+    },
+
+    "bow_arrows": {
+      "id": "bow_arrows",
+      "name": "Arc et Flèches",
+      "period": "prehistoric",
+      "category": "technological",
+      "rarity": "uncommon",
+      "description": "La première mécanique de précision : transformer l'énergie en trajectoire.",
+      "historical_context": "Vers 20,000 ans - l'invention de la distance létale.",
+      "discovery_date_range": "20000-8000 BCE",
+      "prerequisites": ["stone_tools"],
+      "enables": ["hunting_advanced", "warfare_ranged"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "technological": 3, "military": 2, "survival": 2 }
+    },
+
+    "ritual_burial": {
+      "id": "ritual_burial",
+      "name": "Enterrement Rituel", 
+      "period": "prehistoric",
+      "category": "spiritual",
+      "rarity": "uncommon",
+      "description": "La première négociation avec l'éternité.",
+      "historical_context": "Vers 300,000 ans - refuser l'oubli, créer la mémoire.",
+      "discovery_date_range": "300000-50000 BCE",
+      "prerequisites": ["oral_language"],
+      "enables": ["ancestor_worship", "afterlife_concepts", "monumental_architecture"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "spiritual": 4, "social": 2, "cognitive": 2 }
+    },
+
+    "cuneiform_writing": {
+      "id": "cuneiform_writing",
+      "name": "Écriture Cunéiforme",
+      "period": "ancient_early",
+      "category": "cognitive", 
+      "rarity": "pillar",
+      "description": "Les premiers mots gravés dans l'argile pour l'éternité.",
+      "historical_context": "Vers 3200 av. J.-C. en Mésopotamie - la mémoire devient permanente.",
+      "discovery_date_range": "3200-2500 BCE",
+      "prerequisites": ["oral_language"],
+      "enables": ["legal_codes", "literature", "historical_records", "alphabet_systems"],
+      "blocks": [],
+      "synergies": [
+        {
+          "with": ["bronze_working"],
+          "effect": "Archives Durables", 
+          "description": "Le métal et l'écriture créent les premières bibliothèques pérennes"
+        }
+      ],
+      "effects": { "cognitive": 4, "political": 2, "social": 3 }
+    },
+
+    "hieroglyphs": {
+      "id": "hieroglyphs",
+      "name": "Hiéroglyphes",
+      "period": "ancient_early",
+      "category": "cognitive",
+      "rarity": "uncommon",
+      "description": "L'écriture qui transforme les mots en art et l'art en éternité.",
+      "historical_context": "Vers 3200 av. J.-C. en Égypte - les murs deviennent livres.",
+      "discovery_date_range": "3200-2500 BCE", 
+      "prerequisites": ["oral_language", "cave_art"],
+      "enables": ["monumental_inscriptions", "sacred_texts"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "cognitive": 3, "artistic": 3, "spiritual": 2 }
+    },
+
+    "bronze_working": {
+      "id": "bronze_working",
+      "name": "Travail du Bronze",
+      "period": "ancient_early",
+      "category": "technological",
+      "rarity": "pillar",
+      "description": "L'alliance sacrée du cuivre et de l'étain.",
+      "historical_context": "Vers 3500 av. J.-C. - la métallurgie révolutionne l'outil et l'arme.",
+      "discovery_date_range": "3500-2000 BCE",
+      "prerequisites": ["fire_control"],
+      "enables": ["iron_working", "weapons_bronze", "tools_durable", "sculpture_metal"],
+      "blocks": [],
+      "synergies": [
+        {
+          "with": ["cuneiform_writing"],
+          "effect": "Archives Durables",
+          "description": "Métal et écriture créent la mémoire indestructible"
+        }
+      ],
+      "effects": { "technological": 4, "military": 3, "economic": 2 }
+    },
+
+    "wheel": {
+      "id": "wheel",
+      "name": "Roue",
+      "period": "ancient_early",
+      "category": "technological",
+      "rarity": "pillar",
+      "description": "La révolution circulaire qui met le monde en mouvement.",
+      "historical_context": "Vers 3500 av. J.-C. - l'invention qui raccourcit toutes les distances.",
+      "discovery_date_range": "3500-3000 BCE",
+      "prerequisites": [],
+      "enables": ["chariots", "pottery_wheel", "transportation_land", "mechanical_advantage"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "technological": 4, "economic": 3, "military": 2 }
+    },
+
+    "fermentation": {
+      "id": "fermentation",
+      "name": "Fermentation",
+      "period": "ancient_early",
+      "category": "survival",
+      "rarity": "common",
+      "description": "Les micro-organismes deviennent alliés pour transformer et conserver les aliments.",
+      "historical_context": "Processus naturel découvert par observation - la pourriture contrôlée.",
+      "discovery_date_range": "8000-3000 BCE",
+      "prerequisites": [],
+      "enables": ["brewing", "food_preservation", "cheese_making"],
+      "blocks": [],
+      "synergies": [
+        {
+          "with": ["pottery"],
+          "effect": "Premiers Récipients de Fermentation",
+          "description": "L'argile cuite permet de contrôler la fermentation"
+        }
+      ],
+      "effects": { "survival": 3, "economic": 2, "social": 1 }
+    },
+
+    "domestication_cats": {
+      "id": "domestication_cats",
+      "name": "Domestication des Chats",
+      "period": "ancient_early", 
+      "category": "survival",
+      "rarity": "common",
+      "description": "Alliance pratique avec les félins pour protéger les réserves de grains.",
+      "historical_context": "Vers 7500 av. J.-C. - les chats s'invitent dans les greniers humains.",
+      "discovery_date_range": "7500-3000 BCE", 
+      "prerequisites": [],
+      "enables": ["pest_control", "companionship", "animal_breeding"],
+      "blocks": [],
+      "synergies": [
+        {
+          "with": ["agriculture_basic"],
+          "effect": "Protection des Récoltes",
+          "description": "Les chats protègent les greniers des rongeurs"
+        }
+      ],
+      "effects": { "survival": 2, "social": 2, "economic": 1 }
+    },
+
+    "practical_metallurgy": {
+      "id": "practical_metallurgy",
+      "name": "Métallurgie Pratique",
+      "period": "ancient_early",
+      "category": "technological",
+      "rarity": "uncommon",
+      "description": "Travail empirique des métaux par essais et observations.",
+      "historical_context": "Découverte expérimentale - chauffer la terre pour révéler le métal.",
+      "discovery_date_range": "4000-2500 BCE",
+      "prerequisites": ["fire_control"],
+      "enables": ["iron_working", "copper_working", "metal_tools"],
+      "blocks": [],
+      "synergies": [
+        {
+          "with": ["stone_tools"], 
+          "effect": "Premiers Outils Hybrides",
+          "description": "Pierre et métal se combinent pour plus d'efficacité"
+        }
+      ],
+      "effects": { "technological": 3, "economic": 2, "military": 2 }
+    },
+
+    "sail_navigation": {
+      "id": "sail_navigation", 
+      "name": "Navigation à Voile",
+      "period": "ancient_early",
+      "category": "technological",
+      "rarity": "common",
+      "description": "Apprivoiser le vent pour conquérir les mers.",
+      "historical_context": "Vers 3200 av. J.-C. - les premiers rendez-vous avec l'horizon.",
+      "discovery_date_range": "3200-2000 BCE",
+      "prerequisites": ["organized_fishing"],
+      "enables": ["maritime_trade", "exploration", "naval_warfare"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "technological": 3, "economic": 3, "exploration": 2 }
+    },
+
+    "irrigation": {
+      "id": "irrigation",
+      "name": "Irrigation", 
+      "period": "ancient_early",
+      "category": "technological",
+      "rarity": "common",
+      "description": "Transformer les déserts en jardins par la magie des canaux.",
+      "historical_context": "Vers 6000 av. J.-C. - l'eau devient obéissante.",
+      "discovery_date_range": "6000-3000 BCE",
+      "prerequisites": ["agriculture_basic"],
+      "enables": ["agricultural_surplus", "urban_planning", "hydraulic_engineering"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "technological": 3, "economic": 4, "social": 2 }
+    },
+
+    "legal_codes": {
+      "id": "legal_codes",
+      "name": "Lois Écrites (Code d'Hammourabi)", 
+      "period": "ancient_early",
+      "category": "political",
+      "rarity": "rare",
+      "description": "La justice devient lisible, prévisible, universelle.",
+      "historical_context": "Vers 1750 av. J.-C. - Hammourabi grave la justice dans la pierre.",
+      "discovery_date_range": "1800-1500 BCE",
+      "prerequisites": ["cuneiform_writing"],
+      "alternative_prerequisites": [["hieroglyphs"], ["oral_tradition_advanced"]],
+      "enables": ["judicial_systems", "political_administration", "civil_rights"],
+      "blocks": ["arbitrary_justice"],
+      "synergies": [],
+      "effects": { "political": 4, "social": 3, "cognitive": 2 }
+    },
+
+    "oral_tradition_advanced": {
+      "id": "oral_tradition_advanced",
+      "name": "Tradition Orale Avancée",
+      "period": "ancient_early",
+      "category": "cognitive",
+      "rarity": "common",
+      "description": "Mémorisation systématique des lois et coutumes par les anciens.",
+      "historical_context": "Tradition universelle - la mémoire comme bibliothèque vivante.",
+      "discovery_date_range": "5000-1000 BCE",
+      "prerequisites": ["oral_language"],
+      "enables": ["legal_codes", "cultural_transmission", "elder_councils"],
+      "blocks": [],
+      "synergies": [
+        {
+          "with": ["ritual_burial"],
+          "effect": "Culte des Ancêtres Législateurs",
+          "description": "Les morts deviennent gardiens de la justice"
+        }
+      ],
+      "effects": { "cognitive": 2, "social": 3, "spiritual": 1 }
+    },
+
+    "monumental_architecture": {
+      "id": "monumental_architecture",
+      "name": "Architecture Monumentale",
+      "period": "ancient_early", 
+      "category": "artistic",
+      "rarity": "uncommon",
+      "description": "Pyramides et ziggourats - l'humanité construit vers l'éternité.",
+      "historical_context": "Vers 2600 av. J.-C. - défier la mortalité par la pierre.",
+      "discovery_date_range": "2700-2000 BCE",
+      "prerequisites": ["hut_construction", "bronze_working"],
+      "enables": ["urban_planning", "engineering_advanced", "architectural_art"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "artistic": 4, "spiritual": 3, "technological": 2 }
+    },
+
+    "arithmetic": {
+      "id": "arithmetic",
+      "name": "Arithmétique de Base",
+      "period": "ancient_early",
+      "category": "scientific",
+      "rarity": "uncommon",
+      "description": "Les nombres révèlent leurs secrets à l'esprit humain.",
+      "historical_context": "Vers 3000 av. J.-C. - compter devient calculer.",
+      "discovery_date_range": "3000-2000 BCE", 
+      "prerequisites": ["cuneiform_writing"],
+      "enables": ["mathematics_advanced", "astronomical_calculation", "engineering_calculation"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "scientific": 3, "cognitive": 3, "technological": 2 }
+    },
+
+    "solar_calendar": {
+      "id": "solar_calendar",
+      "name": "Calendrier Solaire",
+      "period": "ancient_early",
+      "category": "scientific",
+      "rarity": "uncommon", 
+      "description": "Apprivoiser le temps en observant les astres.",
+      "historical_context": "Vers 2500 av. J.-C. en Égypte - l'année devient mesurable.",
+      "discovery_date_range": "2500-1500 BCE",
+      "prerequisites": ["arithmetic"],
+      "enables": ["astronomical_observation", "agricultural_planning", "festival_cycles"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "scientific": 3, "agricultural": 2, "spiritual": 2 }
+    },
+
+    "chariots": {
+      "id": "chariots",
+      "name": "Chariots",
+      "period": "ancient_early",
+      "category": "military",
+      "rarity": "common",
+      "description": "La roue devient arme de guerre et symbole de pouvoir.", 
+      "historical_context": "Vers 2000 av. J.-C. - la vitesse transforme le combat.",
+      "discovery_date_range": "2000-1500 BCE",
+      "prerequisites": ["wheel", "animal_domestication"],
+      "enables": ["cavalry", "rapid_transport", "ceremonial_processions"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "military": 4, "political": 2, "technological": 1 }
+    },
+
+    "mass_literacy": {
+      "id": "mass_literacy",
+      "name": "Alphabétisation de Masse",
+      "period": "ancient_early",
+      "category": "cognitive",
+      "rarity": "rare",
+      "description": "Les scribes se multiplient, la connaissance se démocratise.",
+      "historical_context": "Vers 1500 av. J.-C. - l'écriture cesse d'être l'apanage des prêtres.",
+      "discovery_date_range": "1500-800 BCE",
+      "prerequisites": ["cuneiform_writing", "legal_codes"],
+      "enables": ["educational_systems", "administrative_bureaucracy", "literary_culture"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "cognitive": 4, "social": 3, "political": 2 }
+    },
+
+    "astrology": {
+      "id": "astrology",
+      "name": "Astrologie",
+      "period": "ancient_early", 
+      "category": "spiritual",
+      "rarity": "uncommon",
+      "description": "Les étoiles deviennent conseillères des rois et guides des peuples.",
+      "historical_context": "Vers 2000 av. J.-C. - le ciel révèle l'avenir terrestre.",
+      "discovery_date_range": "2000-500 BCE",
+      "prerequisites": ["solar_calendar", "hieroglyphs"],
+      "enables": ["astronomical_prediction", "royal_divination", "navigation_celestial"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "spiritual": 3, "political": 2, "scientific": 1 }
+    },
+
+    "metal_currency": {
+      "id": "metal_currency",
+      "name": "Monnaie Métallique", 
+      "period": "ancient_early",
+      "category": "economic",
+      "rarity": "common",
+      "description": "La valeur prend forme physique dans le métal précieux.",
+      "historical_context": "Vers 700 av. J.-C. - l'échange devient mesurable et portable.",
+      "discovery_date_range": "700-500 BCE",
+      "prerequisites": ["bronze_working", "trade_systems"],
+      "enables": ["banking_systems", "international_trade", "economic_calculation"],
+      "blocks": ["barter_only"],
+      "synergies": [],
+      "effects": { "economic": 4, "political": 2, "social": 2 }
+    },
+
+    "composite_bow": {
+      "id": "composite_bow",
+      "name": "Arc Composite",
+      "period": "ancient_early",
+      "category": "military", 
+      "rarity": "uncommon",
+      "description": "L'art de plier différents matériaux pour décupler la puissance.",
+      "historical_context": "Vers 1500 av. J.-C. - l'ingénierie au service de la précision létale.",
+      "discovery_date_range": "1500-800 BCE",
+      "prerequisites": ["bow_arrows", "bronze_working"],
+      "enables": ["professional_archery", "siege_warfare", "hunting_mastery"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "military": 3, "technological": 2, "survival": 1 }
+    },
+
+    "early_roads": {
+      "id": "early_roads",
+      "name": "Premières Routes", 
+      "period": "ancient_early",
+      "category": "technological",
+      "rarity": "common",
+      "description": "Tracer des lignes droites dans le chaos géographique.",
+      "historical_context": "Vers 2000 av. J.-C. - connecter les civilisations par la pierre et la terre.",
+      "discovery_date_range": "2000-1000 BCE",
+      "prerequisites": ["chariots"],
+      "enables": ["trade_networks", "rapid_communication", "military_logistics"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "technological": 3, "economic": 3, "political": 2 }
+    },
+
+    "urban_planning": {
+      "id": "urban_planning",
+      "name": "Urbanisme",
+      "period": "ancient_classical",
+      "category": "political",
+      "rarity": "common",
+      "description": "L'art d'organiser l'espace urbain pour le bien-être collectif.",
+      "historical_context": "Concept organisationnel universel - optimiser la cohabitation humaine.",
+      "discovery_date_range": "800-200 BCE",
+      "prerequisites": [],
+      "enables": ["city_planning", "public_works", "zoning"],
+      "blocks": [],
+      "synergies": [
+        {
+          "with": ["aqueducts"],
+          "effect": "Ville Hydraulique",
+          "description": "L'urbanisme et l'eau créent les premières métropoles"
+        }
+      ],
+      "effects": { "political": 2, "social": 3, "technological": 2 }
+    },
+
+    "natural_philosophy": {
+      "id": "natural_philosophy",
+      "name": "Philosophie Naturelle",
+      "period": "ancient_classical",
+      "category": "cognitive",
+      "rarity": "common",
+      "description": "Observer la nature systématiquement - alternative à la philosophie grecque.",
+      "historical_context": "Tradition universelle - comprendre le monde par l'expérience directe.",
+      "discovery_date_range": "600-100 BCE",
+      "prerequisites": [],
+      "enables": ["natural_sciences", "experimental_method", "empirical_observation"],
+      "blocks": [],
+      "synergies": [
+        {
+          "with": ["greek_philosophy"],
+          "effect": "Synthèse Philosophique",
+          "description": "Raison et observation créent la méthode scientifique"
+        }
+      ],
+      "effects": { "cognitive": 3, "scientific": 2, "spiritual": 1 }
+    },
+
+    "greek_philosophy": {
+      "id": "greek_philosophy",
+      "name": "Philosophie Grecque",
+      "period": "ancient_classical", 
+      "category": "cognitive",
+      "rarity": "rare",
+      "description": "L'art de questionner tout, y compris l'art de questionner.",
+      "historical_context": "VIe siècle av. J.-C. - Socrate, Platon, Aristote révolutionnent la pensée.",
+      "discovery_date_range": "600-300 BCE",
+      "prerequisites": ["mass_literacy"],
+      "enables": ["scientific_method", "political_theory", "ethics", "logic"],
+      "blocks": ["dogmatic_thinking"],
+      "synergies": [
+        {
+          "with": ["athenian_democracy"],
+          "effect": "Cité Philosophique",
+          "description": "La démocratie et la philosophie créent l'idéal de la cité pensante"
+        }
+      ],
+      "effects": { "cognitive": 5, "spiritual": 3, "political": 2 }
+    },
+
+    "athenian_democracy": {
+      "id": "athenian_democracy",
+      "name": "Démocratie (Athènes)",
+      "period": "ancient_classical",
+      "category": "political",
+      "rarity": "legendary",
+      "description": "Le pouvoir du peuple, par le peuple, pour le peuple.",
+      "historical_context": "Ve siècle av. J.-C. - Athènes invente le gouvernement des citoyens.",
+      "discovery_date_range": "508-322 BCE", 
+      "prerequisites": ["legal_codes", "greek_philosophy"],
+      "enables": ["republican_government", "civil_participation", "political_debate"],
+      "blocks": ["absolute_monarchy"],
+      "synergies": [
+        {
+          "with": ["greek_philosophy"],
+          "effect": "Cité Philosophique", 
+          "description": "Démocratie et philosophie s'enrichissent mutuellement"
+        }
+      ],
+      "effects": { "political": 5, "social": 4, "cognitive": 3 }
+    },
+
+    "aqueducts": {
+      "id": "aqueducts",
+      "name": "Aqueducs",
+      "period": "ancient_classical",
+      "category": "technological",
+      "rarity": "uncommon",
+      "description": "L'eau conquiert la gravité pour nourrir les villes.", 
+      "historical_context": "IVe siècle av. J.-C. - Rome perfectionne l'art de l'eau urbaine.",
+      "discovery_date_range": "400-200 BCE",
+      "prerequisites": ["monumental_architecture", "arithmetic"],
+      "enables": ["urban_sanitation", "fountain_systems", "hydraulic_engineering"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "technological": 4, "social": 3, "survival": 2 }
+    },
+
+    "roman_concrete": {
+      "id": "roman_concrete",
+      "name": "Béton Romain",
+      "period": "ancient_classical",
+      "category": "technological", 
+      "rarity": "uncommon",
+      "description": "La pierre liquide qui durcit en éternité.",
+      "historical_context": "IIIe siècle av. J.-C. - Rome découvre la recette de l'indestructible.",
+      "discovery_date_range": "300-100 BCE",
+      "prerequisites": ["monumental_architecture"],
+      "enables": ["dome_architecture", "massive_construction", "durable_infrastructure"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "technological": 4, "architectural": 3, "economic": 2 }
+    },
+
+    "theater": {
+      "id": "theater", 
+      "name": "Théâtre",
+      "period": "ancient_classical",
+      "category": "artistic",
+      "rarity": "uncommon",
+      "description": "Le miroir de l'âme humaine dressé devant la cité.",
+      "historical_context": "Ve siècle av. J.-C. - Eschyle, Sophocle inventent l'art dramatique.",
+      "discovery_date_range": "500-300 BCE",
+      "prerequisites": ["greek_philosophy"],
+      "enables": ["dramatic_literature", "public_entertainment", "moral_education"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "artistic": 4, "social": 3, "cognitive": 2 }
+    },
+
+    "ptolemaic_astronomy": {
+      "id": "ptolemaic_astronomy",
+      "name": "Astronomie Ptolémaïque", 
+      "period": "ancient_classical",
+      "category": "scientific",
+      "rarity": "rare",
+      "description": "Le cosmos révèle ses cycles dans la mathématique céleste.",
+      "historical_context": "IIe siècle - Ptolémée cartographie les mouvements stellaires.",
+      "discovery_date_range": "150-300 CE",
+      "prerequisites": ["arithmetic", "astrology"],
+      "enables": ["navigation_precision", "calendar_precision", "mechanical_clocks"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "scientific": 4, "technological": 2, "navigation": 3 }
+    },
+
+    "cartography": {
+      "id": "cartography",
+      "name": "Cartographie",
+      "period": "ancient_classical",
+      "category": "scientific",
+      "rarity": "uncommon", 
+      "description": "Transformer l'espace infini en cartes maniables.",
+      "historical_context": "IIe siècle av. J.-C. - Ératosthène mesure la Terre.",
+      "discovery_date_range": "200-100 BCE",
+      "prerequisites": ["ptolemaic_astronomy", "sail_navigation"],
+      "enables": ["precise_navigation", "exploration_systematic", "geographic_knowledge"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "scientific": 3, "exploration": 4, "military": 2 }
+    },
+
+    "hippocratic_medicine": {
+      "id": "hippocratic_medicine",
+      "name": "Médecine Hippocratique",
+      "period": "ancient_classical",
+      "category": "scientific",
+      "rarity": "uncommon",
+      "description": "Soigner devient science plutôt que magie.",
+      "historical_context": "Ve siècle av. J.-C. - Hippocrate fonde la médecine rationnelle.",
+      "discovery_date_range": "460-370 BCE", 
+      "prerequisites": ["greek_philosophy"],
+      "enables": ["surgical_techniques", "diagnostic_methods", "medical_ethics"],
+      "blocks": ["magical_healing"],
+      "synergies": [],
+      "effects": { "scientific": 3, "survival": 4, "social": 2 }
+    },
+
+    "paper_chinese": {
+      "id": "paper_chinese",
+      "name": "Papier (Chine)",
+      "period": "ancient_classical", 
+      "category": "technological",
+      "rarity": "rare",
+      "description": "Libérer l'écriture de l'argile et du parchemin.",
+      "historical_context": "Ier siècle - Cai Lun révolutionne le support de l'écriture.",
+      "discovery_date_range": "100-200 CE",
+      "prerequisites": ["cuneiform_writing"],
+      "enables": ["book_production", "administrative_records", "artistic_printing"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "technological": 3, "cognitive": 4, "artistic": 2 }
+    },
+
+    "magnetic_compass": {
+      "id": "magnetic_compass",
+      "name": "Boussole Magnétique", 
+      "period": "ancient_classical",
+      "category": "technological",
+      "rarity": "rare",
+      "description": "La Terre révèle sa magnétique intimité aux navigateurs.",
+      "historical_context": "Ier siècle - la Chine découvre l'aiguille qui connaît le Nord.",
+      "discovery_date_range": "100-300 CE",
+      "prerequisites": ["sail_navigation"],
+      "enables": ["ocean_navigation", "exploration_systematic", "cartographic_precision"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "technological": 4, "exploration": 4, "economic": 2 }
+    },
+
+    "crossbow": {
+      "id": "crossbow",
+      "name": "Arbalète",
+      "period": "ancient_classical",
+      "category": "military",
+      "rarity": "uncommon",
+      "description": "La mécanique au service de la précision mortelle.",
+      "historical_context": "Ve siècle av. J.-C. - la Chine mécanise l'arc.",
+      "discovery_date_range": "400-200 BCE", 
+      "prerequisites": ["composite_bow", "bronze_working"],
+      "enables": ["siege_warfare", "professional_military", "mechanical_weapons"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "military": 4, "technological": 3 }
+    },
+
+    "paved_roads": {
+      "id": "paved_roads",
+      "name": "Routes Pavées (Rome)",
+      "period": "ancient_classical",
+      "category": "technological",
+      "rarity": "common",
+      "description": "Toutes les routes mènent à Rome car Rome les construit toutes.",
+      "historical_context": "IVe siècle av. J.-C. - l'Empire se construit route après route.",
+      "discovery_date_range": "350-200 BCE",
+      "prerequisites": ["early_roads", "roman_concrete"], 
+      "enables": ["rapid_military_movement", "commercial_networks", "imperial_control"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "technological": 3, "military": 3, "economic": 3 }
+    },
+
+    "mechanical_clocks_basic": {
+      "id": "mechanical_clocks_basic",
+      "name": "Horloges Mécaniques de Base",
+      "period": "medieval_early",
+      "category": "technological",
+      "rarity": "uncommon",
+      "description": "Mesurer le temps par l'ingénierie - indépendante des autres technologies.",
+      "historical_context": "VIIe siècle - la mécanique horlogère naît de l'observation pure.",
+      "discovery_date_range": "700-900 CE",
+      "prerequisites": [],
+      "enables": ["precise_timekeeping", "mechanical_engineering", "clockwork"],
+      "blocks": [],
+      "synergies": [
+        {
+          "with": ["water_mills"],
+          "effect": "Mécaniques Avancées",
+          "description": "Eau et engrenages créent la précision mécanique"
+        }
+      ],
+      "effects": { "technological": 3, "cognitive": 2, "social": 1 }
+    },
+
+    "heavy_plow": {
+      "id": "heavy_plow",
+      "name": "Charrue Lourde",
+      "period": "medieval_early",
+      "category": "technological", 
+      "rarity": "common",
+      "description": "La terre résistante cède enfin devant l'acier organisé.",
+      "historical_context": "VIe siècle - l'agriculture européenne se révolutionne.",
+      "discovery_date_range": "500-800 CE",
+      "prerequisites": ["iron_working", "animal_domestication"],
+      "enables": ["agricultural_revolution", "population_growth", "rural_prosperity"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "technological": 3, "economic": 4, "social": 2 }
+    },
+
+    "water_mills": {
+      "id": "water_mills",
+      "name": "Moulins à Eau",
+      "period": "medieval_early",
+      "category": "technological",
+      "rarity": "common",
+      "description": "L'eau courante devient ouvrière infatigable.",
+      "historical_context": "Ier siècle - l'énergie hydraulique transforme l'artisanat.",
+      "discovery_date_range": "100-500 CE", 
+      "prerequisites": ["aqueducts"],
+      "enables": ["mechanical_power", "industrial_production", "grain_processing"],
+      "blocks": [],
+      "synergies": [
+        {
+          "with": ["windmills"],
+          "effect": "Révolution Énergétique",
+          "description": "Eau et vent libèrent l'humanité de la force musculaire"
+        }
+      ],
+      "effects": { "technological": 4, "economic": 3, "social": 1 }
+    },
+
+    "astrolabe": {
+      "id": "astrolabe", 
+      "name": "Astrolabe",
+      "period": "medieval_early",
+      "category": "scientific",
+      "rarity": "uncommon",
+      "description": "L'univers tient dans la main grâce au bronze savant.",
+      "historical_context": "VIIe siècle - l'astronomie devient portable.",
+      "discovery_date_range": "600-1000 CE",
+      "prerequisites": ["ptolemaic_astronomy", "bronze_working"],
+      "enables": ["precise_navigation", "astronomical_calculation", "timekeeping"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "scientific": 4, "technological": 3, "exploration": 2 }
+    },
+
+    "stellar_navigation": {
+      "id": "stellar_navigation",
+      "name": "Navigation par Étoiles", 
+      "period": "medieval_early",
+      "category": "technological",
+      "rarity": "uncommon",
+      "description": "Les étoiles deviennent phares pour les marins perdus.",
+      "historical_context": "VIIe siècle - les Vikings et Arabes perfectionnent l'art céleste.",
+      "discovery_date_range": "600-1000 CE",
+      "prerequisites": ["astrolabe", "magnetic_compass"],
+      "enables": ["ocean_exploration", "trade_routes_expansion", "maritime_empires"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "technological": 3, "exploration": 4, "economic": 3 }
+    },
+
+    "basic_alchemy": {
+      "id": "basic_alchemy",
+      "name": "Alchimie de Base",
+      "period": "medieval_early",
+      "category": "scientific", 
+      "rarity": "uncommon",
+      "description": "Transformer les métaux vils en or... ou découvrir la chimie en chemin.",
+      "historical_context": "VIIIe siècle - les Arabes systématisent l'art de la transmutation.",
+      "discovery_date_range": "700-1000 CE",
+      "prerequisites": ["bronze_working", "hippocratic_medicine"],
+      "enables": ["chemistry_early", "pharmaceutical_knowledge", "metallurgy_advanced"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "scientific": 3, "technological": 2, "survival": 2 }
+    },
+
+    "monasticism": {
+      "id": "monasticism",
+      "name": "Monachisme (transmission du savoir)",
+      "period": "medieval_early", 
+      "category": "cognitive",
+      "rarity": "uncommon",
+      "description": "Préserver la connaissance dans la prière et la copie manuscrite.",
+      "historical_context": "VIe siècle - les monastères deviennent bibliothèques vivantes.",
+      "discovery_date_range": "500-800 CE",
+      "prerequisites": ["paper_chinese", "hippocratic_medicine"],
+      "enables": ["manuscript_preservation", "educational_systems", "scholarly_networks"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "cognitive": 4, "spiritual": 3, "social": 2 }
+    },
+
+    "romanesque_arches": {
+      "id": "romanesque_arches",
+      "name": "Arcs Romans", 
+      "period": "medieval_early",
+      "category": "architectural",
+      "rarity": "common",
+      "description": "La pierre apprend à danser en rond pour soutenir les voûtes.",
+      "historical_context": "Xe siècle - l'architecture européenne redécouvre la grandeur.",
+      "discovery_date_range": "900-1100 CE",
+      "prerequisites": ["roman_concrete"],
+      "enables": ["cathedral_construction", "monumental_buildings", "architectural_engineering"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "architectural": 3, "artistic": 3, "spiritual": 2 }
+    },
+
+    "arabic_medicine": {
+      "id": "arabic_medicine",
+      "name": "Médecine Arabe",
+      "period": "medieval_early",
+      "category": "scientific",
+      "rarity": "uncommon", 
+      "description": "Avicenne et Rhazès révolutionnent l'art de guérir.",
+      "historical_context": "IXe siècle - le monde arabe perfectionne et enrichit Hippocrate.",
+      "discovery_date_range": "800-1000 CE",
+      "prerequisites": ["hippocratic_medicine", "basic_alchemy"],
+      "enables": ["surgical_advancement", "pharmaceutical_science", "hospital_systems"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "scientific": 4, "survival": 4, "social": 2 }
+    },
+
+    "early_universities": {
+      "id": "early_universities",
+      "name": "Universités Primitives", 
+      "period": "medieval_early",
+      "category": "cognitive",
+      "rarity": "rare",
+      "description": "La connaissance s'organise en institutions d'éternité.",
+      "historical_context": "IXe siècle - Bologne, Paris inventent l'université moderne.",
+      "discovery_date_range": "800-1000 CE",
+      "prerequisites": ["monasticism", "greek_philosophy"],
+      "enables": ["systematic_education", "scholarly_research", "intellectual_networks"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "cognitive": 5, "social": 3, "technological": 2 }
+    },
+
+    "chain_mail": {
+      "id": "chain_mail",
+      "name": "Armures en Mailles",
+      "period": "medieval_early",
+      "category": "military",
+      "rarity": "common", 
+      "description": "Tisser le métal pour que la peau devienne invulnérable.",
+      "historical_context": "VIe siècle - l'artisanat métallurgique protège le guerrier.",
+      "discovery_date_range": "500-800 CE",
+      "prerequisites": ["iron_working"],
+      "enables": ["knightly_warfare", "professional_military", "metalworking_precision"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "military": 3, "technological": 2, "social": 1 }
+    },
+
+    "iron_working": {
+      "id": "iron_working",
+      "name": "Travail du Fer",
+      "period": "medieval_early",
+      "category": "technological",
+      "rarity": "pillar",
+      "description": "Le métal le plus commun devient le plus précieux.",
+      "historical_context": "VIIIe siècle av. J.-C. - l'humanité entre dans l'âge du fer.",
+      "discovery_date_range": "800-600 BCE", 
+      "prerequisites": ["bronze_working"],
+      "enables": ["steel_production", "advanced_weaponry", "agricultural_tools_improved", "heavy_plow"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "technological": 4, "military": 3, "economic": 3 }
+    },
+
+    "windmills": {
+      "id": "windmills",
+      "name": "Moulins à Vent",
+      "period": "medieval_early",
+      "category": "technological",
+      "rarity": "common",
+      "description": "Domestiquer le vent pour qu'il travaille au lieu de détruire.",
+      "historical_context": "XIIe siècle - l'Europe apprend à capturer les vents.",
+      "discovery_date_range": "1100-1200 CE", 
+      "prerequisites": ["water_mills"],
+      "enables": ["renewable_energy", "agricultural_processing", "mechanical_innovation"],
+      "blocks": [],
+      "synergies": [
+        {
+          "with": ["water_mills"],
+          "effect": "Révolution Énergétique",
+          "description": "La combinaison eau-vent libère l'humanité du travail purement musculaire"
+        }
+      ],
+      "effects": { "technological": 4, "economic": 3, "environmental": 2 }
+    },
+
+
+
+    "gunpowder": {
+      "id": "gunpowder",
+      "name": "Poudre Noire",
+      "period": "medieval_late",
+      "category": "military", 
+      "rarity": "pillar",
+      "description": "La chimie explose littéralement sur la scène militaire.",
+      "historical_context": "XIe siècle - la Chine révolutionne l'art de la guerre.",
+      "discovery_date_range": "1000-1100 CE",
+      "prerequisites": ["basic_alchemy"],
+      "enables": ["firearms", "cannons", "mining_explosives", "fireworks"],
+      "blocks": ["traditional_warfare"],
+      "synergies": [
+        {
+          "with": ["printing_press"],
+          "effect": "Révolution Technique",
+          "description": "Poudre et imprimerie transforment simultanément guerre et paix"
+        }
+      ],
+      "effects": { "military": 5, "technological": 4, "social": 2 }
+    },
+
+    "improved_compass": {
+      "id": "improved_compass", 
+      "name": "Boussole Perfectionnée",
+      "period": "medieval_late",
+      "category": "technological",
+      "rarity": "uncommon",
+      "description": "La précision magnétique atteint sa perfection médiévale.",
+      "historical_context": "XIIe siècle - l'Europe perfectionne l'invention chinoise.",
+      "discovery_date_range": "1100-1300 CE",
+      "prerequisites": ["magnetic_compass"],
+      "enables": ["ocean_exploration", "precise_cartography", "maritime_empires"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "technological": 3, "exploration": 4, "economic": 3 }
+    },
+
+    "printing_press": {
+      "id": "printing_press",
+      "name": "Imprimerie",
+      "period": "medieval_late", 
+      "category": "cognitive",
+      "rarity": "legendary",
+      "description": "Gutenberg libère les mots de leur prison manuscrite.",
+      "historical_context": "1440 - la connaissance devient reproductible à l'infini.",
+      "discovery_date_range": "1440-1500 CE",
+      "prerequisites": ["paper_chinese", "early_universities"],
+      "enables": ["mass_literacy", "scientific_revolution", "reformation", "news_distribution"],
+      "blocks": ["manuscript_monopoly"],
+      "synergies": [
+        {
+          "with": ["gunpowder"],
+          "effect": "Révolution Technique",
+          "description": "Deux technologies qui transforment le monde médiéval"
+        }
+      ],
+      "effects": { "cognitive": 5, "social": 4, "political": 3 }
+    },
+
+    "optical_lenses": {
+      "id": "optical_lenses",
+      "name": "Lunettes Optiques",
+      "period": "medieval_late",
+      "category": "technological",
+      "rarity": "uncommon",
+      "description": "Corriger les imperfections de la vision humaine par la géométrie.",
+      "historical_context": "XIIIe siècle - l'Italie invente la vue perfectionnée.",
+      "discovery_date_range": "1280-1350 CE", 
+      "prerequisites": ["arabic_medicine", "basic_alchemy"],
+      "enables": ["telescope", "microscope", "precision_optics", "scientific_observation"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "technological": 3, "scientific": 4, "survival": 2 }
+    },
+
+    "mechanical_clocks": {
+      "id": "mechanical_clocks",
+      "name": "Horloges Mécaniques",
+      "period": "medieval_late",
+      "category": "technological", 
+      "rarity": "uncommon",
+      "description": "Emprisonner le temps dans les rouages et les ressorts.",
+      "historical_context": "XIVe siècle - l'Europe domestique la temporalité.",
+      "discovery_date_range": "1300-1400 CE",
+      "prerequisites": ["iron_working", "early_universities"],
+      "enables": ["precise_timekeeping", "coordinated_activities", "mechanical_engineering"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "technological": 4, "social": 3, "economic": 2 }
+    },
+
+    "gothic_cathedrals": {
+      "id": "gothic_cathedrals",
+      "name": "Cathédrales Gothiques",
+      "period": "medieval_late",
+      "category": "artistic", 
+      "rarity": "rare",
+      "description": "La pierre s'élance vers le ciel dans un élan de prière architecturale.",
+      "historical_context": "XIIe siècle - l'art roman découvre la verticalité divine.",
+      "discovery_date_range": "1150-1400 CE",
+      "prerequisites": ["romanesque_arches", "early_universities"],
+      "enables": ["architectural_mastery", "artistic_innovation", "urban_prestige"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "artistic": 5, "spiritual": 4, "technological": 2 }
+    },
+
+    "medieval_universities": {
+      "id": "medieval_universities",
+      "name": "Universités Médiévales",
+      "period": "medieval_late",
+      "category": "cognitive",
+      "rarity": "rare", 
+      "description": "Oxford, Cambridge, Sorbonne - la connaissance s'institutionnalise.",
+      "historical_context": "XIIe siècle - l'Europe crée ses temples du savoir.",
+      "discovery_date_range": "1150-1400 CE",
+      "prerequisites": ["early_universities", "printing_press"],
+      "enables": ["scholastic_philosophy", "scientific_method", "professional_education"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "cognitive": 5, "social": 3, "technological": 2 }
+    },
+
+    "perspective_art": {
+      "id": "perspective_art",
+      "name": "Art de la Perspective",
+      "period": "medieval_late",
+      "category": "artistic",
+      "rarity": "rare",
+      "description": "Transformer la surface plane en fenêtre vers l'infini.",
+      "historical_context": "XVe siècle - la Renaissance naissante révolutionne la représentation.",
+      "discovery_date_range": "1400-1500 CE", 
+      "prerequisites": ["optical_lenses", "medieval_universities"],
+      "enables": ["realistic_painting", "architectural_drawing", "scientific_illustration"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "artistic": 4, "cognitive": 3, "technological": 2 }
+    },
+
+    "ocean_navigation": {
+      "id": "ocean_navigation",
+      "name": "Navigation Océanique",
+      "period": "medieval_late",
+      "category": "technological",
+      "rarity": "uncommon",
+      "description": "Conquérir les océans grâce aux étoiles et à la boussole.",
+      "historical_context": "XVe siècle - l'Europe se prépare aux Grandes Découvertes.",
+      "discovery_date_range": "1400-1500 CE", 
+      "prerequisites": ["improved_compass", "stellar_navigation"],
+      "enables": ["global_exploration", "colonial_empires", "world_trade"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "technological": 4, "exploration": 5, "economic": 4 }
+    },
+
+    "merchant_banking": {
+      "id": "merchant_banking",
+      "name": "Banques Marchandes (Italie)",
+      "period": "medieval_late", 
+      "category": "economic",
+      "rarity": "uncommon",
+      "description": "Médicis et autres familles inventent la finance moderne.",
+      "historical_context": "XIVe siècle - Florence révolutionne l'argent et le crédit.",
+      "discovery_date_range": "1300-1500 CE",
+      "prerequisites": ["metal_currency", "medieval_universities"],
+      "enables": ["international_finance", "credit_systems", "commercial_expansion"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "economic": 5, "political": 3, "social": 2 }
+    },
+
+    "heavy_crossbow": {
+      "id": "heavy_crossbow",
+      "name": "Arbalète Lourde",
+      "period": "medieval_late",
+      "category": "military",
+      "rarity": "common",
+      "description": "La mécanique guerrière atteint sa perfection pré-poudre.",
+      "historical_context": "XIIe siècle - l'arbalète devient l'arme du fantassin professionnel.",
+      "discovery_date_range": "1100-1300 CE", 
+      "prerequisites": ["crossbow", "iron_working"],
+      "enables": ["siege_warfare_advanced", "professional_infantry", "castle_warfare"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "military": 4, "technological": 2 }
+    },
+
+    "military_architecture": {
+      "id": "military_architecture", 
+      "name": "Architecture Militaire (châteaux)",
+      "period": "medieval_late",
+      "category": "military",
+      "rarity": "common",
+      "description": "Transformer la pierre en forteresse imprenable.",
+      "historical_context": "XIe siècle - l'art de la défense atteint sa perfection.",
+      "discovery_date_range": "1000-1400 CE",
+      "prerequisites": ["romanesque_arches", "iron_working"],
+      "enables": ["defensive_warfare", "territorial_control", "feudal_power"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "military": 4, "political": 3, "architectural": 2 }
+    },
+
+    "rudimentary_surgery": {
+      "id": "rudimentary_surgery",
+      "name": "Chirurgie Rudimentaire", 
+      "period": "medieval_late",
+      "category": "scientific",
+      "rarity": "uncommon",
+      "description": "Oser couper pour soigner, malgré la douleur et l'infection.",
+      "historical_context": "XIIIe siècle - la médecine européenne progresse lentement.",
+      "discovery_date_range": "1200-1400 CE",
+      "prerequisites": ["arabic_medicine", "optical_lenses"],
+      "enables": ["advanced_surgery", "anatomical_knowledge", "medical_instruments"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "scientific": 3, "survival": 4, "technological": 2 }
+    },
+
+    "precise_maritime_cartography": {
+      "id": "precise_maritime_cartography",
+      "name": "Cartographie Maritime Précise",
+      "period": "medieval_late",
+      "category": "scientific",
+      "rarity": "uncommon",
+      "description": "Dessiner les océans avec la précision du mathématicien.",
+      "historical_context": "XIVe siècle - les portulans révolutionnent la navigation.",
+      "discovery_date_range": "1300-1500 CE", 
+      "prerequisites": ["ocean_navigation", "medieval_universities"],
+      "enables": ["global_exploration", "trade_route_optimization", "colonial_planning"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "scientific": 4, "exploration": 4, "economic": 3 }
+    },
+
+    "advanced_alchemy": {
+      "id": "advanced_alchemy",
+      "name": "Alchimie Avancée",
+      "period": "medieval_late",
+      "category": "scientific",
+      "rarity": "rare",
+      "description": "Nicolas Flamel et autres cherchent la pierre philosophale... et trouvent la chimie.",
+      "historical_context": "XIVe siècle - l'alchimie européenne atteint sa sophistication maximale.",
+      "discovery_date_range": "1300-1500 CE", 
+      "prerequisites": ["basic_alchemy", "medieval_universities"],
+      "enables": ["early_chemistry", "metallurgy_advanced", "pharmaceutical_compounds"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "scientific": 4, "technological": 3, "survival": 2 }
+    },
+
+    "double_entry_bookkeeping": {
+      "id": "double_entry_bookkeeping",
+      "name": "Comptabilité en Partie Double",
+      "period": "medieval_late",
+      "category": "economic", 
+      "rarity": "uncommon",
+      "description": "Luca Pacioli révolutionne l'art de compter l'argent.",
+      "historical_context": "1494 - l'Italie invente la comptabilité moderne.",
+      "discovery_date_range": "1450-1500 CE",
+      "prerequisites": ["merchant_banking", "printing_press"],
+      "enables": ["modern_accounting", "business_analysis", "economic_planning"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "economic": 4, "cognitive": 3, "political": 2 }
+    },
+
+
+
+    "copernican_astronomy": {
+      "id": "copernican_astronomy",
+      "name": "Astronomie Copernicienne",
+      "period": "renaissance",
+      "category": "scientific",
+      "rarity": "legendary",
+      "description": "Copernic remet l'univers à l'endroit : la Terre tourne autour du Soleil.",
+      "historical_context": "1543 - révolution cosmologique qui décentre l'humanité.",
+      "discovery_date_range": "1543-1600 CE",
+      "prerequisites": ["ptolemaic_astronomy", "medieval_universities"],
+      "enables": ["scientific_method", "modern_physics", "telescope_astronomy"],
+      "blocks": ["geocentric_worldview"],
+      "synergies": [
+        {
+          "with": ["telescope"],
+          "effect": "Révolution Astronomique",
+          "description": "L'héliocentrisme et le télescope révèlent l'immensité cosmique"
+        }
+      ],
+      "effects": { "scientific": 5, "cognitive": 4, "spiritual": -1 }
+    },
+
+    "microscope": {
+      "id": "microscope",
+      "name": "Microscope",
+      "period": "renaissance",
+      "category": "scientific",
+      "rarity": "rare",
+      "description": "Révéler l'univers invisible qui grouille sous nos yeux.",
+      "historical_context": "1590 - les Janssen découvrent l'infiniment petit.",
+      "discovery_date_range": "1590-1650 CE",
+      "prerequisites": ["optical_lenses"],
+      "enables": ["cell_biology", "microbiology", "medical_precision"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "scientific": 4, "survival": 3, "cognitive": 3 }
+    },
+
+    "telescope": {
+      "id": "telescope",
+      "name": "Télescope",
+      "period": "renaissance", 
+      "category": "scientific",
+      "rarity": "rare",
+      "description": "Galilée braque l'œil humain vers l'infini stellaire.",
+      "historical_context": "1608 - l'univers révèle ses secrets aux Hollandais puis aux Italiens.",
+      "discovery_date_range": "1608-1650 CE",
+      "prerequisites": ["optical_lenses"],
+      "enables": ["astronomical_observation", "navigation_precision", "celestial_mapping"],
+      "blocks": [],
+      "synergies": [
+        {
+          "with": ["copernican_astronomy"],
+          "effect": "Révolution Astronomique",
+          "description": "Télescope et héliocentrisme transforment notre vision du cosmos"
+        }
+      ],
+      "effects": { "scientific": 5, "exploration": 3, "cognitive": 4 }
+    },
+
+    "modern_surgery": {
+      "id": "modern_surgery",
+      "name": "Chirurgie Moderne (Ambroise Paré)",
+      "period": "renaissance",
+      "category": "scientific",
+      "rarity": "uncommon",
+      "description": "Ambroise Paré révolutionne l'art de soigner en coupant.",
+      "historical_context": "1550 - la chirurgie française devient science plutôt qu'art.",
+      "discovery_date_range": "1540-1600 CE",
+      "prerequisites": ["rudimentary_surgery", "printing_press"],
+      "enables": ["anatomical_precision", "surgical_instruments", "medical_education"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "scientific": 4, "survival": 5, "technological": 2 }
+    },
+
+    "scientific_anatomy": {
+      "id": "scientific_anatomy", 
+      "name": "Anatomie Scientifique",
+      "period": "renaissance",
+      "category": "scientific",
+      "rarity": "uncommon",
+      "description": "Vésale dissèque les erreurs d'Aristote en même temps que les cadavres.",
+      "historical_context": "1543 - l'anatomie humaine révèle enfin ses vrais secrets.",
+      "discovery_date_range": "1540-1600 CE",
+      "prerequisites": ["modern_surgery", "printing_press"],
+      "enables": ["medical_precision", "artistic_realism", "physiological_understanding"],
+      "blocks": ["anatomical_errors"],
+      "synergies": [],
+      "effects": { "scientific": 4, "artistic": 3, "survival": 3 }
+    },
+
+    "transoceanic_navigation": {
+      "id": "transoceanic_navigation",
+      "name": "Navigation Transocéanique",
+      "period": "renaissance",
+      "category": "technological", 
+      "rarity": "pillar",
+      "description": "Colomb, Vasco de Gama - l'Europe découvre que la Terre est ronde en pratique.",
+      "historical_context": "1492-1522 - les Grandes Découvertes connectent les continents.",
+      "discovery_date_range": "1490-1550 CE",
+      "prerequisites": ["ocean_navigation", "precise_maritime_cartography"],
+      "enables": ["global_empires", "world_trade", "cultural_exchange"],
+      "blocks": ["geographical_isolation"],
+      "synergies": [],
+      "effects": { "exploration": 5, "economic": 4, "political": 4 }
+    },
+
+    "mass_printing": {
+      "id": "mass_printing", 
+      "name": "Imprimerie de Masse",
+      "period": "renaissance",
+      "category": "cognitive",
+      "rarity": "pillar",
+      "description": "La révolution Gutenberg atteint sa vitesse de croisière.",
+      "historical_context": "1500-1600 - l'Europe s'alphabétise grâce aux presses.",
+      "discovery_date_range": "1500-1600 CE",
+      "prerequisites": ["printing_press"],
+      "enables": ["mass_literacy", "scientific_communication", "reformation", "news_networks"],
+      "blocks": ["information_monopoly"],
+      "synergies": [],
+      "effects": { "cognitive": 5, "social": 4, "political": 3 }
+    },
+
+    "international_banking": {
+      "id": "international_banking",
+      "name": "Banques Internationales", 
+      "period": "renaissance",
+      "category": "economic",
+      "rarity": "uncommon",
+      "description": "Fugger, Médicis - l'argent devient cosmopolite.",
+      "historical_context": "1500-1600 - la finance européenne finance les empires.",
+      "discovery_date_range": "1500-1600 CE",
+      "prerequisites": ["merchant_banking", "transoceanic_navigation"],
+      "enables": ["global_finance", "imperial_funding", "commercial_empires"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "economic": 5, "political": 4, "social": 2 }
+    },
+
+    "baroque_art": {
+      "id": "baroque_art",
+      "name": "Art Baroque",
+      "period": "renaissance",
+      "category": "artistic", 
+      "rarity": "uncommon",
+      "description": "L'art devient théâtre, le théâtre devient église, l'église devient émotion.",
+      "historical_context": "1600-1700 - la Contre-Réforme inspire un art total.",
+      "discovery_date_range": "1600-1700 CE",
+      "prerequisites": ["perspective_art", "international_banking"],
+      "enables": ["emotional_art", "architectural_drama", "musical_complexity"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "artistic": 5, "spiritual": 3, "social": 3 }
+    },
+
+    "differential_calculus": {
+      "id": "differential_calculus",
+      "name": "Calcul Différentiel",
+      "period": "renaissance", 
+      "category": "scientific",
+      "rarity": "legendary",
+      "description": "Newton et Leibniz domestiquent l'infini mathématique.",
+      "historical_context": "1665-1684 - les mathématiques découvrent le mouvement pur.",
+      "discovery_date_range": "1665-1700 CE",
+      "prerequisites": ["copernican_astronomy", "medieval_universities"],
+      "enables": ["modern_physics", "engineering_precision", "scientific_revolution"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "scientific": 5, "technological": 4, "cognitive": 4 }
+    },
+
+    "modern_cannon": {
+      "id": "modern_cannon",
+      "name": "Canon Moderne",
+      "period": "renaissance",
+      "category": "military",
+      "rarity": "common", 
+      "description": "La poudre noire trouve sa forme définitive dans le bronze.",
+      "historical_context": "1500-1600 - l'artillerie révolutionne la guerre et l'architecture.",
+      "discovery_date_range": "1500-1600 CE",
+      "prerequisites": ["gunpowder", "bronze_working"],
+      "enables": ["siege_warfare_modern", "naval_warfare_advanced", "fortress_design_new"],
+      "blocks": ["castle_warfare_traditional"],
+      "synergies": [],
+      "effects": { "military": 5, "technological": 3, "political": 3 }
+    },
+
+    "colonization": {
+      "id": "colonization",
+      "name": "Colonisation", 
+      "period": "renaissance",
+      "category": "political",
+      "rarity": "pillar",
+      "description": "L'Europe exporte sa civilisation... et importe les richesses du monde.",
+      "historical_context": "1500-1700 - les empires coloniaux redessinent la planète.",
+      "discovery_date_range": "1500-1700 CE",
+      "prerequisites": ["transoceanic_navigation", "modern_cannon"],
+      "enables": ["global_empires", "plantation_economy", "cultural_diffusion"],
+      "blocks": ["indigenous_autonomy"],
+      "synergies": [],
+      "effects": { "political": 5, "economic": 4, "social": -2 }
+    },
+
+    "world_cartography": {
+      "id": "world_cartography",
+      "name": "Cartographie Mondiale",
+      "period": "renaissance",
+      "category": "scientific", 
+      "rarity": "uncommon",
+      "description": "Mercator projette la Terre sphérique sur le papier plat.",
+      "historical_context": "1569 - la planète devient lisible sur une carte.",
+      "discovery_date_range": "1550-1650 CE",
+      "prerequisites": ["transoceanic_navigation", "differential_calculus"],
+      "enables": ["global_navigation", "imperial_planning", "geographical_science"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "scientific": 4, "exploration": 4, "political": 3 }
+    },
+
+    "thermometer": {
+      "id": "thermometer",
+      "name": "Thermomètre",
+      "period": "renaissance",
+      "category": "scientific",
+      "rarity": "uncommon", 
+      "description": "Galileo mesure enfin la chaleur avec la précision de la géométrie.",
+      "historical_context": "1593 - la température devient quantifiable.",
+      "discovery_date_range": "1593-1650 CE",
+      "prerequisites": ["telescope", "scientific_anatomy"],
+      "enables": ["scientific_measurement", "medical_diagnostics", "weather_observation"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "scientific": 3, "survival": 3, "technological": 2 }
+    },
+
+    "galilean_physics": {
+      "id": "galilean_physics",
+      "name": "Physique de Galilée",
+      "period": "renaissance",
+      "category": "scientific", 
+      "rarity": "rare",
+      "description": "La mathématique révèle les lois cachées du mouvement.",
+      "historical_context": "1590-1640 - Galilée fonde la physique expérimentale.",
+      "discovery_date_range": "1590-1650 CE",
+      "prerequisites": ["telescope", "differential_calculus"],
+      "enables": ["experimental_science", "mechanical_engineering", "modern_physics"],
+      "blocks": ["aristotelian_physics"],
+      "synergies": [],
+      "effects": { "scientific": 5, "technological": 4, "cognitive": 4 }
+    },
+
+    "improved_metallurgy": {
+      "id": "improved_metallurgy",
+      "name": "Métallurgie Perfectionnée",
+      "period": "renaissance",
+      "category": "technological",
+      "rarity": "common",
+      "description": "Les hauts fourneaux révèlent tous les secrets du fer et de l'acier.",
+      "historical_context": "1500-1700 - l'Europe perfectionne l'art du métal.",
+      "discovery_date_range": "1500-1700 CE", 
+      "prerequisites": ["iron_working", "modern_cannon"],
+      "enables": ["precision_instruments", "advanced_weaponry", "mechanical_engineering"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "technological": 4, "military": 3, "economic": 3 }
+    },
+
+
+
+    "steam_engine": {
+      "id": "steam_engine",
+      "name": "Machine à Vapeur",
+      "period": "industrial", 
+      "category": "technological",
+      "rarity": "pillar",
+      "description": "Watt libère la puissance de l'eau bouillante pour transformer le monde.",
+      "historical_context": "1712-1769 - l'Angleterre domestique la vapeur d'eau.",
+      "discovery_date_range": "1712-1800 CE",
+      "prerequisites": ["improved_metallurgy", "galilean_physics"],
+      "enables": ["railways", "industrial_production", "steamships", "factory_system"],
+      "blocks": ["muscle_powered_industry"],
+      "synergies": [
+        {
+          "with": ["railways"],
+          "effect": "Révolution des Transports",
+          "description": "Vapeur et rails révolutionnent la mobilité humaine"
+        }
+      ],
+      "effects": { "technological": 5, "economic": 5, "social": 4 }
+    },
+
+    "railways": {
+      "id": "railways",
+      "name": "Chemins de Fer",
+      "period": "industrial",
+      "category": "technological",
+      "rarity": "pillar", 
+      "description": "Stephenson trace des lignes droites dans la géographie pour la vitesse.",
+      "historical_context": "1825 - la Terre se rétrécit grâce aux rails d'acier.",
+      "discovery_date_range": "1820-1860 CE",
+      "prerequisites": ["steam_engine", "improved_metallurgy"],
+      "enables": ["rapid_transport", "industrial_expansion", "national_unification"],
+      "blocks": ["geographical_isolation"],
+      "synergies": [
+        {
+          "with": ["steam_engine"],
+          "effect": "Révolution des Transports",
+          "description": "La combinaison vapeur-rails transforme l'espace et le temps"
+        }
+      ],
+      "effects": { "technological": 5, "economic": 5, "political": 4 }
+    },
+
+    "telegraph": {
+      "id": "telegraph",
+      "name": "Télégraphe",
+      "period": "industrial",
+      "category": "technological", 
+      "rarity": "rare",
+      "description": "Morse code les mots en éclairs électriques plus rapides que les chevaux.",
+      "historical_context": "1844 - l'information voyage à la vitesse de la lumière.",
+      "discovery_date_range": "1840-1870 CE",
+      "prerequisites": ["improved_metallurgy"],
+      "enables": ["instant_communication", "coordinated_business", "news_networks"],
+      "blocks": ["information_delay"],
+      "synergies": [],
+      "effects": { "technological": 4, "economic": 4, "political": 3 }
+    },
+
+    "gas_lighting": {
+      "id": "gas_lighting",
+      "name": "Éclairage au Gaz",
+      "period": "industrial",
+      "category": "technological",
+      "rarity": "common", 
+      "description": "Les villes découvrent que la nuit peut devenir jour.",
+      "historical_context": "1792 - Londres illumine ses rues au gaz de houille.",
+      "discovery_date_range": "1790-1850 CE",
+      "prerequisites": ["steam_engine"],
+      "enables": ["urban_nightlife", "industrial_work_extended", "public_safety"],
+      "blocks": ["night_darkness_absolute"],
+      "synergies": [],
+      "effects": { "technological": 3, "social": 4, "economic": 3 }
+    },
+
+    "agricultural_revolution": {
+      "id": "agricultural_revolution", 
+      "name": "Révolution Agricole",
+      "period": "industrial",
+      "category": "economic",
+      "rarity": "pillar",
+      "description": "Engrais, assolement, sélection - l'agriculture devient science.",
+      "historical_context": "1750-1850 - l'Europe nourrit enfin sa population croissante.",
+      "discovery_date_range": "1750-1850 CE",
+      "prerequisites": ["galilean_physics", "improved_metallurgy"],
+      "enables": ["population_growth", "urban_concentration", "food_surplus"],
+      "blocks": ["subsistence_agriculture"],
+      "synergies": [],
+      "effects": { "economic": 5, "social": 4, "survival": 4 }
+    },
+
+    "industrial_steel": {
+      "id": "industrial_steel",
+      "name": "Acier Industriel",
+      "period": "industrial",
+      "category": "technological",
+      "rarity": "common", 
+      "description": "Bessemer révolutionne la production d'acier de masse.",
+      "historical_context": "1856 - l'acier devient abordable et transforme l'industrie.",
+      "discovery_date_range": "1850-1880 CE",
+      "prerequisites": ["steam_engine", "improved_metallurgy"],
+      "enables": ["skyscrapers", "advanced_machinery", "modern_weapons"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "technological": 4, "economic": 4, "architectural": 3 }
+    },
+
+    "vaccines": {
+      "id": "vaccines",
+      "name": "Vaccins (Jenner)",
+      "period": "industrial",
+      "category": "scientific", 
+      "rarity": "rare",
+      "description": "Jenner découvre comment tromper la maladie avec ses propres armes.",
+      "historical_context": "1798 - la variole devient la première maladie vaincue par l'humanité.",
+      "discovery_date_range": "1798-1850 CE",
+      "prerequisites": ["scientific_anatomy", "microscope"],
+      "enables": ["public_health", "population_control", "epidemic_prevention"],
+      "blocks": ["epidemic_fatalism"],
+      "synergies": [],
+      "effects": { "scientific": 4, "survival": 5, "social": 4 }
+    },
+
+    "modern_chemistry": {
+      "id": "modern_chemistry",
+      "name": "Chimie Moderne (Lavoisier)", 
+      "period": "industrial",
+      "category": "scientific",
+      "rarity": "rare",
+      "description": "Lavoisier transforme l'alchimie en science exacte.",
+      "historical_context": "1770-1794 - la chimie révèle les lois de la matière.",
+      "discovery_date_range": "1770-1820 CE",
+      "prerequisites": ["advanced_alchemy", "galilean_physics"],
+      "enables": ["industrial_chemistry", "synthetic_materials", "pharmaceutical_industry"],
+      "blocks": ["alchemical_mysticism"],
+      "synergies": [],
+      "effects": { "scientific": 5, "technological": 4, "survival": 3 }
+    },
+
+    "domestic_electricity": {
+      "id": "domestic_electricity",
+      "name": "Électricité Domestique",
+      "period": "industrial",
+      "category": "technological",
+      "rarity": "uncommon", 
+      "description": "Edison et Tesla électrifient la civilisation.",
+      "historical_context": "1879-1890 - l'électricité entre dans les foyers.",
+      "discovery_date_range": "1879-1900 CE",
+      "prerequisites": ["telegraph", "industrial_steel"],
+      "enables": ["electric_lighting", "electric_machines", "modern_cities"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "technological": 4, "social": 4, "economic": 3 }
+    },
+
+    "telephone": {
+      "id": "telephone",
+      "name": "Téléphone",
+      "period": "industrial",
+      "category": "technological", 
+      "rarity": "uncommon",
+      "description": "Bell fait voyager la voix humaine dans les fils électriques.",
+      "historical_context": "1876 - les distances s'abolissent pour la conversation.",
+      "discovery_date_range": "1876-1900 CE",
+      "prerequisites": ["telegraph", "domestic_electricity"],
+      "enables": ["instant_voice_communication", "business_coordination", "social_networks"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "technological": 3, "social": 4, "economic": 3 }
+    },
+
+    "internal_combustion": {
+      "id": "internal_combustion",
+      "name": "Moteur à Combustion Interne", 
+      "period": "industrial",
+      "category": "technological",
+      "rarity": "pillar",
+      "description": "Otto et Diesel libèrent l'énergie du pétrole.",
+      "historical_context": "1860-1890 - l'ère du pétrole commence.",
+      "discovery_date_range": "1860-1900 CE",
+      "prerequisites": ["modern_chemistry", "industrial_steel"],
+      "enables": ["automobiles", "aviation", "mechanized_transport"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "technological": 5, "economic": 4, "social": 3 }
+    },
+
+    "photography": {
+      "id": "photography",
+      "name": "Photographie",
+      "period": "industrial",
+      "category": "artistic", 
+      "rarity": "uncommon",
+      "description": "Niépce et Daguerre capturent la lumière dans l'argent.",
+      "historical_context": "1839 - la réalité devient reproductible à l'infini.",
+      "discovery_date_range": "1839-1880 CE",
+      "prerequisites": ["modern_chemistry", "optical_lenses"],
+      "enables": ["visual_documentation", "artistic_realism", "mass_media"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "artistic": 4, "technological": 3, "social": 3 }
+    },
+
+    "elevators": {
+      "id": "elevators",
+      "name": "Ascenseurs",
+      "period": "industrial",
+      "category": "technological",
+      "rarity": "common", 
+      "description": "Otis défie la gravité pour construire vers le ciel.",
+      "historical_context": "1852 - les villes découvrent la troisième dimension.",
+      "discovery_date_range": "1852-1890 CE",
+      "prerequisites": ["industrial_steel", "domestic_electricity"],
+      "enables": ["skyscrapers", "urban_density", "vertical_cities"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "technological": 3, "architectural": 4, "social": 3 }
+    },
+
+    "modern_sewers": {
+      "id": "modern_sewers", 
+      "name": "Égouts Modernes",
+      "period": "industrial",
+      "category": "technological",
+      "rarity": "common",
+      "description": "Haussmann enterre la saleté urbaine dans l'ingénierie.",
+      "historical_context": "1850-1870 - Paris invente l'hygiène urbaine moderne.",
+      "discovery_date_range": "1850-1880 CE",
+      "prerequisites": ["industrial_steel", "modern_chemistry"],
+      "enables": ["urban_sanitation", "public_health", "dense_cities"],
+      "blocks": ["urban_disease"],
+      "synergies": [],
+      "effects": { "technological": 3, "survival": 4, "social": 4 }
+    },
+
+    "typewriter": {
+      "id": "typewriter",
+      "name": "Machine à Écrire",
+      "period": "industrial",
+      "category": "technological", 
+      "rarity": "common",
+      "description": "Mécaniser l'écriture pour accélérer la pensée administrative.",
+      "historical_context": "1873 - Remington standardise l'écriture mécanique.",
+      "discovery_date_range": "1870-1900 CE",
+      "prerequisites": ["industrial_steel", "mass_printing"],
+      "enables": ["office_efficiency", "administrative_precision", "professional_writing"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "technological": 2, "economic": 3, "social": 3 }
+    },
+
+    "electric_lighting": {
+      "id": "electric_lighting",
+      "name": "Éclairage Électrique", 
+      "period": "industrial",
+      "category": "technological",
+      "rarity": "uncommon",
+      "description": "Edison illumine le monde avec l'ampoule incandescente.",
+      "historical_context": "1879 - la nuit électrique remplace la nuit au gaz.",
+      "discovery_date_range": "1879-1900 CE",
+      "prerequisites": ["domestic_electricity"],
+      "enables": ["24h_productivity", "urban_nightlife", "industrial_efficiency"],
+      "blocks": ["darkness_dependency"],
+      "synergies": [],
+      "effects": { "technological": 4, "social": 4, "economic": 3 }
+    },
+
+    "aspirin": {
+      "id": "aspirin",
+      "name": "Aspirine",
+      "period": "industrial",
+      "category": "scientific",
+      "rarity": "uncommon", 
+      "description": "Bayer domestique la douleur dans un comprimé blanc.",
+      "historical_context": "1897 - la première pilule miracle de l'industrie pharmaceutique.",
+      "discovery_date_range": "1897-1900 CE",
+      "prerequisites": ["modern_chemistry", "vaccines"],
+      "enables": ["pharmaceutical_industry", "pain_management", "mass_medication"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "scientific": 3, "survival": 4, "economic": 3 }
+    },
+
+    "automobile": {
+      "id": "automobile",
+      "name": "Automobile",
+      "period": "industrial",
+      "category": "technological", 
+      "rarity": "pillar",
+      "description": "Ford démocratise la mobilité individuelle avec la Model T.",
+      "historical_context": "1885-1908 - l'humanité découvre la liberté mécanique.",
+      "discovery_date_range": "1885-1900 CE",
+      "prerequisites": ["internal_combustion", "industrial_steel"],
+      "enables": ["personal_mobility", "suburban_development", "oil_economy"],
+      "blocks": ["horse_transport"],
+      "synergies": [],
+      "effects": { "technological": 4, "social": 5, "economic": 4 }
+    },
+
+
+
+    "cinema": {
+      "id": "cinema",
+      "name": "Cinéma",
+      "period": "contemporary",
+      "category": "artistic", 
+      "rarity": "uncommon",
+      "description": "Les frères Lumière capturent le mouvement et créent les rêves en boîte.",
+      "historical_context": "1895 - l'art narratif découvre sa forme définitive.",
+      "discovery_date_range": "1895-1930 CE",
+      "prerequisites": ["photography", "electric_lighting"],
+      "enables": ["mass_entertainment", "visual_storytelling", "cultural_globalization"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "artistic": 5, "social": 4, "cognitive": 3 }
+    },
+
+    "antibiotics": {
+      "id": "antibiotics",
+      "name": "Antibiotiques (Pénicilline)",
+      "period": "contemporary",
+      "category": "scientific",
+      "rarity": "legendary", 
+      "description": "Fleming découvre accidentellement l'arme absolue contre les infections.",
+      "historical_context": "1928 - la mort bactérienne recule devant la moisissure miracle.",
+      "discovery_date_range": "1928-1945 CE",
+      "prerequisites": ["vaccines", "modern_chemistry"],
+      "enables": ["modern_medicine", "surgical_safety", "life_expectancy_increase"],
+      "blocks": ["bacterial_fatalism"],
+      "synergies": [],
+      "effects": { "scientific": 5, "survival": 5, "social": 4 }
+    },
+
+    "computer": {
+      "id": "computer",
+      "name": "Ordinateur",
+      "period": "contemporary",
+      "category": "technological",
+      "rarity": "pillar", 
+      "description": "Turing et von Neumann créent l'intelligence artificielle dans le silicium.",
+      "historical_context": "1945-1970 - l'humanité externalise sa capacité de calcul.",
+      "discovery_date_range": "1945-1980 CE",
+      "prerequisites": ["electric_lighting", "modern_chemistry"],
+      "enables": ["information_processing", "automation", "digital_revolution"],
+      "blocks": [],
+      "synergies": [
+        {
+          "with": ["internet"],
+          "effect": "Révolution Numérique",
+          "description": "Ordinateurs et Internet créent la civilisation de l'information"
+        }
+      ],
+      "effects": { "technological": 5, "cognitive": 5, "economic": 5 }
+    },
+
+    "atomic_bomb": {
+      "id": "atomic_bomb",
+      "name": "Bombe Atomique", 
+      "period": "contemporary",
+      "category": "military",
+      "rarity": "legendary",
+      "description": "Manhattan Project - l'humanité découvre comment détruire elle-même.",
+      "historical_context": "1945 - Hiroshima et Nagasaki ouvrent l'ère atomique.",
+      "discovery_date_range": "1942-1945 CE",
+      "prerequisites": ["modern_chemistry", "differential_calculus"],
+      "enables": ["nuclear_power", "atomic_age", "cold_war"],
+      "blocks": ["conventional_warfare_supremacy"],
+      "synergies": [],
+      "effects": { "military": 5, "technological": 4, "political": 5 }
+    },
+
+    "space_rocket": {
+      "id": "space_rocket",
+      "name": "Fusée Spatiale",
+      "period": "contemporary",
+      "category": "technological",
+      "rarity": "rare", 
+      "description": "Von Braun libère l'humanité de la gravité terrestre.",
+      "historical_context": "1957-1969 - Spoutnik et Apollo conquièrent l'espace.",
+      "discovery_date_range": "1957-1980 CE",
+      "prerequisites": ["atomic_bomb", "computer"],
+      "enables": ["space_exploration", "satellite_technology", "space_colonization"],
+      "blocks": ["earth_bound_limitation"],
+      "synergies": [],
+      "effects": { "technological": 5, "exploration": 5, "scientific": 4 }
+    },
+
+    "artificial_satellite": {
+      "id": "artificial_satellite",
+      "name": "Satellite Artificiel",
+      "period": "contemporary",
+      "category": "technological",
+      "rarity": "uncommon", 
+      "description": "L'humanité place ses yeux électroniques en orbite permanente.",
+      "historical_context": "1957 - Spoutnik ouvre l'ère de l'observation globale.",
+      "discovery_date_range": "1957-1980 CE",
+      "prerequisites": ["space_rocket"],
+      "enables": ["global_communication", "weather_prediction", "navigation_precision"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "technological": 4, "communication": 4, "scientific": 3 }
+    },
+
+    "modern_contraceptives": {
+      "id": "modern_contraceptives",
+      "name": "Contraceptifs Modernes",
+      "period": "contemporary",
+      "category": "social", 
+      "rarity": "uncommon",
+      "description": "La pilule sépare définitivement sexualité et reproduction.",
+      "historical_context": "1960 - révolution sexuelle et contrôle démographique.",
+      "discovery_date_range": "1955-1970 CE",
+      "prerequisites": ["antibiotics", "modern_chemistry"],
+      "enables": ["family_planning", "women_liberation", "demographic_control"],
+      "blocks": ["uncontrolled_fertility"],
+      "synergies": [],
+      "effects": { "social": 5, "survival": 3, "political": 4 }
+    },
+
+    "internet": {
+      "id": "internet",
+      "name": "Internet", 
+      "period": "contemporary",
+      "category": "cognitive",
+      "rarity": "legendary",
+      "description": "ARPANET connecte tous les ordinateurs en une intelligence collective.",
+      "historical_context": "1969-1990 - l'humanité crée son système nerveux global.",
+      "discovery_date_range": "1969-1995 CE",
+      "prerequisites": ["computer", "artificial_satellite"],
+      "enables": ["global_information", "digital_economy", "virtual_communities"],
+      "blocks": ["information_isolation"],
+      "synergies": [
+        {
+          "with": ["computer"],
+          "effect": "Révolution Numérique",
+          "description": "La fusion ordinateur-Internet crée la société de l'information"
+        }
+      ],
+      "effects": { "cognitive": 5, "social": 5, "economic": 4 }
+    },
+
+    "gps": {
+      "id": "gps",
+      "name": "GPS",
+      "period": "contemporary",
+      "category": "technological",
+      "rarity": "common", 
+      "description": "L'humanité ne se perd plus jamais grâce aux satellites.",
+      "historical_context": "1973-1995 - la navigation devient instantanée et universelle.",
+      "discovery_date_range": "1973-2000 CE",
+      "prerequisites": ["artificial_satellite", "computer"],
+      "enables": ["precise_navigation", "location_services", "autonomous_vehicles"],
+      "blocks": ["navigation_uncertainty"],
+      "synergies": [],
+      "effects": { "technological": 4, "social": 4, "economic": 3 }
+    },
+
+    "artificial_intelligence": {
+      "id": "artificial_intelligence",
+      "name": "Intelligence Artificielle",
+      "period": "contemporary", 
+      "category": "cognitive",
+      "rarity": "legendary",
+      "description": "L'humanité crée ses successeurs intellectuels dans le silicium.",
+      "historical_context": "1950-2025 - Turing à ChatGPT, la machine devient pensante.",
+      "discovery_date_range": "1950-2025 CE",
+      "prerequisites": ["computer", "internet"],
+      "enables": ["automated_reasoning", "machine_learning", "technological_singularity"],
+      "blocks": ["human_cognitive_monopoly"],
+      "synergies": [],
+      "effects": { "cognitive": 5, "technological": 5, "social": 4 }
+    },
+
+    "mobile_phones": {
+      "id": "mobile_phones",
+      "name": "Téléphones Mobiles",
+      "period": "contemporary",
+      "category": "technological",
+      "rarity": "pillar", 
+      "description": "La communication devient nomade et constante.",
+      "historical_context": "1973-2007 - du Motorola DynaTAC à l'iPhone.",
+      "discovery_date_range": "1973-2010 CE",
+      "prerequisites": ["artificial_satellite", "computer"],
+      "enables": ["ubiquitous_communication", "mobile_internet", "digital_life"],
+      "blocks": ["communication_isolation"],
+      "synergies": [],
+      "effects": { "technological": 4, "social": 5, "economic": 4 }
+    },
+
+    "genetic_engineering": {
+      "id": "genetic_engineering",
+      "name": "Ingénierie Génétique", 
+      "period": "contemporary",
+      "category": "scientific",
+      "rarity": "rare",
+      "description": "CRISPR permet d'éditer le code source de la vie.",
+      "historical_context": "1973-2020 - l'humanité réécrit le programme génétique.",
+      "discovery_date_range": "1973-2020 CE",
+      "prerequisites": ["antibiotics", "computer"],
+      "enables": ["gene_therapy", "modified_organisms", "biological_engineering"],
+      "blocks": ["genetic_fatalism"],
+      "synergies": [],
+      "effects": { "scientific": 5, "survival": 4, "economic": 3 }
+    },
+
+    "renewable_energy": {
+      "id": "renewable_energy",
+      "name": "Énergies Renouvelables",
+      "period": "contemporary",
+      "category": "technological",
+      "rarity": "pillar", 
+      "description": "Solaire, éolien - l'humanité redécouvre l'énergie inépuisable.",
+      "historical_context": "1970-2020 - la transition énergétique commence.",
+      "discovery_date_range": "1970-2020 CE",
+      "prerequisites": ["modern_chemistry", "computer"],
+      "enables": ["sustainable_energy", "climate_action", "energy_independence"],
+      "blocks": ["fossil_fuel_dependency"],
+      "synergies": [],
+      "effects": { "technological": 4, "environmental": 5, "economic": 4 }
+    },
+
+    "social_networks": {
+      "id": "social_networks",
+      "name": "Réseaux Sociaux",
+      "period": "contemporary",
+      "category": "social", 
+      "rarity": "uncommon",
+      "description": "Facebook connecte 3 milliards d'humains en une conversation globale.",
+      "historical_context": "2004-2020 - l'humanité découvre la socialisation digitale.",
+      "discovery_date_range": "2004-2020 CE",
+      "prerequisites": ["internet", "mobile_phones"],
+      "enables": ["global_social_connection", "information_viral", "digital_democracy"],
+      "blocks": ["social_isolation"],
+      "synergies": [],
+      "effects": { "social": 5, "cognitive": 3, "political": 4 }
+    },
+
+    "virtual_reality": {
+      "id": "virtual_reality",
+      "name": "Réalité Virtuelle",
+      "period": "contemporary",
+      "category": "technological", 
+      "rarity": "uncommon",
+      "description": "L'humanité crée des univers parallèles habitables.",
+      "historical_context": "1960-2020 - de la science-fiction à Meta/Oculus.",
+      "discovery_date_range": "1960-2020 CE",
+      "prerequisites": ["computer", "cinema"],
+      "enables": ["immersive_experiences", "digital_worlds", "virtual_education"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "technological": 4, "artistic": 4, "social": 3 }
+    },
+
+    "quantum_computing": {
+      "id": "quantum_computing",
+      "name": "Informatique Quantique",
+      "period": "contemporary",
+      "category": "technological",
+      "rarity": "legendary", 
+      "description": "L'humanité exploite les paradoxes quantiques pour calculer l'incalculable.",
+      "historical_context": "1980-2025 - IBM et Google maîtrisent la physique quantique.",
+      "discovery_date_range": "1980-2030 CE",
+      "prerequisites": ["computer", "artificial_intelligence"],
+      "enables": ["quantum_supremacy", "cryptography_quantum", "simulation_molecular"],
+      "blocks": ["classical_computing_limits"],
+      "synergies": [],
+      "effects": { "technological": 5, "scientific": 5, "cognitive": 4 }
+    },
+
+    "biotechnology": {
+      "id": "biotechnology",
+      "name": "Biotechnologie",
+      "period": "contemporary",
+      "category": "scientific", 
+      "rarity": "rare",
+      "description": "Fusionner biologie et ingénierie pour créer la vie artificielle.",
+      "historical_context": "1980-2025 - de l'insuline recombinante aux organes imprimés.",
+      "discovery_date_range": "1980-2030 CE",
+      "prerequisites": ["genetic_engineering", "computer"],
+      "enables": ["synthetic_biology", "personalized_medicine", "biological_manufacturing"],
+      "blocks": [],
+      "synergies": [],
+      "effects": { "scientific": 5, "survival": 5, "economic": 4 }
+    },
+
+    "space_colonization": {
+      "id": "space_colonization",
+      "name": "Colonisation Spatiale",
+      "period": "contemporary",
+      "category": "exploration", 
+      "rarity": "legendary",
+      "description": "SpaceX et autres préparent l'exode vers Mars et au-delà.",
+      "historical_context": "2020-2100 - l'humanité devient espèce multi-planétaire.",
+      "discovery_date_range": "2020-2100 CE",
+      "prerequisites": ["space_rocket", "biotechnology"],
+      "enables": ["interplanetary_civilization", "space_economy", "cosmic_perspective"],
+      "blocks": ["single_planet_dependence"],
+      "synergies": [],
+      "effects": { "exploration": 5, "survival": 4, "technological": 4 }
+    }
+  }
+}
