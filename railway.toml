@@ -1,0 +1,32 @@
+[build]
+builder = "NIXPACKS"
+
+[deploy]
+startCommand = "uvicorn apps.api.main:app --host 0.0.0.0 --port $PORT"
+healthcheckPath = "/health"
+healthcheckTimeout = 300
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
+
+[[services]]
+name = "human-memories-api"
+
+[services.source]
+repo = "Aziraphal/Chroniques-narratives"
+branch = "master"
+
+[[services.variables]]
+name = "ENVIRONMENT"
+value = "production"
+
+[[services.variables]]
+name = "DEBUG"
+value = "false"
+
+[[services.variables]]
+name = "APP_NAME"
+value = "Human Memories API"
+
+[[services.variables]]
+name = "APP_VERSION"
+value = "1.0.0"
