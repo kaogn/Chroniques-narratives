@@ -1,170 +1,83 @@
-# 🧠 Human Memories
+# 🧠 Mémoires Humaines (Human Memories)
 
-> *Un jeu narratif où vous incarnez la mémoire collective de l'humanité, sculptant l'histoire par vos choix de préservation et d'oubli*
+> *Un jeu narratif où vous incarnez la mémoire collective de l'humanité : à chaque époque, choisissez les technologies à préserver et laissez le reste sombrer dans l'oubli. Le récit s'écrit à partir de vos choix, dans un style « Borges facétieux ».*
 
-[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://typescriptlang.org/)
-[![Next.js](https://img.shields.io/badge/Next.js-000000?logo=next.js&logoColor=white)](https://nextjs.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+## 🎮 Concept
 
-## 🎮 Concept du Jeu
+À travers une succession d'**époques historiques**, vous préservez au maximum **2 technologies par tour**. Chaque choix génère une narration immédiate, un résumé d'époque, puis — en fin de partie — une **chronique finale** et un **profil de personnalité** (Ingénierie, Contemplative, Communautaire ou Harmonieuse) déduit de vos préservations.
 
-**Human Memories** est un jeu de stratégie narratif textuel où vous prenez le rôle de la **mémoire collective de l'humanité**. À travers **8 époques historiques majeurs**, de la préhistoire à l'an 2100, vous devez choisir quelles découvertes et technologies préserver ou laisser sombrer dans l'oubli.
+> ⚠️ **État du contenu** : le moteur est piloté par les données et fonctionne sur **toutes** les technologies présentes dans `data/technologies.json`. Aujourd'hui ce fichier contient **5 technologies narrées** couvrant **2 époques** (Préhistoire, Antiquité ancienne). Ajouter des époques = ajouter des technologies narrées dans ce fichier, **sans modifier le code** (`data/technologies-database-extended-2025.json` fournit 129 entrées supplémentaires mais sans narration ni schéma compatible — à porter).
 
-### 🎯 Mécaniques Principales
-
-- **8 Tours Épiques** : Préhistoire → Antiquité → Moyen Âge → Renaissance → Révolution Industrielle → Ère Moderne → Futur Proche → Futur Lointain
-- **Choix Stratégiques** : 3 options par tour, maximum 2 à préserver
-- **Système de Dépendances** : Certaines technologies requièrent des prérequis historiques
-- **Narration Émergente** : Chaque partie génère une chronique historique unique
-- **Événements Aléatoires** : Technologies variables pour garantir la rejouabilité
-- **Analyse Personnalisée** : Conclusion analysant votre style de "mémoire collective"
-
-## 🏗️ Architecture Technique
-
-### 📁 Structure du Projet
+## 🏗️ Architecture réelle
 
 ```
-human-memories/
+.
 ├── apps/
-│   ├── web/                    # Next.js Frontend
-│   │   ├── nextjs-app-2025.tsx
-│   │   ├── react-components-2025.tsx
-│   │   ├── shadcn-components-2025.tsx
-│   │   └── zustand-store-2025.ts
-│   └── api/                    # FastAPI Backend
-│       ├── fastapi-backend-2025.py
-│       └── database-setup-2025.py
-├── packages/
-│   ├── game-engine/            # Moteur de Jeu Pur
-│   │   ├── game-engine-2025.ts
-│   │   ├── game-engine-updated-2025.ts
-│   │   ├── gameplay-simulator-2025.py
-│   │   └── gameplay-simulator-extended-2025.py
-│   └── shared/                 # Types & Utilitaires Partagés
-│       └── tech-database-2025.ts
-├── data/                       # Base de Données de Contenu
-│   ├── technologies.json
-│   ├── technologies-database-extended-2025.json
-│   ├── narrative-borges-facetieux-2025.json
-│   └── narrative-epoch-summaries-2025.json
-├── docs/                       # Documentation Technique
-│   ├── TECHNICAL_SPECS.md
-│   ├── EXAMPLES_BY_PERIOD.md
-│   ├── TECHNOLOGIES_DOCUMENTATION.md
-│   └── typescript-configs.md
-├── tools/                      # Outils de Développement
-│   ├── dependency-analysis-2025.py
-│   └── personality-engine-demo.py
-└── scripts/                    # Scripts d'Automatisation
-    └── setup-scripts.sh
+│   ├── api/
+│   │   └── main.py            # Backend FastAPI : moteur de jeu + narration (déployé sur Railway)
+│   └── frontend/             # Frontend Next.js 15 (App Router, React 19)
+│       └── src/
+│           ├── app/          # Pages (/, /game) + layout
+│           ├── components/   # UI (shadcn) + composants de jeu
+│           └── store/        # État Zustand + service API
+├── data/                     # Base de technologies (source de vérité du jeu)
+├── packages/ · tools/ · docs/  # Prototypes & documentation de conception (non utilisés au runtime)
+├── railway.toml              # Déploiement backend
+└── requirements.txt          # Dépendances Python
 ```
 
-### 🛠️ Stack Technique
+## 🛠️ Stack effectif
 
-**Frontend**
-- **Next.js 14+** avec App Router pour la performance SSR
-- **TypeScript** en mode strict pour la sécurité des types
-- **Tailwind CSS + shadcn/ui** pour le design system
-- **Zustand** pour la gestion d'état légère et performante
-- **Framer Motion** pour les animations fluides
+**Frontend** — Next.js 15 (App Router), React 19, TypeScript strict, Tailwind CSS + shadcn/ui, Zustand, Framer Motion.
 
-**Backend**
-- **FastAPI** pour une API haute performance
-- **PostgreSQL** avec Prisma ORM pour la persistance
-- **Redis** pour le cache et les sessions
-- **Pydantic** pour la validation des données
+**Backend** — FastAPI (Python 3.11+), Pydantic. Logique de jeu et narration générées à partir de `data/technologies.json`.
 
-**Outils & DevOps**
-- **Turborepo** pour la gestion monorepo
-- **Docker** pour les environnements de développement
-- **GitHub Actions** pour CI/CD
-- **Vercel** (Frontend) + **Railway** (Backend) pour le déploiement
+**Stockage** — en mémoire (les parties ne survivent pas à un redémarrage). Pour persister, brancher une base sur la fonction de stockage de `main.py` (cf. *Persistance* ci-dessous).
 
-## 🚀 Démarrage Rapide
+## 🚀 Démarrage local
 
-### Prérequis
+### Backend
 
 ```bash
-# Node.js 18+ et Python 3.9+
-node --version  # v18.0.0+
-python --version  # 3.9.0+
-```
-
-### Installation
-
-```bash
-# Clonage du repository
-git clone https://github.com/Aziraphal/Chroniques-narratives.git
-cd Chroniques-narratives
-
-# Installation des dépendances (à venir)
-npm install
 pip install -r requirements.txt
-
-# Configuration environnement local
-cp .env.example .env.local
-docker-compose up -d
-
-# Lancement développement
-npm run dev
+uvicorn apps.api.main:app --reload --port 8000
+# API sur http://localhost:8000  (docs : http://localhost:8000/docs)
 ```
 
-## 🎯 Objectifs de Développement
+### Frontend
 
-### Phase 1 : MVP (8 semaines)
-- [x] **Conception** : Architecture et design technique
-- [x] **Prototypage** : Moteur de jeu et simulateurs
-- [ ] **Backend API** : Endpoints RESTful avec FastAPI
-- [ ] **Frontend Core** : Interface de jeu avec Next.js
-- [ ] **Intégration** : Connection Frontend ↔ Backend
-- [ ] **Tests** : Couverture de tests > 85%
+```bash
+cd apps/frontend
+npm install
+# Pointer l'API : créer .env.local
+echo "NEXT_PUBLIC_API_URL=http://localhost:8000" > .env.local
+npm run dev
+# Jeu sur http://localhost:3000
+```
 
-### Phase 2 : Contenu & Features (6 semaines)
-- [ ] **Base de Données** : 100+ technologies avec dépendances
-- [ ] **Narration** : Templates et génération dynamique
-- [ ] **Modes de Jeu** : Périodes historiques spécialisées
-- [ ] **Système de Sauvegarde** : Persistance des parties
-- [ ] **PWA** : Installation mobile et offline
+## 🔌 API
 
-### Phase 3 : Production (4 semaines)
-- [ ] **Performance** : Optimisation et load testing
-- [ ] **Sécurité** : Audit et conformité GDPR
-- [ ] **Beta Testing** : Programme de test utilisateur
-- [ ] **Déploiement** : Infrastructure production
+| Méthode | Endpoint | Rôle |
+|---------|----------|------|
+| `GET`  | `/health` | Healthcheck (utilisé par Railway) |
+| `GET`  | `/technologies` | `{ technologies: [...] }` |
+| `POST` | `/game/create` | Crée une partie → `{ success, data: <état> }` |
+| `GET`  | `/game/{id}` | État d'une partie |
+| `POST` | `/game/{id}/preserve` | Corps `{ techIds: string[] }` → narration + nouvel état |
 
-## 📊 Métriques de Qualité
+Toutes les réponses suivent l'enveloppe `{ success, data }`.
 
-### Technique
-- ✅ **TypeScript Strict Mode** : 100% couverture types
-- 🎯 **Test Coverage** : >85% avec tests unitaires et E2E
-- ⚡ **Performance** : Lighthouse Score >90
-- 🔒 **Sécurité** : Scan automatique des vulnérabilités
+## 💾 Persistance (à faire)
 
-### Gaming
-- 🎮 **Taux de Completion** : >70% finissent leur première partie
-- 🔄 **Rejouabilité** : >40% font plusieurs parties
-- ⭐ **Satisfaction** : Rating moyen 4.5/5
-- 📱 **Accessibilité** : WCAG 2.1 AA compliant
+Le backend stocke les parties dans un dictionnaire en mémoire (`ACTIVE_GAMES`). Pour une vraie persistance, remplacer les accès `ACTIVE_GAMES[...]` par une couche base de données (par ex. Supabase via `DATABASE_URL`). L'interface se limite à lire/écrire une partie par identifiant : l'abstraction est triviale, mais nécessite des identifiants externes non fournis ici.
 
-## 🤝 Contribution
+## 🗺️ Pistes d'évolution
 
-Le projet suit les meilleures pratiques open source :
-
-- **Conventional Commits** pour les messages de commit
-- **Semantic Versioning** pour les releases
-- **Code Review** obligatoire via Pull Requests
-- **Tests** requis pour toute nouvelle fonctionnalité
+- Porter les 129 technologies de `data/technologies-database-extended-2025.json` au schéma narré pour couvrir les 8 époques.
+- Persistance (Supabase) + reprise de partie.
+- Tests (backend : logique de jeu ; frontend : store + composants).
+- Filtrage par prérequis réactivable une fois la base de contenu complète.
 
 ## 📜 Licence
 
-MIT License - voir [LICENSE](LICENSE) pour les détails.
-
-## 📞 Contact
-
-- **GitHub** : [@Aziraphal](https://github.com/Aziraphal)
-- **Email** : dev@human-memories.com *(à venir)*
-
----
-
-*"Chaque civilisation n'est que la somme des souvenirs qu'elle choisit de garder."* ✨
+MIT.

@@ -1,25 +1,9 @@
 # Human Memories - Backend Dependencies
 
-# Core Framework
 fastapi>=0.104.1
 uvicorn[standard]>=0.24.0
-
-# Authentication & Security  
-python-jose[cryptography]>=3.3.0
-passlib[bcrypt]>=1.7.4
-python-multipart>=0.0.6
-
-# Validation & Configuration
 pydantic>=2.5.0
-pydantic-settings>=2.0.3
 
-# HTTP & Middleware
-httpx>=0.25.2
-python-dotenv>=1.0.0
-
-# Optional: Database (add later when needed)
+# Persistance (à activer le moment venu) :
 # sqlalchemy>=2.0.23
 # asyncpg>=0.29.0
-
-# Optional: Monitoring (add later when needed)  
-# sentry-sdk[fastapi]>=1.38.0
