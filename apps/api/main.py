@@ -119,12 +119,12 @@ def _immediate_narrative(tech_id: str) -> str:
     """Réaction immédiate (tirée au hasard parmi les variantes de la techno)."""
     tech = GAME_DATA["technologies"].get(tech_id)
     if not tech:
-        return "Dans les Archives de la Mémoire, ce choix s'inscrit en silence."
+        return "Dans le Registre de l'Univers, ce choix s'inscrit en silence — ce qui n'arrive pas si souvent."
     immediates = tech.get("narrative", {}).get("immediate") or []
     if immediates:
         return random.choice(immediates)
     word = tech.get("narrative", {}).get("memoryWord", "souvenir")
-    return f"La {word} rejoint le grand catalogue des souvenirs préservés."
+    return f"La {word} rejoint le grand catalogue des choses que l'humanité a décidé de garder, sans toujours savoir pourquoi."
 
 
 def _epoch_summary(period: str, preserved_this_turn: List[str]) -> str:
@@ -143,7 +143,11 @@ def _epoch_summary(period: str, preserved_this_turn: List[str]) -> str:
             )
     period_name = GAME_DATA["periods_meta"].get(period, {}).get("name", period)
     if not fragments:
-        return f"L'époque « {period_name} » s'achève dans le murmure de l'oubli."
+        return (
+            f"L'époque « {period_name} » s'achève sans que rien de notable n'ait été "
+            "préservé. Quelque part, un fonctionnaire de l'Univers inscrit « néant » "
+            "dans une case prévue à cet effet, et soupire."
+        )
     return f"— {period_name} — " + " ".join(fragments)
 
 
@@ -218,10 +222,10 @@ def _personality_from_preserved(preserved: List[str]) -> Dict[str, Any]:
 
 
 _EPITAPHS = {
-    "harmonious": "« Ici dansa une civilisation qui sut épouser tous les rythmes du temps. »",
-    "engineering": "« Ils sculptèrent le monde avec la précision d'horlogers cosmiques. »",
-    "contemplative": "« Ils cherchèrent les étoiles dans chaque grain de sable — et les trouvèrent. »",
-    "communal": "« Leur plus grande technologie fut l'art de vivre ensemble. »",
+    "harmonious": "« Ci-gît une civilisation qui sut tout faire à peu près correctement, sans jamais en tirer la moindre gloire. C'est, soit dit en passant, déjà énorme. »",
+    "engineering": "« Ils résolurent chaque problème au moyen d'une machine — y compris les problèmes causés par les machines précédentes. »",
+    "contemplative": "« Ils cherchèrent le sens de l'existence absolument partout, sauf, peut-être, là où ils avaient posé leurs clés. »",
+    "communal": "« Leur plus grande invention fut de se supporter les uns les autres. Personne, depuis, n'a fait mieux. »",
 }
 
 
@@ -238,15 +242,19 @@ def _final_chronicle(preserved: List[str], personality: Dict[str, Any]) -> str:
     path = personality["evolutionaryPath"]
     epitaph = _EPITAPHS.get(path["id"], _EPITAPHS["harmonious"])
 
-    intro = "Dans les Annales Définitives de la Mémoire Collective, votre civilisation laisse cette trace :"
+    intro = (
+        "Dans le grand Registre de l'Univers — celui que personne n'a jamais vu mais "
+        "que tout le monde redoute vaguement —, votre civilisation laisse cette entrée :"
+    )
     body = (
-        f"Vous avez tissé une tapisserie temporelle avec ces fils : {words_list}. "
+        f"Vous avez choisi de garder ces quelques fils : {words_list}. "
         f"Au fil des âges, votre mémoire a suivi la {path['name']}, {path['flavor']}. "
         f"{path['description']}"
     )
     reflection = (
-        "Borges, dans sa bibliothèque infinie, sourit : quelque part, cette chronique "
-        "exacte était déjà écrite. Mais c'est vous qui l'avez rendue réelle."
+        "Quelque part, un archiviste cosmique relit votre dossier, hésite un instant "
+        "entre l'admiration et la perplexité — sentiment que l'humanité inspire avec une "
+        "régularité remarquable —, puis tamponne la page et passe à la civilisation suivante."
     )
     return f"{intro}\n\n{body}\n\n{reflection}\n\n{epitaph}"
 

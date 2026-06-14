@@ -115,12 +115,12 @@
         "memoryWord": "flamme",
         "wordVariants": ["feu", "brasier", "foyer", "étincelle"],
         "immediate": [
-          "La flamme, fatiguée de sa vie sauvage, accepta de cohabiter avec l'humanité.",
-          "Dans vos mémoires s'allume la première des alliances : le feu domestique.",
-          "Quelqu'un venait de convaincre la flamme de rester tranquille dans un cercle de pierres."
+          "Le Feu, qui menait jusque-là une carrière indépendante et franchement prometteuse dans la destruction, accepta un poste à temps partiel au fond d'une grotte. Il ne l'a jamais tout à fait pardonné.",
+          "Quelqu'un regarda la foudre incendier un arbre et pensa : je veux ça, mais plus petit, et dans ma maison. C'est, à peu de chose près, le résumé de toute l'histoire humaine.",
+          "Et l'humanité domestiqua le feu. Le feu, lui, considère toujours l'arrangement comme strictement temporaire."
         ],
-        "epochTemplate": "Cette ère primitive découvrit le paradoxe fondamental : apprivoiser ce qui était destiné à tout dévorer. La {memoryWord}, docile dans ses foyers, rêvait secrètement de forêts incendiées.",
-        "finalTemplate": "Depuis le jour où vous préservâtes la {memoryWord}, l'humanité vécut dans sa lumière et sa chaleur. Des cavernes aux centrales nucléaires, elle accompagna chaque étape de cette longue épopée."
+        "epochTemplate": "Cette époque comprit le principe fondateur de toute civilisation : il est plus facile d'apprivoiser une chose mortellement dangereuse que de s'en passer. La {memoryWord}, assise bien sagement dans son cercle de pierres, gardait l'œil sur la sortie. Quelque part, un fonctionnaire de l'Univers cocha la case « Espèce prometteuse — surveiller de près ».",
+        "finalTemplate": "Depuis le jour où vous gardâtes la {memoryWord}, l'humanité vécut dans sa lumière — et passa les millénaires suivants à inventer des manières de plus en plus ingénieuses de la laisser s'échapper. Des cavernes aux centrales, le principe n'a pas bougé d'un pouce ; seule l'échelle des dégâts a changé."
       },
       
       "gameplay": {
@@ -169,12 +169,12 @@
         "memoryWord": "silex",
         "wordVariants": ["pierre", "lame", "éclat", "outil"],
         "immediate": [
-          "Le silex accepta de révéler ses secrets tranchants à l'humanité.",
-          "Dans vos souvenirs tinte le premier éclat de pierre taillée.",
-          "Quelqu'un eut l'idée révolutionnaire de casser les cailloux avec méthode."
+          "Quelqu'un cassa deux cailloux l'un contre l'autre pendant assez longtemps pour que ça devienne, contre toute attente, une bonne idée.",
+          "Le silex découvrit qu'il avait un tranchant. L'humanité découvrit qu'elle avait des projets. Ce fut le début d'une longue et productive incompréhension mutuelle.",
+          "Avant les outils, on subissait le monde. Après, on pouvait au moins le découper en morceaux plus pratiques. Le progrès, fondamentalement, c'est ça."
         ],
-        "epochTemplate": "Cette époque primitive transforma le {memoryWord} en prolongement de la main humaine. Les roches cessèrent d'être de simples obstacles pour devenir les premiers collaborateurs de l'intelligence.",
-        "finalTemplate": "Du {memoryWord} primitif naquirent tous les outils. Chaque invention technique porta en elle l'écho de ce premier éclat, de ce premier geste qui fit de l'homme un façonneur du monde."
+        "epochTemplate": "Cette époque transforma le {memoryWord} en prolongement de la main — et la main en prolongement d'une idée, ce qui est nettement plus dangereux. Les rochers cessèrent d'être des obstacles pour devenir des collègues, avec tout ce que cela implique de malentendus.",
+        "finalTemplate": "Du {memoryWord} taillé descendent en ligne directe toutes les machines, jusqu'aux plus compliquées qui font la même chose qu'un silex mais avec un manuel de quatre cents pages. L'intention, elle, n'a jamais changé : attraper le monde et l'arranger un peu mieux."
       },
       
       "gameplay": {
@@ -223,12 +223,12 @@
         "memoryWord": "semence",
         "wordVariants": ["graine", "récolte", "sillon", "terre"],
         "immediate": [
-          "La semence de civilisation germe dans votre mémoire.",
-          "Dans vos souvenirs s'enracine la première promesse de demain.",
-          "Quelqu'un découvrit que les plantes pouvaient être des partenaires plutôt que des proies."
+          "Quelqu'un remarqua que les graines tombées repoussaient au même endroit, et eut l'idée révolutionnaire — et profondément épuisante — de s'en occuper exprès.",
+          "L'humanité cessa de courir après son dîner pour se mettre à l'attendre. Cela s'appelle la patience, et personne ne l'a jamais vraiment digérée depuis.",
+          "Et l'on inventa l'agriculture, c'est-à-dire l'art de travailler beaucoup plus dur qu'avant pour ne plus avoir à se déplacer."
         ],
-        "epochTemplate": "Vos choix plantèrent la {memoryWord} d'une humanité sédentaire. Les chasseurs-cueilleurs cessèrent d'errer : ils apprirent à attendre, à prévoir, à faire confiance aux saisons.",
-        "finalTemplate": "De cette première {memoryWord} préservée naquirent toutes les cités. L'agriculture transforma l'homme nomade en architecte du paysage, sculptant la terre selon ses besoins millénaire après millénaire."
+        "epochTemplate": "Vos choix plantèrent la {memoryWord} d'une humanité sédentaire. Les nomades s'arrêtèrent, regardèrent un champ, et comprirent qu'ils venaient de signer un contrat à durée indéterminée avec la météo. Quelque part, la Faim soupira et se mit en quête d'un autre emploi.",
+        "finalTemplate": "De cette première {memoryWord} préservée naquirent les villes, les greniers, les impôts, et l'idée saugrenue qu'on pouvait posséder un morceau de terre. Tout le reste — la civilisation, en somme — n'est qu'une longue note de bas de page à ce premier sillon."
       },
       
       "gameplay": {
@@ -277,12 +277,12 @@
         "memoryWord": "tablette",
         "wordVariants": ["cunéiforme", "argile", "scribe", "signe"],
         "immediate": [
-          "La tablette grave les premiers mots du temps dans vos souvenirs.",
-          "Dans l'argile naît la mémoire des mémoires.",
-          "Quelqu'un eut l'idée saugrenue de faire parler la boue séchée."
+          "Quelqu'un appuya un roseau dans de la boue et, sans le savoir, condamna des millions de futurs élèves à des devoirs.",
+          "L'humanité venait d'inventer le moyen de se souvenir de choses qu'elle aurait, dans bien des cas, mieux fait d'oublier — à commencer par qui devait combien de sacs d'orge à qui.",
+          "Sur l'argile parut le premier mot. C'était, selon toute probabilité, une facture. La poésie a dû patienter."
         ],
-        "epochTemplate": "L'écriture métamorphosa cette ère ancienne. Pour la première fois, la pensée humaine échappait aux limites de la voix et du souffle. Sur la {memoryWord} d'argile, les mots devinrent immortels.",
-        "finalTemplate": "De ces premières {memoryWord} coulèrent tous les fleuves de l'écrit. Contrats et poèmes, lois et légendes : l'humanité avait appris à converser avec l'éternité."
+        "epochTemplate": "L'écriture métamorphosa cette ère : pour la première fois, une pensée pouvait survivre à la personne qui l'avait eue, ce qui est à la fois magnifique et légèrement inquiétant. Sur la {memoryWord} d'argile, les mots devinrent immortels, y compris les plus bêtes.",
+        "finalTemplate": "De ces premières {memoryWord} coulèrent toutes les bibliothèques, et avec elles l'étrange certitude humaine que rien n'existe vraiment tant que ce n'est pas écrit quelque part. L'humanité avait appris à parler à des gens pas encore nés — généralement pour leur réclamer de l'argent ou leur raconter des histoires, ce qui revient parfois au même."
       },
       
       "gameplay": {
@@ -331,12 +331,12 @@
         "memoryWord": "métal",
         "wordVariants": ["bronze", "alliage", "forge", "fusion"],
         "immediate": [
-          "Le métal accepta d'abandonner sa forme première pour des usages plus... pratiques.",
-          "Dans vos souvenirs résonne le premier mensonge du cuivre : 'Je serai plus solide avec de l'étain.'",
-          "L'humanité venait d'apprendre à convaincre les roches de devenir des épées."
+          "On découvrit qu'en mélangeant deux métaux trop mous pour servir, on en obtenait un troisième, dur et tranchant. L'Univers, qui aime ce genre de blague, laissa faire.",
+          "Le cuivre rencontra l'étain. De cette union naquit le bronze, et du bronze naquirent à peu près simultanément la charrue et l'épée. Devinez laquelle eut le plus de succès.",
+          "L'humanité apprit à convaincre la terre de devenir une lame. La terre, beau joueur, attendit patiemment de redevenir poussière."
         ],
-        "epochTemplate": "Le {memoryWord} de bronze transforma cette époque avec l'élégance d'un philosophe armé. Les guerriers découvrirent qu'il était plus facile de négocier avec une lame de bronze qu'avec des arguments de pierre.",
-        "finalTemplate": "Du premier {memoryWord} de bronze coulèrent tous les âges métallurgiques. L'humanité avait découvert l'alchimie pratique : transformer la terre en pouvoir."
+        "epochTemplate": "Le {memoryWord} de bronze transforma cette époque avec l'élégance d'un argument définitif. Les rois découvrirent qu'il était bien plus simple de persuader autrui avec une lame qu'avec un raisonnement — un constat dont l'humanité n'est, à ce jour, pas tout à fait revenue.",
+        "finalTemplate": "Du premier {memoryWord} fondu descend tout l'âge des métaux, et l'humanité y apprit sa plus durable leçon : ce qui sert à bâtir sert aussi à détruire, souvent le même jour, parfois avec le même outil."
       },
       
       "gameplay": {
