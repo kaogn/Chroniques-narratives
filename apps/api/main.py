@@ -15,6 +15,7 @@ import json
 import os
 import random
 import uuid
+from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -22,6 +23,11 @@ from typing import Any, Dict, List, Optional
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+
+try:  # Pilote Postgres optionnel : absent en dev, requis pour la persistance.
+    import asyncpg
+except ImportError:  # pragma: no cover
+    asyncpg = None
 
 # === CHARGEMENT DES DONNÉES ====================================================
 
@@ -272,18 +278,130 @@ def _public_state(game: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
-# Stockage en mémoire. Pour la production, remplacer par une implémentation
-# persistante (cf. README — branchement Supabase). L'interface se limite à
-# get/set sur un identifiant de partie, l'abstraction est donc triviale.
-ACTIVE_GAMES: Dict[str, Dict[str, Any]] = {}
+# === PERSISTANCE ===============================================================
+# Une partie = un dict JSON identifié par son gameId. L'interface se limite à
+# get/save ; deux implémentations : mémoire (dev / pas de DATABASE_URL) et
+# Postgres (Railway). On bascule automatiquement selon DATABASE_URL.
+
+
+class GameRepository:
+    async def init(self) -> None: ...
+    async def close(self) -> None: ...
+    async def get(self, game_id: str) -> Optional[Dict[str, Any]]: ...
+    async def save(self, game_id: str, game: Dict[str, Any]) -> None: ...
+
+    @property
+    def backend(self) -> str:
+        return "unknown"
+
+
+class InMemoryGameRepository(GameRepository):
+    """Stockage volatil : les parties ne survivent pas à un redémarrage."""
+
+    def __init__(self) -> None:
+        self._games: Dict[str, Dict[str, Any]] = {}
+
+    async def init(self) -> None:
+        pass
+
+    async def close(self) -> None:
+        pass
+
+    async def get(self, game_id: str) -> Optional[Dict[str, Any]]:
+        game = self._games.get(game_id)
+        # Copie défensive pour imiter la sémantique d'un store distant.
+        return json.loads(json.dumps(game)) if game is not None else None
+
+    async def save(self, game_id: str, game: Dict[str, Any]) -> None:
+        self._games[game_id] = json.loads(json.dumps(game))
+
+    @property
+    def backend(self) -> str:
+        return "memory"
+
+
+class PostgresGameRepository(GameRepository):
+    """Persistance Postgres : une ligne JSONB par partie dans `hm_games`."""
+
+    def __init__(self, dsn: str) -> None:
+        self._dsn = dsn
+        self._pool: Optional["asyncpg.Pool"] = None
+
+    async def init(self) -> None:
+        self._pool = await asyncpg.create_pool(self._dsn, min_size=1, max_size=5)
+        async with self._pool.acquire() as conn:
+            await conn.execute(
+                """
+                CREATE TABLE IF NOT EXISTS hm_games (
+                    game_id    TEXT PRIMARY KEY,
+                    state      JSONB NOT NULL,
+                    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+                    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+                )
+                """
+            )
+
+    async def close(self) -> None:
+        if self._pool is not None:
+            await self._pool.close()
+
+    async def get(self, game_id: str) -> Optional[Dict[str, Any]]:
+        async with self._pool.acquire() as conn:
+            row = await conn.fetchrow(
+                "SELECT state FROM hm_games WHERE game_id = $1", game_id
+            )
+        if row is None:
+            return None
+        # asyncpg renvoie le JSONB sous forme de chaîne JSON.
+        return json.loads(row["state"])
+
+    async def save(self, game_id: str, game: Dict[str, Any]) -> None:
+        payload = json.dumps(game)
+        async with self._pool.acquire() as conn:
+            await conn.execute(
+                """
+                INSERT INTO hm_games (game_id, state)
+                VALUES ($1, $2::jsonb)
+                ON CONFLICT (game_id)
+                DO UPDATE SET state = EXCLUDED.state, updated_at = now()
+                """,
+                game_id,
+                payload,
+            )
+
+    @property
+    def backend(self) -> str:
+        return "postgres"
+
+
+def _build_repository() -> GameRepository:
+    dsn = os.getenv("DATABASE_URL")
+    if dsn and asyncpg is not None:
+        # asyncpg n'accepte pas le préfixe SQLAlchemy ni le paramètre sslmode.
+        dsn = dsn.replace("postgresql+asyncpg://", "postgresql://").replace(
+            "postgres+asyncpg://", "postgres://"
+        )
+        return PostgresGameRepository(dsn)
+    return InMemoryGameRepository()
+
+
+repo: GameRepository = _build_repository()
 
 
 # === APPLICATION ===============================================================
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await repo.init()
+    yield
+    await repo.close()
+
 
 app = FastAPI(
     title="Human Memories API",
     version="2.0.0",
     description="Moteur de jeu narratif sur la mémoire collective de l'humanité.",
+    lifespan=lifespan,
 )
 
 # Origines autorisées : configurables via CORS_ORIGINS (CSV). En l'absence de
@@ -324,6 +442,7 @@ async def health_check():
         "status": "healthy",
         "service": "human-memories-api",
         "environment": os.getenv("ENVIRONMENT", "production"),
+        "storage": repo.backend,
         "timestamp": _now(),
     }
 
@@ -354,13 +473,13 @@ async def create_game(request: CreateGameRequest):
         "playerName": request.player_name,
         "createdAt": _now(),
     }
-    ACTIVE_GAMES[game_id] = game
+    await repo.save(game_id, game)
     return {"success": True, "data": _public_state(game)}
 
 
 @app.get("/game/{game_id}")
 async def get_game(game_id: str):
-    game = ACTIVE_GAMES.get(game_id)
+    game = await repo.get(game_id)
     if not game:
         raise HTTPException(status_code=404, detail="Partie introuvable")
     return {"success": True, "data": _public_state(game)}
@@ -368,7 +487,7 @@ async def get_game(game_id: str):
 
 @app.post("/game/{game_id}/preserve")
 async def preserve_technologies(game_id: str, request: PreserveTechsRequest):
-    game = ACTIVE_GAMES.get(game_id)
+    game = await repo.get(game_id)
     if not game:
         raise HTTPException(status_code=404, detail="Partie introuvable")
     if game["isCompleted"]:
@@ -411,6 +530,8 @@ async def preserve_technologies(game_id: str, request: PreserveTechsRequest):
         game["isCompleted"] = True
         game["availableTechs"] = []
         final_chronicle = _final_chronicle(game["preservedTechs"], game["playerProfile"])
+
+    await repo.save(game_id, game)
 
     return {
         "success": True,

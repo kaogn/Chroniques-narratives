@@ -32,7 +32,7 @@
 
 **Backend** — FastAPI (Python 3.11+), Pydantic. Logique de jeu et narration générées à partir de `data/technologies.json`.
 
-**Stockage** — en mémoire (les parties ne survivent pas à un redémarrage). Pour persister, brancher une base sur la fonction de stockage de `main.py` (cf. *Persistance* ci-dessous).
+**Stockage** — Postgres si `DATABASE_URL` est défini, sinon en mémoire (cf. *Persistance* ci-dessous).
 
 ## 🚀 Démarrage local
 
@@ -67,14 +67,28 @@ npm run dev
 
 Toutes les réponses suivent l'enveloppe `{ success, data }`.
 
-## 💾 Persistance (à faire)
+## 💾 Persistance
 
-Le backend stocke les parties dans un dictionnaire en mémoire (`ACTIVE_GAMES`). Pour une vraie persistance, remplacer les accès `ACTIVE_GAMES[...]` par une couche base de données (par ex. Supabase via `DATABASE_URL`). L'interface se limite à lire/écrire une partie par identifiant : l'abstraction est triviale, mais nécessite des identifiants externes non fournis ici.
+Le backend choisit son stockage **automatiquement** :
+
+- **sans `DATABASE_URL`** → stockage en mémoire (dev ; les parties ne survivent pas à un redémarrage) ;
+- **avec `DATABASE_URL`** → Postgres (table `hm_games`, une ligne JSONB par partie, créée au démarrage).
+
+L'endpoint `/health` indique le backend actif (`"storage": "memory"` ou `"postgres"`).
+
+### Activer Postgres sur Railway
+
+1. Dans le projet Railway : **New → Database → PostgreSQL**.
+2. Sur le service de l'API, ajouter une variable de référence :
+   `DATABASE_URL = ${{ Postgres.DATABASE_URL }}` (utiliser l'URL **interne** : pas de `sslmode`, réseau privé).
+3. Redéployer. `asyncpg` (dans `requirements.txt`) installe le pilote ; la table `hm_games` est créée automatiquement.
+
+En local : `export DATABASE_URL=postgresql://user:pass@localhost:5432/hm` avant de lancer uvicorn.
 
 ## 🗺️ Pistes d'évolution
 
 - Porter les 129 technologies de `data/technologies-database-extended-2025.json` au schéma narré pour couvrir les 8 époques.
-- Persistance (Supabase) + reprise de partie.
+- Reprise de partie côté frontend (le backend persiste déjà via `/game/{id}`).
 - Tests (backend : logique de jeu ; frontend : store + composants).
 - Filtrage par prérequis réactivable une fois la base de contenu complète.
 

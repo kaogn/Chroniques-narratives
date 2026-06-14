@@ -4,6 +4,6 @@ fastapi>=0.104.1
 uvicorn[standard]>=0.24.0
 pydantic>=2.5.0
 
-# Persistance (à activer le moment venu) :
-# sqlalchemy>=2.0.23
-# asyncpg>=0.29.0
+# Persistance Postgres (Railway). Sans DATABASE_URL, le backend bascule
+# automatiquement sur un stockage en mémoire.
+asyncpg>=0.29.0
