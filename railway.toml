@@ -12,7 +12,7 @@ restartPolicyMaxRetries = 10
 name = "human-memories-api"
 
 [services.source]
-repo = "Aziraphal/Chroniques-narratives"
+repo = "kaogn/Chroniques-narratives"
 branch = "master"
 
 [[services.variables]]
