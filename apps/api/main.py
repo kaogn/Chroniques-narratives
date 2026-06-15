@@ -2,13 +2,9 @@
 """
 Human Memories API - Moteur de jeu narratif piloté par les données.
 
-Le jeu est entièrement dérivé de `data/technologies.json` :
-- les époques jouables sont celles qui possèdent au moins une technologie ;
-- la narration ("Borges facétieux") provient des champs `narrative` de chaque techno ;
-- le profil de personnalité et la chronique finale sont calculés à partir des effets.
-
-Ajouter du contenu (technologies narrées) suffit donc à étendre le jeu, sans
-modifier ce code.
+Mécanique : arbre de décisions. À chaque tour, 3 choix (enfants du dernier choix).
+Un seul choix par tour. Les autres sont perdus. Résumé d'époque tous les
+`turnsPerEpoch` tours. La structure est entièrement dans `data/technologies.json`.
 """
 
 import json
@@ -24,18 +20,16 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-try:  # Pilote Postgres optionnel : absent en dev, requis pour la persistance.
+try:
     import asyncpg
-except ImportError:  # pragma: no cover
+except ImportError:
     asyncpg = None
 
 # === CHARGEMENT DES DONNÉES ====================================================
 
-# main.py -> apps/api/main.py ; la racine du dépôt est deux niveaux au-dessus.
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DATA_FILE = REPO_ROOT / "data" / "technologies.json"
 
-# Ordre canonique des époques (celles réellement jouables sont filtrées plus bas).
 PERIOD_ORDER = [
     "prehistoric",
     "ancient_early",
@@ -49,7 +43,6 @@ PERIOD_ORDER = [
 
 
 def _load_game_data() -> Dict[str, Any]:
-    """Charge et indexe la base de technologies une seule fois au démarrage."""
     with DATA_FILE.open(encoding="utf-8") as fh:
         raw = json.load(fh)
 
@@ -59,7 +52,6 @@ def _load_game_data() -> Dict[str, Any]:
     periods_meta: Dict[str, Any] = raw.get("periods", {})
     config: Dict[str, Any] = raw.get("gameConfig", {})
 
-    # Époques jouables = celles présentes dans l'ordre canonique ET pourvues de techs.
     techs_by_period: Dict[str, List[str]] = {}
     for tech_id, tech in technologies.items():
         techs_by_period.setdefault(tech["period"], []).append(tech_id)
@@ -72,7 +64,6 @@ def _load_game_data() -> Dict[str, Any]:
         "techs_by_period": techs_by_period,
         "playable_periods": playable_periods,
         "config": config,
-        "known_ids": set(technologies.keys()),
     }
 
 
@@ -91,53 +82,43 @@ class CreateGameRequest(BaseModel):
     player_name: Optional[str] = None
 
 
-class PreserveTechsRequest(BaseModel):
-    techIds: List[str]
+class PickRequest(BaseModel):
+    techId: str
 
 
 # === LOGIQUE DE JEU ============================================================
 
 
-def _offerable_techs(period: str, preserved: List[str]) -> List[str]:
-    """
-    Technologies proposables pour une époque : toutes celles de la période non
-    encore préservées.
-
-    Note : la base de contenu est volontairement partielle (toutes les techs
-    référencées en prérequis n'existent pas encore). Un gating dur sur les
-    prérequis rendrait la plupart des technologies inatteignables ; les
-    prérequis restent donc purement informatifs côté UI. Quand la base sera
-    complète, on pourra réintroduire un filtrage sur `dependencies.prerequisites`.
-    """
-    preserved_set = set(preserved)
+def _get_roots() -> List[str]:
     return [
         tech_id
-        for tech_id in GAME_DATA["techs_by_period"].get(period, [])
-        if tech_id not in preserved_set
+        for tech_id, tech in GAME_DATA["technologies"].items()
+        if tech.get("isRoot", False)
     ]
 
 
-def _max_preserved_per_turn() -> int:
-    return int(GAME_DATA["config"].get("maxPreservedPerTurn", 2))
+def _get_children(tech_id: str) -> List[str]:
+    tech = GAME_DATA["technologies"].get(tech_id)
+    if not tech:
+        return []
+    return tech.get("children", [])
 
 
 def _immediate_narrative(tech_id: str) -> str:
-    """Réaction immédiate (tirée au hasard parmi les variantes de la techno)."""
     tech = GAME_DATA["technologies"].get(tech_id)
     if not tech:
-        return "Dans le Registre de l'Univers, ce choix s'inscrit en silence — ce qui n'arrive pas si souvent."
+        return "Dans le Registre de l'Univers, ce choix s'inscrit en silence."
     immediates = tech.get("narrative", {}).get("immediate") or []
     if immediates:
         return random.choice(immediates)
     word = tech.get("narrative", {}).get("memoryWord", "souvenir")
-    return f"La {word} rejoint le grand catalogue des choses que l'humanité a décidé de garder, sans toujours savoir pourquoi."
+    return f"La {word} rejoint le grand catalogue des choses que l'humanité a décidé de garder."
 
 
-def _epoch_summary(period: str, preserved_this_turn: List[str]) -> str:
-    """Résumé d'époque : assemble les templates d'époque des techs préservées."""
+def _epoch_summary(period: str, epoch_picks: List[str]) -> str:
     techs = GAME_DATA["technologies"]
     fragments = []
-    for tech_id in preserved_this_turn:
+    for tech_id in epoch_picks:
         tech = techs.get(tech_id)
         if not tech:
             continue
@@ -157,13 +138,10 @@ def _epoch_summary(period: str, preserved_this_turn: List[str]) -> str:
     return f"— {period_name} — " + " ".join(fragments)
 
 
-# Influence des effets sur les trois axes de personnalité.
-# pragmatic = ce qui transforme le monde ; spiritual = la culture/le sens ;
-# cooperative = le lien social.
-def _personality_from_preserved(preserved: List[str]) -> Dict[str, Any]:
+def _personality_from_picked(picked_path: List[str]) -> Dict[str, Any]:
     techs = GAME_DATA["technologies"]
     traits = {"pragmatic": 0.0, "spiritual": 0.0, "cooperative": 0.0}
-    for tech_id in preserved:
+    for tech_id in picked_path:
         tech = techs.get(tech_id)
         if not tech:
             continue
@@ -211,18 +189,12 @@ def _personality_from_preserved(preserved: List[str]) -> Dict[str, Any]:
     }
     path = harmonious if is_balanced else paths[dominant]
 
-    category_focus = {
-        "pragmatic": "economic",
-        "spiritual": "cultural",
-        "cooperative": "social",
-    }
-
     return {
         "traits": normalized,
         "dominantTrait": dominant,
         "isBalanced": is_balanced,
         "evolutionaryPath": path,
-        "primaryFocus": category_focus[dominant],
+        "primaryFocus": "cooperative" if is_balanced else dominant,
         "riskTolerance": "balanced" if is_balanced else "aggressive",
     }
 
@@ -235,10 +207,10 @@ _EPITAPHS = {
 }
 
 
-def _final_chronicle(preserved: List[str], personality: Dict[str, Any]) -> str:
+def _final_chronicle(picked_path: List[str], personality: Dict[str, Any]) -> str:
     techs = GAME_DATA["technologies"]
     words = []
-    for tech_id in preserved:
+    for tech_id in picked_path:
         word = techs.get(tech_id, {}).get("narrative", {}).get("memoryWord")
         if word:
             words.append(word)
@@ -266,13 +238,16 @@ def _final_chronicle(preserved: List[str], personality: Dict[str, Any]) -> str:
 
 
 def _public_state(game: Dict[str, Any]) -> Dict[str, Any]:
-    """Vue exposée au client (sans champs internes)."""
     return {
         "gameId": game["gameId"],
-        "currentTurn": game["currentTurn"],
-        "totalTurns": len(GAME_DATA["playable_periods"]),
-        "currentPeriod": game["currentPeriod"],
-        "preservedTechs": game["preservedTechs"],
+        "turn": game["turn"],
+        "totalTurns": game["totalTurns"],
+        "epochIndex": game["epochIndex"],
+        "totalEpochs": game["totalEpochs"],
+        "turnWithinEpoch": game["turnWithinEpoch"],
+        "turnsPerEpoch": game["turnsPerEpoch"],
+        "currentEpoch": game["currentEpoch"],
+        "pickedPath": game["pickedPath"],
         "availableTechs": game["availableTechs"],
         "playerProfile": game.get("playerProfile"),
         "isCompleted": game["isCompleted"],
@@ -280,9 +255,6 @@ def _public_state(game: Dict[str, Any]) -> Dict[str, Any]:
 
 
 # === PERSISTANCE ===============================================================
-# Une partie = un dict JSON identifié par son gameId. L'interface se limite à
-# get/save ; deux implémentations : mémoire (dev / pas de DATABASE_URL) et
-# Postgres (Railway). On bascule automatiquement selon DATABASE_URL.
 
 
 class GameRepository:
@@ -297,8 +269,6 @@ class GameRepository:
 
 
 class InMemoryGameRepository(GameRepository):
-    """Stockage volatil : les parties ne survivent pas à un redémarrage."""
-
     def __init__(self) -> None:
         self._games: Dict[str, Dict[str, Any]] = {}
 
@@ -310,7 +280,6 @@ class InMemoryGameRepository(GameRepository):
 
     async def get(self, game_id: str) -> Optional[Dict[str, Any]]:
         game = self._games.get(game_id)
-        # Copie défensive pour imiter la sémantique d'un store distant.
         return json.loads(json.dumps(game)) if game is not None else None
 
     async def save(self, game_id: str, game: Dict[str, Any]) -> None:
@@ -322,8 +291,6 @@ class InMemoryGameRepository(GameRepository):
 
 
 class PostgresGameRepository(GameRepository):
-    """Persistance Postgres : une ligne JSONB par partie dans `hm_games`."""
-
     def __init__(self, dsn: str) -> None:
         self._dsn = dsn
         self._pool: Optional["asyncpg.Pool"] = None
@@ -353,7 +320,6 @@ class PostgresGameRepository(GameRepository):
             )
         if row is None:
             return None
-        # asyncpg renvoie le JSONB sous forme de chaîne JSON.
         return json.loads(row["state"])
 
     async def save(self, game_id: str, game: Dict[str, Any]) -> None:
@@ -378,7 +344,6 @@ class PostgresGameRepository(GameRepository):
 def _build_repository() -> GameRepository:
     dsn = os.getenv("DATABASE_URL")
     if dsn and asyncpg is not None:
-        # asyncpg n'accepte pas le préfixe SQLAlchemy ni le paramètre sslmode.
         dsn = dsn.replace("postgresql+asyncpg://", "postgresql://").replace(
             "postgres+asyncpg://", "postgres://"
         )
@@ -391,6 +356,7 @@ repo: GameRepository = _build_repository()
 
 # === APPLICATION ===============================================================
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await repo.init()
@@ -400,13 +366,11 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="Human Memories API",
-    version="2.0.0",
-    description="Moteur de jeu narratif sur la mémoire collective de l'humanité.",
+    version="3.0.0",
+    description="Moteur de jeu narratif — arbre de décisions.",
     lifespan=lifespan,
 )
 
-# Origines autorisées : configurables via CORS_ORIGINS (CSV). En l'absence de
-# configuration, on autorise le dev local et le domaine Railway de prod.
 _default_origins = [
     "http://localhost:3000",
     "https://chroniques-narratives.up.railway.app",
@@ -427,12 +391,14 @@ app.add_middleware(
 
 @app.get("/")
 async def root():
+    config = GAME_DATA["config"]
     return {
         "message": "🧠 Human Memories API",
-        "version": "2.0.0",
+        "version": "3.0.0",
         "status": "healthy",
         "playablePeriods": GAME_DATA["playable_periods"],
         "technologies": len(GAME_DATA["technologies"]),
+        "turnsPerEpoch": config.get("turnsPerEpoch", 1),
         "timestamp": _now(),
     }
 
@@ -450,7 +416,6 @@ async def health_check():
 
 @app.get("/technologies")
 async def get_technologies():
-    """Renvoie toutes les technologies (objets complets) sous {technologies: [...]}"""
     return {"technologies": list(GAME_DATA["technologies"].values())}
 
 
@@ -458,16 +423,30 @@ async def get_technologies():
 async def create_game(request: CreateGameRequest):
     playable = GAME_DATA["playable_periods"]
     if not playable:
-        raise HTTPException(status_code=500, detail="Aucune époque jouable dans la base de données")
+        raise HTTPException(status_code=500, detail="Aucune époque jouable dans la base")
+
+    roots = _get_roots()
+    if not roots:
+        raise HTTPException(status_code=500, detail="Aucune technologie racine définie (isRoot: true)")
+
+    config = GAME_DATA["config"]
+    turns_per_epoch = int(config.get("turnsPerEpoch", 1))
+    total_turns = len(playable) * turns_per_epoch
 
     game_id = str(uuid.uuid4())
-    first_period = playable[0]
     game = {
         "gameId": game_id,
-        "currentTurn": 1,
-        "currentPeriod": first_period,
-        "preservedTechs": [],
-        "availableTechs": _offerable_techs(first_period, []),
+        "turn": 1,
+        "totalTurns": total_turns,
+        "epochIndex": 0,
+        "totalEpochs": len(playable),
+        "turnWithinEpoch": 1,
+        "turnsPerEpoch": turns_per_epoch,
+        "currentEpoch": playable[0],
+        "currentTechId": None,
+        "pickedPath": [],
+        "epochPicks": [],
+        "availableTechs": roots,
         "playerProfile": None,
         "isCompleted": False,
         "difficulty": request.difficulty or "normal",
@@ -486,62 +465,70 @@ async def get_game(game_id: str):
     return {"success": True, "data": _public_state(game)}
 
 
-@app.post("/game/{game_id}/preserve")
-async def preserve_technologies(game_id: str, request: PreserveTechsRequest):
+@app.post("/game/{game_id}/pick")
+async def pick_technology(game_id: str, request: PickRequest):
     game = await repo.get(game_id)
     if not game:
         raise HTTPException(status_code=404, detail="Partie introuvable")
     if game["isCompleted"]:
         raise HTTPException(status_code=400, detail="La partie est déjà terminée")
 
-    tech_ids = list(dict.fromkeys(request.techIds))  # dédoublonne en gardant l'ordre
-    max_per_turn = _max_preserved_per_turn()
-    if not tech_ids:
-        raise HTTPException(status_code=400, detail="Aucune technologie sélectionnée")
-    if len(tech_ids) > max_per_turn:
+    tech_id = request.techId
+    if tech_id not in game["availableTechs"]:
         raise HTTPException(
             status_code=400,
-            detail=f"Maximum {max_per_turn} technologies préservées par tour",
+            detail=f"Technologie non disponible : {tech_id}",
         )
 
-    available = set(game["availableTechs"])
-    invalid = [t for t in tech_ids if t not in available]
-    if invalid:
-        raise HTTPException(
-            status_code=400, detail=f"Technologies non disponibles : {', '.join(invalid)}"
-        )
+    # Enregistrement du choix
+    game["pickedPath"].append(tech_id)
+    game["epochPicks"].append(tech_id)
+    game["currentTechId"] = tech_id
 
-    # Préservation
-    game["preservedTechs"].extend(tech_ids)
-    narratives = [_immediate_narrative(t) for t in tech_ids]
-    epoch_summary = _epoch_summary(game["currentPeriod"], tech_ids)
-    game["playerProfile"] = _personality_from_preserved(game["preservedTechs"])
+    narrative = _immediate_narrative(tech_id)
 
-    # Avancement
-    playable = GAME_DATA["playable_periods"]
-    current_idx = playable.index(game["currentPeriod"])
+    # Détection de fin d'époque
+    epoch_complete = game["turnWithinEpoch"] >= game["turnsPerEpoch"]
+    epoch_summary = None
     final_chronicle = None
 
-    if current_idx < len(playable) - 1:
-        next_period = playable[current_idx + 1]
-        game["currentPeriod"] = next_period
-        game["currentTurn"] += 1
-        game["availableTechs"] = _offerable_techs(next_period, game["preservedTechs"])
+    if epoch_complete:
+        epoch_summary = _epoch_summary(game["currentEpoch"], game["epochPicks"])
+        next_epoch_idx = game["epochIndex"] + 1
+        playable = GAME_DATA["playable_periods"]
+
+        if next_epoch_idx >= len(playable):
+            # Fin de partie
+            game["isCompleted"] = True
+            game["availableTechs"] = []
+            game["playerProfile"] = _personality_from_picked(game["pickedPath"])
+            final_chronicle = _final_chronicle(game["pickedPath"], game["playerProfile"])
+        else:
+            game["epochIndex"] = next_epoch_idx
+            game["currentEpoch"] = playable[next_epoch_idx]
+            game["epochPicks"] = []
+            game["turnWithinEpoch"] = 1
+            game["turn"] += 1
+            game["availableTechs"] = _get_children(tech_id)
     else:
-        game["isCompleted"] = True
-        game["availableTechs"] = []
-        final_chronicle = _final_chronicle(game["preservedTechs"], game["playerProfile"])
+        game["turnWithinEpoch"] += 1
+        game["turn"] += 1
+        game["availableTechs"] = _get_children(tech_id)
+
+    if not game["isCompleted"]:
+        game["playerProfile"] = _personality_from_picked(game["pickedPath"])
 
     await repo.save(game_id, game)
 
     return {
         "success": True,
         "data": {
-            "narratives": narratives,
+            "narrative": narrative,
             "epochSummary": epoch_summary,
             "finalChronicle": final_chronicle,
             "newState": _public_state(game),
             "isComplete": game["isCompleted"],
+            "epochComplete": epoch_complete,
         },
     }
 

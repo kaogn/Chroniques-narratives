@@ -9,7 +9,7 @@ interface GameContextType {
   isLoading: boolean;
   error: string | null;
   createGame: (options?: { playerName?: string; difficulty?: 'easy' | 'normal' | 'hard' }) => Promise<void>;
-  preserveTechnologies: (techIds: string[]) => Promise<void>;
+  pickTechnology: (techId: string) => Promise<void>;
   resetGame: () => void;
 }
 
@@ -25,8 +25,8 @@ export function GameProvider({ children }: PropsWithChildren) {
     await actions.createGame(options);
   };
 
-  const preserveTechnologies = async (techIds: string[]) => {
-    await actions.preserveTechnologies(techIds);
+  const pickTechnology = async (techId: string) => {
+    await actions.pickTechnology(techId);
   };
 
   const resetGame = () => {
@@ -38,7 +38,7 @@ export function GameProvider({ children }: PropsWithChildren) {
     isLoading,
     error,
     createGame,
-    preserveTechnologies,
+    pickTechnology,
     resetGame,
   };
 

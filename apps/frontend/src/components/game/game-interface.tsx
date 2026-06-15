@@ -1,9 +1,6 @@
-// apps/frontend/src/components/game/game-interface.tsx
-// Human Memories - Interface utilisateur moderne 2025
-
 'use client';
 
-import { useState, useTransition, Suspense } from 'react';
+import { useState, useTransition } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -12,357 +9,320 @@ import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import {
-  Clock,
-  Brain,
-  Sword,
-  Book,
-  Coins,
-  Users,
-  Compass,
-  Sparkles,
-  ChevronRight,
-  RotateCcw
+  Clock, Brain, Sword, Book, Coins, Users, Compass, Sparkles, ChevronRight, RotateCcw
 } from 'lucide-react';
 import type { Technology, GameState } from '@/store/gameStore';
 import { useGameStore } from '@/store/gameStore';
 import { cn } from '@/lib/utils';
 
-// === TYPES POUR L'UI ===
+// === CONSTANTES ===
+
+const PERIOD_LABELS: Record<string, string> = {
+  prehistoric: 'Préhistoire',
+  ancient_early: 'Antiquité Ancienne',
+  ancient_classical: 'Antiquité Classique',
+  medieval_early: 'Haut Moyen Âge',
+  medieval_late: 'Bas Moyen Âge',
+  renaissance: 'Renaissance',
+  industrial: 'Révolution Industrielle',
+  contemporary: 'Époque Contemporaine',
+};
+
+const CATEGORY_ICONS = {
+  military: Sword,
+  cultural: Book,
+  economic: Coins,
+  social: Users,
+  exploration: Compass,
+  industrial: Clock,
+  scientific: Brain,
+};
+
+const RARITY_GRADIENTS: Record<string, string> = {
+  pillar: 'from-amber-500 to-amber-600',
+  common: 'from-blue-500 to-blue-600',
+  uncommon: 'from-green-500 to-green-600',
+  rare: 'from-purple-500 to-purple-600',
+  epic: 'from-pink-500 to-pink-600',
+  legendary: 'from-orange-500 to-orange-600',
+};
+
+// === CARTE TECHNOLOGIE ===
 
 interface TechnologyCardProps {
   technology: Technology;
-  isSelected: boolean;
   isDisabled: boolean;
-  onSelect: (techId: string) => void;
+  onPick: (techId: string) => void;
   delay?: number;
 }
 
-interface GameProgressProps {
-  currentTurn: number;
-  totalTurns: number;
-  currentPeriod: string;
-}
-
-interface NarrativeDisplayProps {
-  narratives: readonly string[];
-  isVisible: boolean;
-}
-
-// === COMPOSANTS UI MODERNES ===
-
-// Carte technologie avec animations Framer Motion
-function TechnologyCard({
-  technology,
-  isSelected,
-  isDisabled,
-  onSelect,
-  delay = 0
-}: TechnologyCardProps) {
+function TechnologyCard({ technology, isDisabled, onPick, delay = 0 }: TechnologyCardProps) {
   const [isPending, startTransition] = useTransition();
+  const Icon = CATEGORY_ICONS[technology.category as keyof typeof CATEGORY_ICONS] ?? Sparkles;
 
-  const categoryIcons = {
-    military: Sword,
-    cultural: Book,
-    economic: Coins,
-    social: Users,
-    exploration: Compass,
-    industrial: Clock,
-    scientific: Brain
-  };
-
-  const CategoryIcon = categoryIcons[technology.category as keyof typeof categoryIcons] ?? Sparkles;
-
-  const rarityColors: Record<string, string> = {
-    pillar: 'from-amber-500 to-amber-600',
-    common: 'from-blue-500 to-blue-600',
-    uncommon: 'from-green-500 to-green-600',
-    rare: 'from-purple-500 to-purple-600',
-    epic: 'from-pink-500 to-pink-600',
-    legendary: 'from-orange-500 to-orange-600'
-  };
-
-  const handleSelect = () => {
+  const handleClick = () => {
     if (isDisabled || isPending) return;
-
-    startTransition(() => {
-      onSelect(technology.id);
-    });
+    startTransition(() => { onPick(technology.id); });
   };
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      transition={{
-        duration: 0.3,
-        delay: delay * 0.1,
-        ease: [0.25, 0.1, 0.25, 1]
-      }}
+      exit={{ opacity: 0, scale: 0.92 }}
+      transition={{ duration: 0.35, delay: delay * 0.12, ease: [0.25, 0.1, 0.25, 1] }}
       layout
     >
       <Card
         className={cn(
-          'relative cursor-pointer transition-all duration-200 hover:shadow-lg',
-          'border-2 hover:border-primary/50',
-          isSelected && 'border-primary shadow-md ring-2 ring-primary/20',
-          isDisabled && 'opacity-50 cursor-not-allowed',
+          'relative cursor-pointer transition-all duration-200 hover:shadow-xl hover:scale-[1.02]',
+          'border-2 hover:border-primary/60',
+          isDisabled && 'opacity-40 cursor-not-allowed pointer-events-none',
           isPending && 'animate-pulse'
         )}
-        onClick={handleSelect}
+        onClick={handleClick}
       >
-        {/* Rarity indicator */}
-        <div
-          className={cn(
-            'absolute top-0 left-0 w-full h-1 rounded-t-lg',
-            `bg-gradient-to-r ${rarityColors[technology.rarity]}`
-          )}
-        />
+        <div className={cn('absolute top-0 left-0 w-full h-1 rounded-t-lg bg-gradient-to-r', RARITY_GRADIENTS[technology.rarity] ?? RARITY_GRADIENTS.common)} />
 
         <CardHeader className="pb-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <CategoryIcon className="w-5 h-5 text-muted-foreground" />
+              <Icon className="w-5 h-5 text-muted-foreground" />
               <CardTitle className="text-lg">{technology.name}</CardTitle>
             </div>
-
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger>
-                  <Badge variant="outline" className="capitalize">
-                    {technology.rarity}
-                  </Badge>
+                  <Badge variant="outline" className="capitalize">{technology.rarity}</Badge>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Rareté: {technology.rarity}</p>
-                  <p>Période: {technology.period}</p>
+                  <p>Rareté : {technology.rarity}</p>
+                  <p>Période : {PERIOD_LABELS[technology.period] ?? technology.period}</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
           </div>
-
-          <CardDescription className="text-sm line-clamp-2">
-            {technology.description}
-          </CardDescription>
+          <CardDescription className="text-sm line-clamp-2">{technology.description}</CardDescription>
         </CardHeader>
 
         <CardContent>
-          {/* Effects visualization */}
           <div className="grid grid-cols-2 gap-2 mb-3">
             {Object.entries(technology.effects).map(([key, value]) => {
               if (value === 0) return null;
-
-              const effectIcons = {
-                military: '⚔️',
-                cultural: '📚',
-                economic: '💰',
-                social: '👥',
-                exploration: '🧭'
-              };
-
+              const icons: Record<string, string> = { military: '⚔️', cultural: '📚', economic: '💰', social: '👥', exploration: '🧭' };
               return (
                 <div key={key} className="flex items-center gap-1 text-xs">
-                  <span>{effectIcons[key as keyof typeof effectIcons]}</span>
-                  <span className={cn(
-                    'font-medium',
-                    value > 0 ? 'text-green-600' : 'text-red-600'
-                  )}>
+                  <span>{icons[key]}</span>
+                  <span className={cn('font-medium', value > 0 ? 'text-green-600' : 'text-red-600')}>
                     {value > 0 ? '+' : ''}{value}
                   </span>
                 </div>
               );
             })}
           </div>
-
-          {/* Memory word hint */}
           <div className="flex items-center gap-1 text-xs text-muted-foreground">
             <Sparkles className="w-3 h-3" />
             <span className="italic">"{technology.narrative.memoryWord}"</span>
           </div>
         </CardContent>
 
-        {/* Selection indicator */}
-        <AnimatePresence>
-          {isSelected && (
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0 }}
-              className="absolute top-2 right-2 w-6 h-6 bg-primary rounded-full flex items-center justify-center"
-            >
-              <ChevronRight className="w-4 h-4 text-primary-foreground" />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* Indicateur de clic */}
+        <div className="absolute inset-0 rounded-lg flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity bg-primary/5">
+          <span className="text-primary font-semibold text-sm">Choisir →</span>
+        </div>
       </Card>
     </motion.div>
   );
 }
 
-// Composant de progression du jeu
-function GameProgress({ currentTurn, totalTurns, currentPeriod }: GameProgressProps) {
-  const progress = (currentTurn / totalTurns) * 100;
+// === BARRE DE PROGRESSION ===
 
-  const periodLabels: Record<string, string> = {
-    prehistoric: 'Préhistoire',
-    ancient_early: 'Antiquité Ancienne',
-    ancient_classical: 'Antiquité Classique',
-    medieval_early: 'Haut Moyen Âge',
-    medieval_late: 'Bas Moyen Âge',
-    renaissance: 'Renaissance',
-    industrial: 'Révolution Industrielle',
-    contemporary: 'Époque Contemporaine'
-  };
-  const periodLabel = periodLabels[currentPeriod] ?? currentPeriod;
+function GameProgress({ gameState }: { gameState: GameState }) {
+  const { turn, totalTurns, epochIndex, totalEpochs, turnWithinEpoch, turnsPerEpoch, currentEpoch } = gameState;
+  const globalProgress = ((turn - 1) / totalTurns) * 100;
+  const epochLabel = PERIOD_LABELS[currentEpoch] ?? currentEpoch;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="w-full max-w-md mx-auto"
-    >
-      <div className="flex items-center justify-between mb-2">
-        <span className="text-sm font-medium">
-          Tour {currentTurn} / {totalTurns}
-        </span>
-        <Badge variant="secondary" className="text-xs">
-          {periodLabel}
-        </Badge>
+    <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-2xl mx-auto space-y-3">
+      <div className="flex items-center justify-between text-sm text-muted-foreground">
+        <span>Tour {turn} / {totalTurns}</span>
+        <Badge variant="secondary">{epochLabel}</Badge>
+        <span>Époque {epochIndex + 1} / {totalEpochs}</span>
       </div>
-
-      <Progress value={progress} className="h-2 mb-4" />
-
+      <Progress value={globalProgress} className="h-2" />
+      {turnsPerEpoch > 1 && (
+        <div className="flex items-center justify-center gap-1">
+          {Array.from({ length: turnsPerEpoch }).map((_, i) => (
+            <div key={i} className={cn('w-2 h-2 rounded-full transition-colors', i < turnWithinEpoch ? 'bg-primary' : 'bg-muted')} />
+          ))}
+        </div>
+      )}
       <div className="text-center">
-        <p className="text-2xl font-bold text-primary">
-          {periodLabel}
-        </p>
-        <p className="text-sm text-muted-foreground">
-          Choisissez les technologies à préserver
-        </p>
+        <p className="text-2xl font-bold text-primary">{epochLabel}</p>
+        {turnsPerEpoch > 1 && (
+          <p className="text-sm text-muted-foreground">Tour {turnWithinEpoch} sur {turnsPerEpoch} dans cette époque</p>
+        )}
       </div>
     </motion.div>
   );
 }
 
-// Affichage des narratives avec animations
-function NarrativeDisplay({ narratives, isVisible }: NarrativeDisplayProps) {
+// === OVERLAY NARRATIVE ===
+
+function NarrativeOverlay({ narrative, onContinue, continueLabel }: {
+  narrative: string;
+  onContinue: () => void;
+  continueLabel: string;
+}) {
   return (
-    <AnimatePresence>
-      {isVisible && narratives.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
-          exit={{ opacity: 0, height: 0 }}
-          transition={{ duration: 0.4, ease: 'easeOut' }}
-          className="overflow-hidden"
-        >
-          <Card className="bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-lg">
-                <Brain className="w-5 h-5" />
-                Échos de la Mémoire
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {narratives.map((narrative, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.2 }}
-                    className="relative"
-                  >
-                    <div className="absolute left-0 top-0 w-1 h-full bg-gradient-to-b from-primary to-primary/50 rounded-full" />
-                    <p className="pl-4 text-sm leading-relaxed italic font-medium text-foreground/90">
-                      "{narrative}"
-                    </p>
-                  </motion.div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-background/90 backdrop-blur-sm z-40 flex items-center justify-center p-6"
+    >
+      <motion.div
+        initial={{ scale: 0.92, y: 20 }}
+        animate={{ scale: 1, y: 0 }}
+        exit={{ scale: 0.92, y: 20 }}
+        className="max-w-xl w-full"
+      >
+        <Card className="border-primary/30 shadow-2xl">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Brain className="w-5 h-5 text-primary" />
+              Écho de la Mémoire
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="relative pl-4">
+              <div className="absolute left-0 top-0 w-1 h-full bg-gradient-to-b from-primary to-primary/30 rounded-full" />
+              <p className="text-base leading-relaxed italic text-foreground/90">"{narrative}"</p>
+            </div>
+            <Button onClick={onContinue} className="w-full" size="lg">
+              {continueLabel} <ChevronRight className="w-4 h-4 ml-2" />
+            </Button>
+          </CardContent>
+        </Card>
+      </motion.div>
+    </motion.div>
   );
 }
 
-// Composant principal du jeu
+// === ÉCRAN RÉSUMÉ D'ÉPOQUE ===
+
+function EpochSummaryScreen({ summary, epochLabel, epochIndex, totalEpochs, isLast, onContinue }: {
+  summary: string;
+  epochLabel: string;
+  epochIndex: number;
+  totalEpochs: number;
+  isLast: boolean;
+  onContinue: () => void;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-background/95 backdrop-blur-md z-50 flex items-center justify-center p-6"
+    >
+      <motion.div
+        initial={{ scale: 0.9, y: 32 }}
+        animate={{ scale: 1, y: 0 }}
+        transition={{ type: 'spring', stiffness: 200, damping: 22 }}
+        className="max-w-2xl w-full space-y-8 text-center"
+      >
+        <div className="space-y-2">
+          <Badge variant="outline" className="text-sm">Époque {epochIndex + 1} / {totalEpochs}</Badge>
+          <h2 className="text-3xl font-bold">{epochLabel}</h2>
+          <p className="text-muted-foreground text-sm">Bilan de l'époque</p>
+        </div>
+
+        <Card className="text-left border-primary/20 bg-primary/5">
+          <CardContent className="pt-6">
+            <p className="text-base leading-relaxed italic text-foreground/85">{summary}</p>
+          </CardContent>
+        </Card>
+
+        <Button onClick={onContinue} size="lg" className="px-10">
+          {isLast ? 'Voir la Chronique finale' : `Époque suivante →`}
+        </Button>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+// === INTERFACE PRINCIPALE ===
+
+// Phase locale de l'UI (indépendante du store)
+type UIPhase = 'picking' | 'narrative' | 'epoch-summary';
+
 export function GameInterface() {
   const gameState = useGameStore(state => state.gameState);
   const actions = useGameStore(state => state.actions);
   const technologies = useGameStore(state => state.technologies);
   const finalChronicle = useGameStore(state => state.finalChronicle);
-  const [selectedTechs, setSelectedTechs] = useState<Set<string>>(new Set());
-  const [showNarratives, setShowNarratives] = useState(false);
-  const [lastNarratives, setLastNarratives] = useState<string[]>([]);
-  const [isPending, startTransition] = useTransition();
+  const isLoading = useGameStore(state => state.isLoading);
 
-  const handleTechSelect = (techId: string) => {
-    setSelectedTechs(prev => {
-      const newSelected = new Set(prev);
+  const [phase, setPhase] = useState<UIPhase>('picking');
+  const [pendingNarrative, setPendingNarrative] = useState<string | null>(null);
+  const [pendingEpochSummary, setPendingEpochSummary] = useState<string | null>(null);
+  const [pendingIsComplete, setPendingIsComplete] = useState(false);
 
-      if (newSelected.has(techId)) {
-        newSelected.delete(techId);
-      } else if (newSelected.size < 2) { // Max 2 selections
-        newSelected.add(techId);
-      }
+  const handlePick = async (techId: string) => {
+    const result = await actions.pickTechnology(techId);
+    if (!result.success || !result.data) return;
 
-      return newSelected;
-    });
+    const { narrative, epochSummary, epochComplete, isComplete } = result.data;
+    setPendingNarrative(narrative);
+    setPendingEpochSummary(epochComplete ? epochSummary : null);
+    setPendingIsComplete(isComplete);
+    setPhase('narrative');
   };
 
-  const handleConfirmSelection = () => {
-    if (selectedTechs.size === 0 || selectedTechs.size > 2) return;
+  const handleNarrativeContinue = () => {
+    if (pendingEpochSummary) {
+      setPhase('epoch-summary');
+    } else {
+      setPendingNarrative(null);
+      setPhase('picking');
+    }
+  };
 
-    startTransition(async () => {
-      const selectedArray = Array.from(selectedTechs);
-
-      // Call game engine to preserve technologies
-      const result = await actions.preserveTechnologies(selectedArray);
-
-      if (result.success && result.data) {
-        setLastNarratives([...result.data.narratives]);
-        setShowNarratives(true);
-        setSelectedTechs(new Set());
-
-        // Auto-hide narratives after 5 seconds
-        setTimeout(() => {
-          setShowNarratives(false);
-        }, 5000);
-      }
-    });
+  const handleEpochSummaryContinue = () => {
+    setPendingNarrative(null);
+    setPendingEpochSummary(null);
+    setPhase('picking');
+    // Si la partie est terminée, le gameState.isCompleted est déjà true → composant bascule
   };
 
   const handleRestart = () => {
-    setSelectedTechs(new Set());
-    setShowNarratives(false);
-    setLastNarratives([]);
+    setPhase('picking');
+    setPendingNarrative(null);
+    setPendingEpochSummary(null);
+    setPendingIsComplete(false);
     actions.resetGame();
   };
 
+  // === PAS DE PARTIE ===
   if (!gameState) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="text-center"
-        >
-          <Button
-            onClick={() => actions.createGame()}
-            size="lg"
-            className="text-lg px-8 py-4"
-          >
-            Commencer une Nouvelle Partie
+      <div className="container mx-auto px-4 py-16 flex flex-col items-center gap-6">
+        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center space-y-4">
+          <h1 className="text-3xl font-bold">Mémoires Humaines</h1>
+          <p className="text-muted-foreground max-w-md">
+            À chaque tournant de l'histoire, vous choisissez ce que l'humanité retient. Ce que vous ne choisissez pas disparaît.
+          </p>
+          <Button onClick={() => actions.createGame()} size="lg" className="text-lg px-10 py-6" disabled={isLoading}>
+            {isLoading ? 'Chargement…' : 'Commencer'}
           </Button>
         </motion.div>
       </div>
     );
   }
 
-  if (gameState.isCompleted) {
+  // === FIN DE PARTIE ===
+  if (gameState.isCompleted && phase === 'picking') {
     return (
       <GameCompletedScreen
         gameState={gameState}
@@ -372,152 +332,109 @@ export function GameInterface() {
     );
   }
 
+  const availableTechs = gameState.availableTechs
+    .map(id => technologies.get(id))
+    .filter((t): t is Technology => t !== undefined);
+
+  const currentEpochLabel = PERIOD_LABELS[gameState.currentEpoch] ?? gameState.currentEpoch;
+
   return (
     <div className="container mx-auto px-4 py-8 space-y-8">
-      {/* Header avec progression */}
-      <GameProgress
-        currentTurn={gameState.currentTurn}
-        totalTurns={gameState.totalTurns ?? 8}
-        currentPeriod={gameState.currentPeriod}
-      />
+      {/* Progression */}
+      <GameProgress gameState={gameState} />
 
       <Separator />
 
-      {/* Affichage des narratives */}
-      <NarrativeDisplay
-        narratives={lastNarratives}
-        isVisible={showNarratives}
-      />
-
-      {/* Technologies disponibles */}
+      {/* Grille de choix */}
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold text-center">
-          Technologies Découvertes
+        <h2 className="text-xl font-semibold text-center text-muted-foreground">
+          Que retient l'humanité ?
         </h2>
 
-        <Suspense fallback={<TechnologyGridSkeleton />}>
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-            layout
-          >
-            <AnimatePresence mode="popLayout">
-              {gameState.availableTechs.map((techId, index) => {
-                const tech = technologies.get(techId);
-                if (!tech) return null;
-                return (
-                  <TechnologyCard
-                    key={techId}
-                    technology={tech}
-                    isSelected={selectedTechs.has(techId)}
-                    isDisabled={selectedTechs.size >= 2 && !selectedTechs.has(techId)}
-                    onSelect={handleTechSelect}
-                    delay={index}
-                  />
-                );
-              })}
-            </AnimatePresence>
-          </motion.div>
-        </Suspense>
+        <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-6" layout>
+          <AnimatePresence mode="popLayout">
+            {availableTechs.map((tech, i) => (
+              <TechnologyCard
+                key={tech.id}
+                technology={tech}
+                isDisabled={isLoading || phase !== 'picking'}
+                onPick={handlePick}
+                delay={i}
+              />
+            ))}
+          </AnimatePresence>
+        </motion.div>
+
+        {availableTechs.length === 0 && !isLoading && (
+          <p className="text-center text-muted-foreground py-12">
+            Aucun choix disponible — la partie touche à sa fin.
+          </p>
+        )}
       </div>
 
-      {/* Actions */}
-      <motion.div
-        className="flex justify-center gap-4 pt-8"
-        layout
-      >
-        <Button
-          variant="outline"
-          onClick={handleRestart}
-          disabled={isPending}
-          className="min-w-32"
-        >
-          <RotateCcw className="w-4 h-4 mr-2" />
-          Recommencer
+      {/* Bouton reset discret */}
+      <div className="flex justify-center">
+        <Button variant="ghost" size="sm" onClick={handleRestart} className="text-muted-foreground">
+          <RotateCcw className="w-3 h-3 mr-1" /> Recommencer
         </Button>
-
-        <Button
-          onClick={handleConfirmSelection}
-          disabled={selectedTechs.size === 0 || selectedTechs.size > 2 || isPending}
-          size="lg"
-          className="min-w-48 relative"
-        >
-          {isPending && (
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-              className="absolute left-4"
-            >
-              <Sparkles className="w-4 h-4" />
-            </motion.div>
-          )}
-
-          Préserver {selectedTechs.size > 0 && `(${selectedTechs.size}/2)`}
-
-          <ChevronRight className="w-4 h-4 ml-2" />
-        </Button>
-      </motion.div>
-
-      {/* Selection counter */}
-      <div className="text-center text-sm text-muted-foreground">
-        {selectedTechs.size === 0 && "Sélectionnez 1 ou 2 technologies à préserver"}
-        {selectedTechs.size === 1 && "Vous pouvez sélectionner 1 technologie de plus"}
-        {selectedTechs.size === 2 && "Maximum atteint - Confirmez votre choix"}
       </div>
+
+      {/* Overlays — s'affichent par-dessus */}
+      <AnimatePresence>
+        {phase === 'narrative' && pendingNarrative && (
+          <NarrativeOverlay
+            key="narrative"
+            narrative={pendingNarrative}
+            onContinue={handleNarrativeContinue}
+            continueLabel={pendingEpochSummary ? "Voir le bilan d'époque" : 'Continuer'}
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {phase === 'epoch-summary' && pendingEpochSummary && (
+          <EpochSummaryScreen
+            key="epoch-summary"
+            summary={pendingEpochSummary}
+            epochLabel={currentEpochLabel}
+            epochIndex={gameState.epochIndex}
+            totalEpochs={gameState.totalEpochs}
+            isLast={pendingIsComplete}
+            onContinue={handleEpochSummaryContinue}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
 
-// Skeleton loading component
-function TechnologyGridSkeleton() {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {Array.from({ length: 3 }).map((_, i) => (
-        <Card key={i} className="animate-pulse">
-          <CardHeader>
-            <div className="h-4 bg-muted rounded w-3/4" />
-            <div className="h-3 bg-muted rounded w-1/2" />
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <div className="h-3 bg-muted rounded" />
-              <div className="h-3 bg-muted rounded w-2/3" />
-            </div>
-          </CardContent>
-        </Card>
-      ))}
-    </div>
-  );
-}
+// === ÉCRAN FIN DE PARTIE ===
 
-// Screen de fin de partie
-interface GameCompletedScreenProps {
+function GameCompletedScreen({ gameState, finalChronicle, onRestart }: {
   gameState: GameState;
   finalChronicle: string | null;
   onRestart: () => void;
-}
-
-function GameCompletedScreen({ gameState, finalChronicle, onRestart }: GameCompletedScreenProps) {
+}) {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="container mx-auto px-4 py-8 text-center space-y-8"
+      className="container mx-auto px-4 py-8 space-y-8 text-center max-w-3xl"
     >
-      <div className="space-y-4">
+      <div className="space-y-3">
         <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
           Chronique Achevée
         </h1>
-        <p className="text-xl text-muted-foreground">
-          Votre mémoire a façonné {gameState.preservedTechs.length} technologies à travers l'histoire
+        <p className="text-lg text-muted-foreground">
+          {gameState.pickedPath.length} choix. {gameState.totalEpochs} époques. Une seule mémoire.
         </p>
       </div>
 
       {finalChronicle && (
-        <Card className="max-w-2xl mx-auto text-left">
+        <Card className="text-left border-primary/20">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Brain className="w-5 h-5" />
-              Votre Chronique
+              <Brain className="w-5 h-5" /> Votre Chronique
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -528,35 +445,28 @@ function GameCompletedScreen({ gameState, finalChronicle, onRestart }: GameCompl
         </Card>
       )}
 
-      <Card className="max-w-2xl mx-auto">
-        <CardHeader>
-          <CardTitle>Votre Profil de Mémoire</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {gameState.playerProfile && (
-            <div className="grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <span className="font-medium">Focus principal:</span>
-                <Badge className="ml-2">{gameState.playerProfile.primaryFocus}</Badge>
-              </div>
-              <div>
-                <span className="font-medium">Tolérance au risque:</span>
-                <Badge variant="outline" className="ml-2">
-                  {gameState.playerProfile.riskTolerance}
-                </Badge>
-              </div>
+      {gameState.playerProfile && (
+        <Card className="text-left">
+          <CardHeader><CardTitle>Profil de votre civilisation</CardTitle></CardHeader>
+          <CardContent className="space-y-3">
+            <div className="flex items-center gap-3">
+              <Badge className="text-sm">{gameState.playerProfile.evolutionaryPath?.name}</Badge>
+              <span className="text-muted-foreground text-sm">{gameState.playerProfile.evolutionaryPath?.description}</span>
             </div>
-          )}
-        </CardContent>
-      </Card>
+            <div className="grid grid-cols-3 gap-3 text-sm">
+              {Object.entries(gameState.playerProfile.traits ?? {}).map(([trait, value]) => (
+                <div key={trait} className="text-center">
+                  <div className="font-bold text-lg">{value as number}%</div>
+                  <div className="text-muted-foreground capitalize">{trait}</div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       <div className="flex justify-center gap-4">
-        <Button onClick={onRestart} size="lg">
-          Nouvelle Mémoire
-        </Button>
-        <Button variant="outline" size="lg">
-          Partager ma Chronique
-        </Button>
+        <Button onClick={onRestart} size="lg">Nouvelle Mémoire</Button>
       </div>
     </motion.div>
   );

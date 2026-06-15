@@ -82,6 +82,8 @@
   "technologies": [
     {
       "id": "fire_control",
+      "isRoot": true,
+      "children": ["writing_cuneiform", "bronze_working", "philosophy"],
       "name": "Maîtrise du feu",
       "period": "prehistoric",
       "category": "cultural",
@@ -136,6 +138,8 @@
     
     {
       "id": "stone_tools",
+      "isRoot": true,
+      "children": ["bronze_working", "writing_cuneiform", "democracy"],
       "name": "Outils de pierre taillée",
       "period": "prehistoric",
       "category": "economic",
@@ -190,6 +194,8 @@
     
     {
       "id": "agriculture",
+      "isRoot": true,
+      "children": ["writing_cuneiform", "democracy", "roman_engineering"],
       "name": "Agriculture primitive",
       "period": "prehistoric",
       "category": "economic", 
@@ -244,6 +250,7 @@
     
     {
       "id": "writing_cuneiform",
+      "children": ["philosophy", "democracy", "roman_engineering"],
       "name": "Écriture cunéiforme",
       "period": "ancient_early",
       "category": "cultural",
@@ -298,6 +305,7 @@
     
     {
       "id": "bronze_working",
+      "children": ["roman_engineering", "philosophy", "democracy"],
       "name": "Métallurgie du bronze",
       "period": "ancient_early",
       "category": "military",
@@ -352,6 +360,7 @@
 
     {
       "id": "philosophy",
+      "children": [],
       "name": "Philosophie",
       "period": "ancient_classical",
       "category": "cultural",
@@ -406,6 +415,7 @@
 
     {
       "id": "democracy",
+      "children": [],
       "name": "Démocratie",
       "period": "ancient_classical",
       "category": "social",
@@ -460,6 +470,7 @@
 
     {
       "id": "roman_engineering",
+      "children": [],
       "name": "Génie civil",
       "period": "ancient_classical",
       "category": "economic",
@@ -514,9 +525,8 @@
   ],
   
   "gameConfig": {
-    "maxTechsPerTurn": 3,
-    "maxPreservedPerTurn": 2,
-    "totalTurns": 8,
+    "turnsPerEpoch": 1,
+    "totalTurns": 3,
     "difficultySettings": {
       "easy": {
         "techsOfferedPerTurn": 3,
