@@ -41,6 +41,7 @@ interface Technology {
 interface GameState {
   gameId: string;
   currentTurn: number;
+  totalTurns: number;
   currentPeriod: string;
   preservedTechs: string[];
   availableTechs: string[];

@@ -377,7 +377,7 @@ export function GameInterface() {
       {/* Header avec progression */}
       <GameProgress
         currentTurn={gameState.currentTurn}
-        totalTurns={8}
+        totalTurns={gameState.totalTurns ?? 8}
         currentPeriod={gameState.currentPeriod}
       />
 

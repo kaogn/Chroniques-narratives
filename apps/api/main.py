@@ -270,6 +270,7 @@ def _public_state(game: Dict[str, Any]) -> Dict[str, Any]:
     return {
         "gameId": game["gameId"],
         "currentTurn": game["currentTurn"],
+        "totalTurns": len(GAME_DATA["playable_periods"]),
         "currentPeriod": game["currentPeriod"],
         "preservedTechs": game["preservedTechs"],
         "availableTechs": game["availableTechs"],
