@@ -348,6 +348,168 @@
           "chinese": "Vases cérémoniels"
         }
       }
+    },
+
+    {
+      "id": "philosophy",
+      "name": "Philosophie",
+      "period": "ancient_classical",
+      "category": "cultural",
+      "dateRange": { "min": -600, "max": 200 },
+      "rarity": "pillar",
+      "historicalAccuracy": 5,
+      "description": "L'art de poser des questions sans fin, fondement de la pensée rationnelle.",
+
+      "dependencies": {
+        "prerequisites": ["writing_cuneiform"],
+        "enables": ["mathematics", "science", "ethics"],
+        "blocks": [],
+        "synergies": [
+          {
+            "with": ["writing_cuneiform"],
+            "effect": "recorded_thought",
+            "description": "L'écrit fixe la pensée ; la pensée remplit l'écrit"
+          }
+        ]
+      },
+
+      "effects": {
+        "military": 0,
+        "cultural": 3,
+        "economic": 0,
+        "social": 2,
+        "exploration": 1
+      },
+
+      "narrative": {
+        "memoryWord": "doute",
+        "wordVariants": ["question", "raison", "pensée", "dialogue"],
+        "immediate": [
+          "Quelqu'un demanda « pourquoi ? », puis « et pourquoi ça ? », et l'humanité n'a plus connu une seule minute de tranquillité depuis.",
+          "On inventa l'art de réfléchir à voix haute en public sans rien produire de concret. À la surprise générale, ça changea le monde.",
+          "Le doute s'installa confortablement dans l'esprit humain, prit ses aises, et refusa poliment de repartir."
+        ],
+        "epochTemplate": "Cette époque découvrit qu'on pouvait retourner une idée dans tous les sens jusqu'à ce qu'elle avoue. Le {memoryWord}, méthodiquement cultivé sous les portiques, transforma quelques oisifs bavards en fondateurs de la pensée — on ne sait jamais d'avance qui prend des notes pour l'éternité.",
+        "finalTemplate": "Du premier {memoryWord} naquirent les sciences, les lois et l'art exaspérant de ne jamais se contenter d'une réponse simple. L'humanité avait appris à se méfier d'elle-même, ce qui reste, tout bien pesé, son idée la plus utile."
+      },
+
+      "gameplay": {
+        "appearanceWeight": 95,
+        "isRemovable": false,
+        "culturalVariants": {
+          "greek": "Académies et écoles rivales",
+          "chinese": "Sagesse et harmonie sociale",
+          "indian": "Logique et métaphysique"
+        }
+      }
+    },
+
+    {
+      "id": "democracy",
+      "name": "Démocratie",
+      "period": "ancient_classical",
+      "category": "social",
+      "dateRange": { "min": -510, "max": -320 },
+      "rarity": "rare",
+      "historicalAccuracy": 4,
+      "description": "Le pouvoir confié au peuple — du moins à la part du peuple qu'on daignait compter à l'époque.",
+
+      "dependencies": {
+        "prerequisites": [],
+        "enables": ["republic", "citizenship", "legal_codes"],
+        "blocks": [],
+        "synergies": [
+          {
+            "with": ["philosophy"],
+            "effect": "civic_reason",
+            "description": "Débattre d'abord, voter ensuite"
+          }
+        ]
+      },
+
+      "effects": {
+        "military": 0,
+        "cultural": 1,
+        "economic": 0,
+        "social": 4,
+        "exploration": 0
+      },
+
+      "narrative": {
+        "memoryWord": "vote",
+        "wordVariants": ["assemblée", "cité", "voix", "agora"],
+        "immediate": [
+          "On eut l'idée stupéfiante de demander leur avis aux gens. Elle fut si dérangeante qu'on passa les deux mille ans suivants à tenter de l'oublier, sans grand succès.",
+          "L'humanité inventa le vote : la conviction touchante qu'en comptant assez de mains levées, on finit par tomber sur la vérité.",
+          "Quelque part, un citoyen leva la main pour la première fois. Quelque part aussi, un tyran sentit un léger courant d'air."
+        ],
+        "epochTemplate": "Cette époque osa confier la cité à ceux qui l'habitaient. Le {memoryWord}, fragile et bruyant, remplaça l'épée par le décompte — un net progrès, même si le résultat fut souvent le même en plus long.",
+        "finalTemplate": "Du premier {memoryWord} jaillit l'idée tenace que le pouvoir devrait, au moins en théorie, demander la permission. L'humanité oublierait et réinventerait cette idée des dizaines de fois, ce qui en dit long sur sa mémoire autant que sur son optimisme."
+      },
+
+      "gameplay": {
+        "appearanceWeight": 80,
+        "isRemovable": true,
+        "culturalVariants": {
+          "athenian": "Assemblée directe des citoyens",
+          "roman": "République et sénat",
+          "other": "Conseils et ligues de cités"
+        }
+      }
+    },
+
+    {
+      "id": "roman_engineering",
+      "name": "Génie civil",
+      "period": "ancient_classical",
+      "category": "economic",
+      "dateRange": { "min": -300, "max": 400 },
+      "rarity": "common",
+      "historicalAccuracy": 5,
+      "description": "Routes, aqueducs, arches et béton : l'art de soumettre la géographie à la ligne droite.",
+
+      "dependencies": {
+        "prerequisites": ["bronze_working"],
+        "enables": ["concrete", "urban_planning", "trade_networks"],
+        "blocks": [],
+        "synergies": [
+          {
+            "with": ["bronze_working"],
+            "effect": "tooled_construction",
+            "description": "Outils de métal, ouvrages de pierre"
+          }
+        ]
+      },
+
+      "effects": {
+        "military": 1,
+        "cultural": 0,
+        "economic": 3,
+        "social": 1,
+        "exploration": 1
+      },
+
+      "narrative": {
+        "memoryWord": "route",
+        "wordVariants": ["voûte", "aqueduc", "pavé", "arche"],
+        "immediate": [
+          "Les bâtisseurs regardèrent une montagne, puis un marais, puis un fleuve, et décidèrent que la ligne droite passerait quand même par là. Elle passa.",
+          "On inventa la route : un engagement de pierre, pris pour mille ans, qu'on tient encore par endroits.",
+          "L'eau, habituée à couler où bon lui semblait, se retrouva convoquée en ville par aqueduc, à heure fixe. Elle ne s'en est jamais tout à fait remise."
+        ],
+        "epochTemplate": "Cette époque traita la géographie comme un simple détail administratif. La {memoryWord}, droite et obstinée, relia les confins de l'empire — car il est plus facile de gouverner ce qu'on peut atteindre avant le dîner.",
+        "finalTemplate": "De la première {memoryWord} pavée descendent toutes les infrastructures, et cette idée fondatrice : une civilisation se mesure moins à ses palais qu'à sa capacité d'amener l'eau et les renforts là où il faut, quand il faut."
+      },
+
+      "gameplay": {
+        "appearanceWeight": 85,
+        "isRemovable": true,
+        "culturalVariants": {
+          "roman": "Voies pavées et aqueducs",
+          "persian": "Routes royales et relais",
+          "chinese": "Canaux et chaussées impériales"
+        }
+      }
     }
   ],
   
