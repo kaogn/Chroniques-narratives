@@ -23,7 +23,7 @@ const GameInterface = dynamic(
 
 export default function GamePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen">
       <Suspense
         fallback={
           <div className="min-h-screen flex items-center justify-center">

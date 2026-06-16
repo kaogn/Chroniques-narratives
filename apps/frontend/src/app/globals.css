@@ -4,6 +4,7 @@
 
 @layer base {
   :root {
+    /* shadcn/ui vars (Tailwind HSL format) */
     --background: 0 0% 0%;
     --foreground: 210 40% 98%;
     --card: 222.2 84% 4.9%;
@@ -24,6 +25,148 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 238 75% 65%;
     --radius: 0.75rem;
+
+    /* ===== Design system tokens (raw values for inline styles) ===== */
+
+    /* Surfaces */
+    --surface-1: #0f172a;
+    --surface-2: #1e293b;
+    --surface-3: #334155;
+
+    /* Foreground */
+    --fg-1: #f8fafc;
+    --fg-2: #e2e8f0;
+    --fg-3: #94a3b8;
+    --fg-4: #64748b;
+
+    /* Memory (indigo) */
+    --memory-200: #c7d2fe;
+    --memory-300: #a5b4fc;
+    --memory-400: #818cf8;
+    --memory-500: #6366f1;
+    --memory-600: #4f46e5;
+    --memory-700: #4338ca;
+    --memory-900: #312e81;
+
+    /* Purple / pink */
+    --purple-400: #c084fc;
+    --purple-500: #a855f7;
+    --purple-600: #9333ea;
+    --pink-400: #f472b6;
+
+    /* Semantic */
+    --success: #22c55e;
+    --danger: #ef4444;
+
+    /* Borders */
+    --border-memory: rgba(99, 102, 241, 0.20);
+    --border-memory-strong: rgba(99, 102, 241, 0.40);
+    --border-purple: rgba(147, 51, 234, 0.20);
+
+    /* Rarity */
+    --rarity-common: #64748b;
+    --rarity-rare: #3b82f6;
+    --rarity-pillar: #a855f7;
+    --rarity-legendary: #f59e0b;
+
+    /* Category */
+    --cat-military: #ef4444;
+    --cat-cultural: #a855f7;
+    --cat-economic: #eab308;
+    --cat-social: #3b82f6;
+    --cat-exploration: #22c55e;
+    --cat-industrial: #64748b;
+    --cat-scientific: #06b6d4;
+
+    /* Glass fills */
+    --glass-1: rgba(15, 23, 42, 0.80);
+    --glass-2: rgba(15, 23, 42, 0.50);
+    --glass-3: rgba(255, 255, 255, 0.05);
+
+    /* Blur */
+    --blur-sm: 8px;
+    --blur-md: 16px;
+    --blur-xl: 24px;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+    --shadow-lg: 0 10px 30px rgba(0,0,0,0.5);
+    --shadow-card: 0 25px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(99,102,241,0.06);
+    --shadow-card-hover: 0 30px 70px rgba(0,0,0,0.7), 0 10px 40px -10px rgba(99,102,241,0.30);
+
+    /* Glows */
+    --glow-memory: 0 0 20px rgba(99,102,241,0.30), 0 0 40px rgba(99,102,241,0.10);
+    --glow-memory-soft: 0 10px 40px -10px rgba(99,102,241,0.25);
+    --glow-epoch: 0 0 15px rgba(147,51,234,0.40), 0 0 30px rgba(147,51,234,0.20);
+
+    /* Gradients */
+    --grad-memory: linear-gradient(135deg, #6366f1 0%, #9333ea 100%);
+    --grad-title: linear-gradient(90deg, #818cf8, #c084fc 50%, #f472b6);
+
+    /* Cosmic background (mirrors layout.tsx fixed divs) */
+    --bg-cosmic: linear-gradient(135deg, #020617 0%, rgba(23,37,84,0.30) 50%, rgba(59,7,100,0.40) 100%);
+    --bg-orb-1: radial-gradient(circle at 20% 80%, rgba(120,119,198,0.30), transparent 50%);
+    --bg-orb-2: radial-gradient(circle at 80% 20%, rgba(255,255,255,0.10), transparent 50%);
+    --bg-orb-3: radial-gradient(circle at 40% 40%, rgba(120,119,198,0.15), transparent 50%);
+
+    /* Typography */
+    --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+    /* Type scale */
+    --text-2xs: 0.6875rem;
+    --text-xs:  0.75rem;
+    --text-sm:  0.875rem;
+    --text-base:1rem;
+    --text-lg:  1.125rem;
+    --text-xl:  1.25rem;
+    --text-2xl: 1.5rem;
+    --text-3xl: 1.875rem;
+    --text-4xl: 2.25rem;
+    --text-5xl: 3rem;
+
+    /* Weights */
+    --weight-light: 300;
+    --weight-normal: 400;
+    --weight-medium: 500;
+    --weight-semibold: 600;
+    --weight-bold: 700;
+
+    /* Line heights */
+    --leading-tight: 1.1;
+    --leading-snug: 1.25;
+    --leading-normal: 1.5;
+    --leading-relaxed: 1.7;
+
+    /* Letter spacing */
+    --tracking-tight: -0.02em;
+    --tracking-wide: 0.025em;
+
+    /* Spacing */
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.25rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --space-10: 2.5rem;
+    --space-12: 3rem;
+
+    /* Radius (named for the design system) */
+    --radius-sm: 8px;
+    --radius-md: 10px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --radius-2xl: 24px;
+    --radius-full: 9999px;
+
+    /* Motion */
+    --ease-out: cubic-bezier(0.25, 0.1, 0.25, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --dur-fast: 0.2s;
+    --dur-base: 0.3s;
+    --dur-slow: 0.6s;
   }
 }
 
@@ -38,39 +181,64 @@
 
   body {
     @apply bg-black text-white;
+    font-family: var(--font-sans);
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
-  /* Hide scrollbar but keep functionality */
   * {
     scrollbar-width: thin;
     scrollbar-color: rgba(99, 102, 241, 0.3) transparent;
   }
 
-  *::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  *::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
+  *::-webkit-scrollbar { width: 8px; }
+  *::-webkit-scrollbar-track { background: transparent; }
   *::-webkit-scrollbar-thumb {
     background: rgba(99, 102, 241, 0.3);
     border-radius: 4px;
   }
-
   *::-webkit-scrollbar-thumb:hover {
     background: rgba(99, 102, 241, 0.5);
+  }
+
+  ::selection {
+    background: rgba(99, 102, 241, 0.35);
+    color: #fff;
   }
 }
 
 @layer components {
+  /* Signature glass panel */
+  .mh-glass {
+    background: var(--glass-1);
+    backdrop-filter: blur(var(--blur-xl));
+    -webkit-backdrop-filter: blur(var(--blur-xl));
+    border: 2px solid var(--border-memory);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+  }
+
+  /* Gradient chronicle title */
+  .mh-grad-title {
+    background: var(--grad-title);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Cosmic fixed backdrop (mirrors layout.tsx inline divs — use when layout isn't present) */
+  .mh-cosmic-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: var(--bg-orb-1), var(--bg-orb-2), var(--bg-orb-3), var(--bg-cosmic);
+    pointer-events: none;
+  }
+
   .memory-glow {
-    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3), 0 0 40px rgba(99, 102, 241, 0.1);
+    box-shadow: var(--glow-memory);
   }
 
   .epoch-glow {
-    box-shadow: 0 0 15px rgba(147, 51, 234, 0.4), 0 0 30px rgba(147, 51, 234, 0.2);
+    box-shadow: var(--glow-epoch);
   }
 }
