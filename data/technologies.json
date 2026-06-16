@@ -84,6 +84,7 @@
       "id": "fire_control",
       "isRoot": true,
       "children": ["writing_cuneiform", "bronze_working", "philosophy"],
+      "majorEvent": "La nuit où votre feu dévora accidentellement trois huttes et la réserve d'hiver, l'humanité comprit qu'apprivoiser quelque chose n'est pas le posséder. Les rescapés inventèrent la première règle sociale : ne jamais se disputer à côté des braises. Ce n'était pas encore une loi. Mais c'était un début — et l'Univers, qui apprécie les débuts modestes, cocha une case dans son registre.",
       "name": "Maîtrise du feu",
       "period": "prehistoric",
       "category": "cultural",
@@ -140,6 +141,7 @@
       "id": "stone_tools",
       "isRoot": true,
       "children": ["bronze_working", "writing_cuneiform", "democracy"],
+      "majorEvent": "Le jour où la première lame en silex trancha accidentellement la main qui la tenait, votre tribu découvrit deux choses simultanément : que les outils peuvent blesser, et qu'il faudrait quelqu'un pour soigner. Le premier médecin de l'histoire naquit ainsi de la première erreur instrumentale — ce qui est, à bien y réfléchir, la manière dont naît à peu près tout.",
       "name": "Outils de pierre taillée",
       "period": "prehistoric",
       "category": "economic",
@@ -196,6 +198,7 @@
       "id": "agriculture",
       "isRoot": true,
       "children": ["writing_cuneiform", "democracy", "roman_engineering"],
+      "majorEvent": "La première grande sécheresse frappa sept ans après que votre tribu eut cessé de se déplacer. Les nomades d'à côté partirent vers l'eau. Vos ancêtres creusèrent. Ils trouvèrent les nappes phréatiques — et, au passage, comprirent que rester quelque part oblige à comprendre ce quelque part en profondeur. C'est ainsi que l'attachement au sol devint, selon les saisons, leur force ou leur piège.",
       "name": "Agriculture primitive",
       "period": "prehistoric",
       "category": "economic", 
@@ -251,6 +254,7 @@
     {
       "id": "writing_cuneiform",
       "children": ["philosophy", "democracy", "roman_engineering"],
+      "majorEvent": "La première tablette d'argile perdue déclencha le premier procès de l'histoire. Un marchand affirmait avoir livré trente jarres d'huile ; le destinataire jurait n'en avoir reçu que vingt-deux. Sans preuve écrite, les deux avaient tort et raison à égale mesure. L'écriture fut donc officiellement inventée pour répondre au besoin humain fondamental de se plaindre de manière vérifiable.",
       "name": "Écriture cunéiforme",
       "period": "ancient_early",
       "category": "cultural",
@@ -306,6 +310,7 @@
     {
       "id": "bronze_working",
       "children": ["roman_engineering", "philosophy", "democracy"],
+      "majorEvent": "Le premier roi à brandir une épée de bronze convoqua ses voisins pour une démonstration. Impressionnés, ils rentrèrent chez eux et fondirent immédiatement leur propre bronze. En moins d'une génération, tout le monde disposait des mêmes armes et personne n'avait d'avantage. L'armement avait progressé ; les guerres restèrent aussi stupides qu'avant. Le progrès, lui, ne s'en émut guère.",
       "name": "Métallurgie du bronze",
       "period": "ancient_early",
       "category": "military",
@@ -361,6 +366,7 @@
     {
       "id": "philosophy",
       "children": [],
+      "majorEvent": "Le jour où un philosophe posa publiquement la question « Comment sait-on que le soleil se lèvera demain ? », trois choses se produisirent : une dispute interminable éclata à l'académie, un paysan qui passait haussa les épaules et continua de labourer, et quelqu'un d'autre, dans un coin, commença à noter la méthode pour trancher de telles querelles. On appela cela, des siècles plus tard, la démarche scientifique.",
       "name": "Philosophie",
       "period": "ancient_classical",
       "category": "cultural",
@@ -416,6 +422,7 @@
     {
       "id": "democracy",
       "children": [],
+      "majorEvent": "Le premier vote démocratique de l'histoire porta sur la question de savoir s'il fallait construire un nouveau temple ou réparer les canalisations. Le temple l'emporta à soixante pour cent. Les canalisations s'effondrèrent dix ans plus tard. Au scrutin suivant, elles obtinrent quatre-vingt-sept pour cent. La démocratie avait fonctionné — lentement, bruyamment, au prix d'un déluge d'eaux usées — mais fonctionné.",
       "name": "Démocratie",
       "period": "ancient_classical",
       "category": "social",
@@ -471,6 +478,7 @@
     {
       "id": "roman_engineering",
       "children": [],
+      "majorEvent": "La première route pavée fut construite pour faire avancer les légions. Trois cents ans plus tard, des marchands, des médecins, des idées et des épidémies circulaient dessus avec une égale célérité. Les ingénieurs avaient voulu contrôler un territoire ; ils avaient accidentellement inventé la mondialisation. L'Univers nota que c'était une habitude, et réserva une colonne entière dans son registre.",
       "name": "Génie civil",
       "period": "ancient_classical",
       "category": "economic",

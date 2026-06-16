@@ -167,51 +167,10 @@ function GameProgress({ gameState }: { gameState: GameState }) {
   );
 }
 
-// === OVERLAY NARRATIVE ===
-
-function NarrativeOverlay({ narrative, onContinue, continueLabel }: {
-  narrative: string;
-  onContinue: () => void;
-  continueLabel: string;
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-background/90 backdrop-blur-sm z-40 flex items-center justify-center p-6"
-    >
-      <motion.div
-        initial={{ scale: 0.92, y: 20 }}
-        animate={{ scale: 1, y: 0 }}
-        exit={{ scale: 0.92, y: 20 }}
-        className="max-w-xl w-full"
-      >
-        <Card className="border-primary/30 shadow-2xl">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <Brain className="w-5 h-5 text-primary" />
-              Écho de la Mémoire
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="relative pl-4">
-              <div className="absolute left-0 top-0 w-1 h-full bg-gradient-to-b from-primary to-primary/30 rounded-full" />
-              <p className="text-base leading-relaxed italic text-foreground/90">"{narrative}"</p>
-            </div>
-            <Button onClick={onContinue} className="w-full" size="lg">
-              {continueLabel} <ChevronRight className="w-4 h-4 ml-2" />
-            </Button>
-          </CardContent>
-        </Card>
-      </motion.div>
-    </motion.div>
-  );
-}
-
 // === ÉCRAN RÉSUMÉ D'ÉPOQUE ===
 
-function EpochSummaryScreen({ summary, epochLabel, epochIndex, totalEpochs, isLast, onContinue }: {
+function EpochSummaryScreen({ majorEvent, summary, epochLabel, epochIndex, totalEpochs, isLast, onContinue }: {
+  majorEvent: string | null;
   summary: string;
   epochLabel: string;
   epochIndex: number;
@@ -224,28 +183,49 @@ function EpochSummaryScreen({ summary, epochLabel, epochIndex, totalEpochs, isLa
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-background/95 backdrop-blur-md z-50 flex items-center justify-center p-6"
+      className="fixed inset-0 bg-background/97 backdrop-blur-md z-50 flex items-center justify-center p-6 overflow-y-auto"
     >
       <motion.div
         initial={{ scale: 0.9, y: 32 }}
         animate={{ scale: 1, y: 0 }}
         transition={{ type: 'spring', stiffness: 200, damping: 22 }}
-        className="max-w-2xl w-full space-y-8 text-center"
+        className="max-w-2xl w-full space-y-6 text-center py-8"
       >
         <div className="space-y-2">
           <Badge variant="outline" className="text-sm">Époque {epochIndex + 1} / {totalEpochs}</Badge>
           <h2 className="text-3xl font-bold">{epochLabel}</h2>
-          <p className="text-muted-foreground text-sm">Bilan de l'époque</p>
         </div>
 
+        {/* Événement majeur */}
+        {majorEvent && (
+          <Card className="text-left border-amber-500/30 bg-amber-500/5">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base text-amber-600 dark:text-amber-400 flex items-center gap-2">
+                <Sparkles className="w-4 h-4" />
+                Ce qui advint
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-base leading-relaxed text-foreground/90">{majorEvent}</p>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Réflexion d'époque */}
         <Card className="text-left border-primary/20 bg-primary/5">
-          <CardContent className="pt-6">
-            <p className="text-base leading-relaxed italic text-foreground/85">{summary}</p>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base text-muted-foreground flex items-center gap-2">
+              <Brain className="w-4 h-4" />
+              Le registre de l'Univers
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm leading-relaxed italic text-foreground/75">{summary}</p>
           </CardContent>
         </Card>
 
         <Button onClick={onContinue} size="lg" className="px-10">
-          {isLast ? 'Voir la Chronique finale' : `Époque suivante →`}
+          {isLast ? 'Voir la Chronique finale' : 'Époque suivante →'}
         </Button>
       </motion.div>
     </motion.div>
@@ -255,7 +235,7 @@ function EpochSummaryScreen({ summary, epochLabel, epochIndex, totalEpochs, isLa
 // === INTERFACE PRINCIPALE ===
 
 // Phase locale de l'UI (indépendante du store)
-type UIPhase = 'picking' | 'narrative' | 'epoch-summary';
+type UIPhase = 'picking' | 'epoch-summary';
 
 export function GameInterface() {
   const gameState = useGameStore(state => state.gameState);
@@ -265,40 +245,33 @@ export function GameInterface() {
   const isLoading = useGameStore(state => state.isLoading);
 
   const [phase, setPhase] = useState<UIPhase>('picking');
-  const [pendingNarrative, setPendingNarrative] = useState<string | null>(null);
   const [pendingEpochSummary, setPendingEpochSummary] = useState<string | null>(null);
+  const [pendingMajorEvent, setPendingMajorEvent] = useState<string | null>(null);
   const [pendingIsComplete, setPendingIsComplete] = useState(false);
 
   const handlePick = async (techId: string) => {
     const result = await actions.pickTechnology(techId);
     if (!result.success || !result.data) return;
 
-    const { narrative, epochSummary, epochComplete, isComplete } = result.data;
-    setPendingNarrative(narrative);
-    setPendingEpochSummary(epochComplete ? epochSummary : null);
-    setPendingIsComplete(isComplete);
-    setPhase('narrative');
-  };
-
-  const handleNarrativeContinue = () => {
-    if (pendingEpochSummary) {
+    const { majorEvent, epochSummary, epochComplete, isComplete } = result.data;
+    if (epochComplete) {
+      setPendingMajorEvent(majorEvent);
+      setPendingEpochSummary(epochSummary);
+      setPendingIsComplete(isComplete);
       setPhase('epoch-summary');
-    } else {
-      setPendingNarrative(null);
-      setPhase('picking');
     }
+    // Si pas fin d'époque : retour direct au picking (gameState mis à jour par le store)
   };
 
   const handleEpochSummaryContinue = () => {
-    setPendingNarrative(null);
+    setPendingMajorEvent(null);
     setPendingEpochSummary(null);
     setPhase('picking');
-    // Si la partie est terminée, le gameState.isCompleted est déjà true → composant bascule
   };
 
   const handleRestart = () => {
     setPhase('picking');
-    setPendingNarrative(null);
+    setPendingMajorEvent(null);
     setPendingEpochSummary(null);
     setPendingIsComplete(false);
     actions.resetGame();
@@ -379,22 +352,11 @@ export function GameInterface() {
         </Button>
       </div>
 
-      {/* Overlays — s'affichent par-dessus */}
-      <AnimatePresence>
-        {phase === 'narrative' && pendingNarrative && (
-          <NarrativeOverlay
-            key="narrative"
-            narrative={pendingNarrative}
-            onContinue={handleNarrativeContinue}
-            continueLabel={pendingEpochSummary ? "Voir le bilan d'époque" : 'Continuer'}
-          />
-        )}
-      </AnimatePresence>
-
       <AnimatePresence>
         {phase === 'epoch-summary' && pendingEpochSummary && (
           <EpochSummaryScreen
             key="epoch-summary"
+            majorEvent={pendingMajorEvent}
             summary={pendingEpochSummary}
             epochLabel={currentEpochLabel}
             epochIndex={gameState.epochIndex}

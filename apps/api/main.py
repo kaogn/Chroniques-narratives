@@ -115,6 +115,23 @@ def _immediate_narrative(tech_id: str) -> str:
     return f"La {word} rejoint le grand catalogue des choses que l'humanité a décidé de garder."
 
 
+def _major_event(epoch_picks: List[str]) -> str:
+    """Événement majeur survenu à la fin de l'époque, basé sur le dernier choix."""
+    techs = GAME_DATA["technologies"]
+    # On prend le dernier choix de l'époque comme pivot narratif
+    for tech_id in reversed(epoch_picks):
+        tech = techs.get(tech_id)
+        if not tech:
+            continue
+        event = tech.get("majorEvent")
+        if event:
+            return event
+    return (
+        "L'époque s'acheva sans fracas particulier, ce qui est en soi remarquable. "
+        "Quelque part, un archiviste cosmique nota « rien à signaler » et passa à la suivante."
+    )
+
+
 def _epoch_summary(period: str, epoch_picks: List[str]) -> str:
     techs = GAME_DATA["technologies"]
     fragments = []
@@ -485,14 +502,14 @@ async def pick_technology(game_id: str, request: PickRequest):
     game["epochPicks"].append(tech_id)
     game["currentTechId"] = tech_id
 
-    narrative = _immediate_narrative(tech_id)
-
     # Détection de fin d'époque
     epoch_complete = game["turnWithinEpoch"] >= game["turnsPerEpoch"]
+    major_event = None
     epoch_summary = None
     final_chronicle = None
 
     if epoch_complete:
+        major_event = _major_event(game["epochPicks"])
         epoch_summary = _epoch_summary(game["currentEpoch"], game["epochPicks"])
         next_epoch_idx = game["epochIndex"] + 1
         playable = GAME_DATA["playable_periods"]
@@ -523,7 +540,7 @@ async def pick_technology(game_id: str, request: PickRequest):
     return {
         "success": True,
         "data": {
-            "narrative": narrative,
+            "majorEvent": major_event,
             "epochSummary": epoch_summary,
             "finalChronicle": final_chronicle,
             "newState": _public_state(game),

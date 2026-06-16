@@ -61,7 +61,7 @@ interface ApiEnvelope<T> {
 }
 
 interface PickResult {
-  narrative: string;
+  majorEvent: string | null;
   epochSummary: string | null;
   finalChronicle: string | null;
   newState: GameState;
@@ -73,7 +73,7 @@ interface GameStoreState {
   gameState: GameState | null;
   technologies: Map<string, Technology>;
   // Résultats du dernier pick — effacés au prochain pick
-  lastNarrative: string | null;
+  majorEvent: string | null;
   epochSummary: string | null;
   finalChronicle: string | null;
   isLoading: boolean;
@@ -88,7 +88,6 @@ interface GameStoreState {
 interface GameStoreActions {
   createGame: (options?: { difficulty?: 'easy' | 'normal' | 'hard'; playerName?: string }) => Promise<Result<GameState>>;
   pickTechnology: (techId: string) => Promise<Result<PickResult>>;
-  dismissNarrative: () => void;
   dismissEpochSummary: () => void;
   resetGame: () => void;
   setGameMode: (mode: 'menu' | 'playing' | 'completed') => void;
@@ -170,7 +169,7 @@ class GameEngineService {
 const initialState: GameStoreState = {
   gameState: null,
   technologies: new Map(),
-  lastNarrative: null,
+  majorEvent: null,
   epochSummary: null,
   finalChronicle: null,
   isLoading: false,
@@ -194,7 +193,7 @@ export const useGameStore = create<GameStore>()(
                 state.isLoading = true;
                 state.error = null;
                 state.gameMode = 'playing';
-                state.lastNarrative = null;
+                state.majorEvent = null;
                 state.epochSummary = null;
                 state.finalChronicle = null;
               });
@@ -239,7 +238,7 @@ export const useGameStore = create<GameStore>()(
               set(state => {
                 state.isLoading = true;
                 state.error = null;
-                state.lastNarrative = null;
+                state.majorEvent = null;
                 state.epochSummary = null;
                 state.finalChronicle = null;
               });
@@ -251,7 +250,7 @@ export const useGameStore = create<GameStore>()(
                 if (result.success && result.data) {
                   set(state => {
                     state.gameState = result.data!.newState;
-                    state.lastNarrative = result.data!.narrative;
+                    state.majorEvent = result.data!.majorEvent;
                     state.epochSummary = result.data!.epochSummary;
                     state.finalChronicle = result.data!.finalChronicle;
                     state.isLoading = false;
@@ -271,10 +270,6 @@ export const useGameStore = create<GameStore>()(
               }
             },
 
-            dismissNarrative: () => {
-              set(state => { state.lastNarrative = null; });
-            },
-
             dismissEpochSummary: () => {
               set(state => { state.epochSummary = null; });
             },
@@ -282,7 +277,7 @@ export const useGameStore = create<GameStore>()(
             resetGame: () => {
               set(state => {
                 state.gameState = null;
-                state.lastNarrative = null;
+                state.majorEvent = null;
                 state.epochSummary = null;
                 state.finalChronicle = null;
                 state.gameMode = 'menu';
@@ -349,7 +344,7 @@ export const useGameState = () => useGameStore(state => state.gameState);
 export const useGameMode = () => useGameStore(state => state.gameMode);
 export const useIsLoading = () => useGameStore(state => state.isLoading);
 export const useGameError = () => useGameStore(state => state.error);
-export const useLastNarrative = () => useGameStore(state => state.lastNarrative);
+export const useMajorEvent = () => useGameStore(state => state.majorEvent);
 export const useEpochSummary = () => useGameStore(state => state.epochSummary);
 export const useFinalChronicle = () => useGameStore(state => state.finalChronicle);
 export const useGameActions = () => useGameStore(state => state.actions);
