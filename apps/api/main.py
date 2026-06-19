@@ -134,25 +134,39 @@ def _major_event(epoch_picks: List[str]) -> str:
 
 def _epoch_summary(period: str, epoch_picks: List[str]) -> str:
     techs = GAME_DATA["technologies"]
-    fragments = []
+    period_name = GAME_DATA["periods_meta"].get(period, {}).get("name", period)
+
+    fragments: List[str] = []
+    memory_words: List[str] = []
     for tech_id in epoch_picks:
         tech = techs.get(tech_id)
         if not tech:
             continue
         narrative = tech.get("narrative", {})
-        template = narrative.get("epochTemplate")
+        word = narrative.get("memoryWord", "trace")
+        template = narrative.get("epochTemplate", "")
         if template:
-            fragments.append(
-                template.replace("{memoryWord}", narrative.get("memoryWord", "trace"))
-            )
-    period_name = GAME_DATA["periods_meta"].get(period, {}).get("name", period)
+            fragments.append(template.replace("{memoryWord}", word))
+        if word:
+            memory_words.append(word)
+
     if not fragments:
         return (
             f"L'époque « {period_name} » s'achève sans que rien de notable n'ait été "
             "préservé. Quelque part, un fonctionnaire de l'Univers inscrit « néant » "
             "dans une case prévue à cet effet, et soupire."
         )
-    return f"— {period_name} — " + " ".join(fragments)
+
+    words_str = ", ".join(f"« {w} »" for w in memory_words)
+    intro = (
+        f"Dans le grand registre de l'Univers — celui que personne n'a jamais vu mais "
+        f"que tout le monde redoute vaguement —, l'archiviste cosmique consigne, à la "
+        f"page « {period_name} », les mots que l'humanité a choisi de garder : "
+        f"{words_str}. Il retourne ensuite la page et écrit, d'une écriture appliquée, "
+        f"ce qui suit."
+    )
+    body = "\n\n".join(fragments)
+    return f"{intro}\n\n{body}"
 
 
 def _personality_from_picked(picked_path: List[str]) -> Dict[str, Any]:

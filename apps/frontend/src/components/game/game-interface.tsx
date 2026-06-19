@@ -301,8 +301,9 @@ function GameProgress({ gameState }: { gameState: GameState }) {
 
 // === ÉCRAN RÉSUMÉ D'ÉPOQUE ===
 
-function EpochSummaryScreen({ majorEvent, epochLabel, epochIndex, totalEpochs, isLast, onContinue }: {
+function EpochSummaryScreen({ majorEvent, epochSummary, epochLabel, epochIndex, totalEpochs, isLast, onContinue }: {
   majorEvent: string | null;
+  epochSummary: string | null;
   epochLabel: string;
   epochIndex: number;
   totalEpochs: number;
@@ -327,8 +328,9 @@ function EpochSummaryScreen({ majorEvent, epochLabel, epochIndex, totalEpochs, i
         initial={{ scale: 0.9, y: 32 }}
         animate={{ scale: 1, y: 0 }}
         transition={{ type: 'spring', stiffness: 200, damping: 22 }}
-        style={{ width: '100%', maxWidth: 620, display: 'flex', flexDirection: 'column', gap: 22, textAlign: 'center' }}
+        style={{ width: '100%', maxWidth: 680, display: 'flex', flexDirection: 'column', gap: 22, textAlign: 'center' }}
       >
+        {/* En-tête */}
         <div>
           <span style={{
             display: 'inline-flex',
@@ -348,7 +350,39 @@ function EpochSummaryScreen({ majorEvent, epochLabel, epochIndex, totalEpochs, i
           </h2>
         </div>
 
-        {/* Ce qui advint */}
+        {/* Le registre de l'Univers — synthèse des 3 choix */}
+        {epochSummary && (
+          <div style={{
+            textAlign: 'left',
+            background: 'var(--glass-1)',
+            backdropFilter: 'blur(var(--blur-md))',
+            WebkitBackdropFilter: 'blur(var(--blur-md))',
+            border: '1px solid var(--border-memory)',
+            borderRadius: 'var(--radius-lg)',
+            padding: 'var(--space-6)',
+            boxShadow: 'var(--shadow-card)',
+          }}>
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14,
+              color: 'var(--memory-400)', fontSize: 'var(--text-sm)', fontWeight: 'var(--weight-semibold)',
+            }}>
+              <ScrollText size={15} /> Le registre de l&apos;Univers
+            </div>
+            {epochSummary.split('\n\n').map((para, i) => (
+              <p key={i} style={{
+                fontSize: i === 0 ? 'var(--text-sm)' : 'var(--text-base)',
+                fontStyle: i === 0 ? 'italic' : 'normal',
+                lineHeight: 'var(--leading-relaxed)',
+                color: i === 0 ? 'var(--fg-3)' : 'var(--fg-2)',
+                margin: i > 0 ? '12px 0 0' : 0,
+              }}>
+                {para}
+              </p>
+            ))}
+          </div>
+        )}
+
+        {/* Ce qui advint — événement dramatique du dernier choix */}
         {majorEvent && (
           <div style={{
             textAlign: 'left',
@@ -372,7 +406,7 @@ function EpochSummaryScreen({ majorEvent, epochLabel, epochIndex, totalEpochs, i
           </div>
         )}
 
-<div style={{ display: 'flex', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
           <GradientButton onClick={onContinue}>
             {isLast ? 'Voir la Chronique finale' : 'Époque suivante'}
             <ChevronRight size={18} />
@@ -564,6 +598,7 @@ export function GameInterface() {
           <EpochSummaryScreen
             key="epoch-summary"
             majorEvent={pendingMajorEvent}
+            epochSummary={pendingEpochSummary}
             epochLabel={pendingEpochLabel}
             epochIndex={pendingEpochIndex}
             totalEpochs={gameState.totalEpochs}
