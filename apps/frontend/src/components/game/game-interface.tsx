@@ -398,8 +398,17 @@ export function GameInterface() {
   const [pendingEpochSummary, setPendingEpochSummary] = useState<string | null>(null);
   const [pendingMajorEvent, setPendingMajorEvent] = useState<string | null>(null);
   const [pendingIsComplete, setPendingIsComplete] = useState(false);
+  const [pendingEpochLabel, setPendingEpochLabel] = useState<string>('');
+  const [pendingEpochIndex, setPendingEpochIndex] = useState<number>(0);
 
   const handlePick = async (techId: string) => {
+    if (!gameState) return;
+    // Capturer l'époque AVANT l'await : le store Zustand se met à jour dans
+    // l'appel async, et React batchera les deux updates dans un seul re-render.
+    // Sans cette capture, currentEpochLabel afficherait l'époque suivante.
+    const epochLabelSnapshot = PERIOD_LABELS[gameState.currentEpoch] ?? gameState.currentEpoch;
+    const epochIndexSnapshot = gameState.epochIndex;
+
     const result = await actions.pickTechnology(techId);
     if (!result.success || !result.data) return;
 
@@ -407,6 +416,8 @@ export function GameInterface() {
     if (epochComplete) {
       setPendingMajorEvent(majorEvent);
       setPendingEpochSummary(epochSummary);
+      setPendingEpochLabel(epochLabelSnapshot);
+      setPendingEpochIndex(epochIndexSnapshot);
       setPendingIsComplete(isComplete);
       setPhase('epoch-summary');
     }
@@ -423,6 +434,8 @@ export function GameInterface() {
     setPendingMajorEvent(null);
     setPendingEpochSummary(null);
     setPendingIsComplete(false);
+    setPendingEpochLabel('');
+    setPendingEpochIndex(0);
     actions.resetGame();
   };
 
@@ -547,12 +560,12 @@ export function GameInterface() {
 
       {/* Overlay résumé d'époque */}
       <AnimatePresence>
-        {phase === 'epoch-summary' && pendingEpochSummary && (
+        {phase === 'epoch-summary' && (
           <EpochSummaryScreen
             key="epoch-summary"
             majorEvent={pendingMajorEvent}
-            epochLabel={currentEpochLabel}
-            epochIndex={gameState.epochIndex}
+            epochLabel={pendingEpochLabel}
+            epochIndex={pendingEpochIndex}
             totalEpochs={gameState.totalEpochs}
             isLast={pendingIsComplete}
             onContinue={handleEpochSummaryContinue}
