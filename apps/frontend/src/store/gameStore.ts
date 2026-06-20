@@ -61,6 +61,7 @@ interface ApiEnvelope<T> {
 }
 
 interface PickResult {
+  immediateNarrative: string | null;
   majorEvent: string | null;
   epochSummary: string | null;
   finalChronicle: string | null;

@@ -3,7 +3,7 @@
 import { useState, useTransition } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Sword, Book, Coins, Users, Compass, Clock, Brain,
+  Sword, Book, BookOpen, Coins, Users, Compass, Clock, Brain,
   Sparkles, ChevronRight, RotateCcw, Play, ScrollText,
 } from 'lucide-react';
 import type { Technology, GameState } from '@/store/gameStore';
@@ -299,6 +299,84 @@ function GameProgress({ gameState }: { gameState: GameState }) {
   );
 }
 
+// === ÉCRAN NARRATIF INTER-CHOIX ===
+
+function PickNarrativeScreen({ narrative, techName, onContinue }: {
+  narrative: string;
+  techName: string | undefined;
+  onContinue: () => void;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      style={{
+        position: 'fixed', inset: 0, zIndex: 50,
+        display: 'grid', placeItems: 'center', padding: 24,
+        background: 'rgba(2,6,23,0.80)',
+        backdropFilter: 'blur(8px)',
+        WebkitBackdropFilter: 'blur(8px)',
+      }}
+    >
+      <motion.div
+        initial={{ y: 24, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: -16, opacity: 0 }}
+        transition={{ type: 'spring', stiffness: 260, damping: 24 }}
+        style={{ width: '100%', maxWidth: 560, display: 'flex', flexDirection: 'column', gap: 20 }}
+      >
+        {/* Tech choisie */}
+        {techName && (
+          <div style={{ textAlign: 'center' }}>
+            <span style={{
+              display: 'inline-block',
+              background: 'var(--glass-2)', border: '1px solid var(--border-memory)',
+              borderRadius: 'var(--radius-full)', padding: '4px 16px',
+              fontSize: 'var(--text-xs)', color: 'var(--memory-400)',
+              backdropFilter: 'blur(var(--blur-sm))',
+              letterSpacing: '0.08em', textTransform: 'uppercase',
+            }}>
+              {techName}
+            </span>
+          </div>
+        )}
+
+        {/* Texte narratif */}
+        <div style={{
+          background: 'var(--glass-1)',
+          backdropFilter: 'blur(var(--blur-md))',
+          WebkitBackdropFilter: 'blur(var(--blur-md))',
+          border: '1px solid var(--border-subtle)',
+          borderRadius: 'var(--radius-lg)',
+          padding: 'var(--space-6)',
+          boxShadow: 'var(--shadow-card)',
+        }}>
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14,
+            color: 'var(--fg-3)', fontSize: 'var(--text-xs)',
+            fontWeight: 'var(--weight-semibold)', textTransform: 'uppercase', letterSpacing: '0.08em',
+          }}>
+            <BookOpen size={13} /> Dans le registre
+          </div>
+          <p style={{
+            fontSize: 'var(--text-base)', lineHeight: 'var(--leading-relaxed)',
+            color: 'var(--fg-2)', margin: 0, fontStyle: 'italic',
+          }}>
+            {narrative}
+          </p>
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <GradientButton onClick={onContinue}>
+            Continuer <ChevronRight size={16} />
+          </GradientButton>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 // === ÉCRAN RÉSUMÉ D'ÉPOQUE ===
 
 function EpochSummaryScreen({ majorEvent, epochSummary, epochLabel, epochIndex, totalEpochs, isLast, onContinue }: {
@@ -419,7 +497,7 @@ function EpochSummaryScreen({ majorEvent, epochSummary, epochLabel, epochIndex, 
 
 // === INTERFACE PRINCIPALE ===
 
-type UIPhase = 'picking' | 'epoch-summary';
+type UIPhase = 'picking' | 'pick-narrative' | 'epoch-summary';
 
 export function GameInterface() {
   const gameState = useGameStore(state => state.gameState);
@@ -429,6 +507,8 @@ export function GameInterface() {
   const isLoading = useGameStore(state => state.isLoading);
 
   const [phase, setPhase] = useState<UIPhase>('picking');
+  const [pendingImmediateNarrative, setPendingImmediateNarrative] = useState<string | null>(null);
+  const [pendingPickedTechId, setPendingPickedTechId] = useState<string | null>(null);
   const [pendingEpochSummary, setPendingEpochSummary] = useState<string | null>(null);
   const [pendingMajorEvent, setPendingMajorEvent] = useState<string | null>(null);
   const [pendingIsComplete, setPendingIsComplete] = useState(false);
@@ -446,7 +526,8 @@ export function GameInterface() {
     const result = await actions.pickTechnology(techId);
     if (!result.success || !result.data) return;
 
-    const { majorEvent, epochSummary, epochComplete, isComplete } = result.data;
+    const { immediateNarrative, majorEvent, epochSummary, epochComplete, isComplete } = result.data;
+
     if (epochComplete) {
       setPendingMajorEvent(majorEvent);
       setPendingEpochSummary(epochSummary);
@@ -454,7 +535,17 @@ export function GameInterface() {
       setPendingEpochIndex(epochIndexSnapshot);
       setPendingIsComplete(isComplete);
       setPhase('epoch-summary');
+    } else if (immediateNarrative) {
+      setPendingImmediateNarrative(immediateNarrative);
+      setPendingPickedTechId(techId);
+      setPhase('pick-narrative');
     }
+  };
+
+  const handlePickNarrativeContinue = () => {
+    setPendingImmediateNarrative(null);
+    setPendingPickedTechId(null);
+    setPhase('picking');
   };
 
   const handleEpochSummaryContinue = () => {
@@ -465,6 +556,8 @@ export function GameInterface() {
 
   const handleRestart = () => {
     setPhase('picking');
+    setPendingImmediateNarrative(null);
+    setPendingPickedTechId(null);
     setPendingMajorEvent(null);
     setPendingEpochSummary(null);
     setPendingIsComplete(false);
@@ -591,6 +684,18 @@ export function GameInterface() {
           <RotateCcw size={12} /> Recommencer
         </button>
       </div>
+
+      {/* Overlay narratif inter-choix (tours 1 et 2 de chaque époque) */}
+      <AnimatePresence>
+        {phase === 'pick-narrative' && pendingImmediateNarrative && (
+          <PickNarrativeScreen
+            key="pick-narrative"
+            narrative={pendingImmediateNarrative}
+            techName={pendingPickedTechId ? technologies.get(pendingPickedTechId)?.name : undefined}
+            onContinue={handlePickNarrativeContinue}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Overlay résumé d'époque */}
       <AnimatePresence>

@@ -723,6 +723,7 @@ async def pick_technology(game_id: str, request: PickRequest):
     return {
         "success": True,
         "data": {
+            "immediateNarrative": _immediate_narrative(tech_id),
             "majorEvent": major_event,
             "epochSummary": epoch_summary,
             "finalChronicle": final_chronicle,
