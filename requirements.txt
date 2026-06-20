@@ -7,3 +7,6 @@ pydantic>=2.5.0
 # Persistance Postgres (Railway). Sans DATABASE_URL, le backend bascule
 # automatiquement sur un stockage en mémoire.
 asyncpg>=0.29.0
+
+# Génération narrative des résumés d'époque
+openai>=1.0.0

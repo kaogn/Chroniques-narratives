@@ -16,6 +16,12 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
+try:
+    from openai import OpenAI as _OpenAI
+    _openai_client = _OpenAI(api_key=os.environ.get("OPENAI_API_KEY")) if os.environ.get("OPENAI_API_KEY") else None
+except ImportError:
+    _openai_client = None
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -138,6 +144,7 @@ def _epoch_summary(period: str, epoch_picks: List[str]) -> str:
 
     fragments: List[str] = []
     memory_words: List[str] = []
+    tech_names: List[str] = []
     for tech_id in epoch_picks:
         tech = techs.get(tech_id)
         if not tech:
@@ -149,6 +156,8 @@ def _epoch_summary(period: str, epoch_picks: List[str]) -> str:
             fragments.append(template.replace("{memoryWord}", word))
         if word:
             memory_words.append(word)
+        if tech.get("name"):
+            tech_names.append(tech["name"])
 
     if not fragments:
         return (
@@ -157,6 +166,44 @@ def _epoch_summary(period: str, epoch_picks: List[str]) -> str:
             "dans une case prévue à cet effet, et soupire."
         )
 
+    # Générer une synthèse liée via LLM si disponible
+    if _openai_client and len(fragments) >= 2:
+        try:
+            context = "\n".join(
+                f"- {tech_names[i] if i < len(tech_names) else '?'} (mot-mémoire : « {memory_words[i] if i < len(memory_words) else '?'} »)\n  {fragments[i]}"
+                for i in range(len(fragments))
+            )
+            prompt = (
+                f"Tu es l'archiviste cosmique de l'Univers, dans le style de Terry Pratchett : "
+                f"bureaucratie cosmique, ironie tendre, personnification des abstractions, "
+                f"humour bienveillant mais jamais cynique. "
+                f"L'humanité vient de traverser l'époque « {period_name} » en choisissant ces trois inventions :\n\n"
+                f"{context}\n\n"
+                f"Écris UN seul paragraphe de 4 à 6 phrases qui tisse ces trois inventions ensemble "
+                f"de façon cohérente et narrative. Les trois éléments doivent se répondre, se causer "
+                f"ou s'enrichir mutuellement — pas trois observations indépendantes. "
+                f"Ton registre : Pratchett pur. Pas de liste, pas de titres, pas de guillemets autour "
+                f"des noms de technologies. En français."
+            )
+            response = _openai_client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=300,
+                temperature=0.85,
+            )
+            llm_text = response.choices[0].message.content.strip()
+            words_str = ", ".join(f"« {w} »" for w in memory_words)
+            intro = (
+                f"Dans le grand registre de l'Univers — celui que personne n'a jamais vu mais "
+                f"que tout le monde redoute vaguement —, l'archiviste cosmique consigne, à la "
+                f"page « {period_name} », les mots que l'humanité a choisi de garder : "
+                f"{words_str}."
+            )
+            return f"{intro}\n\n{llm_text}"
+        except Exception:
+            pass  # Fallback sur la version statique ci-dessous
+
+    # Fallback statique (pas de clé ou erreur API)
     words_str = ", ".join(f"« {w} »" for w in memory_words)
     intro = (
         f"Dans le grand registre de l'Univers — celui que personne n'a jamais vu mais "
