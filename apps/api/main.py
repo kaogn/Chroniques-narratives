@@ -122,7 +122,7 @@ def _immediate_narrative(tech_id: str) -> str:
 
 
 def _major_event(epoch_picks: List[str]) -> str:
-    """Événement majeur de l'époque, synthèse des 3 choix via LLM ou fallback dernier choix."""
+    """Événement majeur de l'époque — scène concrète qui tisse les 3 choix."""
     techs = GAME_DATA["technologies"]
 
     if _openai_client and len(epoch_picks) >= 2:
@@ -131,25 +131,33 @@ def _major_event(epoch_picks: List[str]) -> str:
             for tid in epoch_picks:
                 t = techs.get(tid, {})
                 name = t.get("name", tid)
-                event = t.get("majorEvent", "")[:200]
-                picks_info.append(f"- {name} : {event}")
-            context = "\n".join(picks_info)
+                event = t.get("majorEvent", "")[:300]
+                word = t.get("narrative", {}).get("memoryWord", "")
+                picks_info.append(f"- {name} (mot-clé : {word})\n  {event}")
+            context = "\n\n".join(picks_info)
             prompt = (
-                "Tu es l'archiviste cosmique, style Terry Pratchett : ironie tendre, "
-                "bureaucratie cosmique, humour bienveillant, personnification des abstractions. "
-                "Ces trois inventions ont marqué cette époque :\n\n"
-                f"{context}\n\n"
-                "Écris UN seul paragraphe de 3 à 5 phrases qui raconte l'événement marquant "
-                "de cette époque en tissant les trois inventions ensemble. Ce n'est pas un résumé "
-                "abstrait : c'est une scène concrète, un moment précis où quelque chose a changé. "
-                "Les trois inventions doivent apparaître et se causer mutuellement. "
-                "Ton registre : Pratchett pur, en français, sans liste ni titres."
+                "Tu es l'archiviste cosmique de l'Univers, dans le style de Terry Pratchett.\n\n"
+                "Style Pratchett à respecter impérativement :\n"
+                "- Personnification des abstractions (La Mort, Le Progrès, La Peur ont des bureaux)\n"
+                "- Ironie tendre : l'humanité fait des choses absurdes avec beaucoup de sérieux\n"
+                "- Digressions érudites sur des détails insignifiants qui révèlent quelque chose d'essentiel\n"
+                "- Humour bienveillant : jamais méchant, toujours affectueux envers l'espèce humaine\n"
+                "- Formulations cosmiques : 'quelque part dans l'Univers', 'dans le registre', 'depuis l'aube des temps'\n\n"
+                f"Ces trois inventions ont marqué cette époque, dans cet ordre chronologique :\n\n{context}\n\n"
+                "Raconte l'événement marquant de cette époque en 2 à 3 paragraphes. "
+                "Ce doit être une SCÈNE VIVANTE, pas un résumé : montre des personnages anonymes "
+                "(un forgeron, un scribe, une mère, un roi stupide), des lieux précis, des moments "
+                "concrets où les trois inventions se CAUSENT mutuellement — la première rend la "
+                "deuxième possible, la deuxième appelle la troisième, la troisième change tout. "
+                "Inclus au moins une digression Pratchett et une observation cosmique. "
+                "Termine sur une conséquence inattendue mais logique de ces trois choix combinés. "
+                "En français, sans liste, sans titre, sans guillemets autour des noms de technologies."
             )
             response = _openai_client.chat.completions.create(
                 model="gpt-4o-mini",
                 messages=[{"role": "user", "content": prompt}],
-                max_tokens=250,
-                temperature=0.9,
+                max_tokens=500,
+                temperature=0.92,
             )
             return response.choices[0].message.content.strip()
         except Exception:
@@ -200,35 +208,43 @@ def _epoch_summary(period: str, epoch_picks: List[str]) -> str:
     # Générer une synthèse liée via LLM si disponible
     if _openai_client and len(fragments) >= 2:
         try:
-            context = "\n".join(
-                f"- {tech_names[i] if i < len(tech_names) else '?'} (mot-mémoire : « {memory_words[i] if i < len(memory_words) else '?'} »)\n  {fragments[i]}"
+            context = "\n\n".join(
+                f"Invention {i+1} — {tech_names[i] if i < len(tech_names) else '?'} "
+                f"(mot-mémoire : « {memory_words[i] if i < len(memory_words) else '?'} »)\n{fragments[i]}"
                 for i in range(len(fragments))
             )
+            words_str = ", ".join(f"« {w} »" for w in memory_words)
             prompt = (
-                f"Tu es l'archiviste cosmique de l'Univers, dans le style de Terry Pratchett : "
-                f"bureaucratie cosmique, ironie tendre, personnification des abstractions, "
-                f"humour bienveillant mais jamais cynique. "
-                f"L'humanité vient de traverser l'époque « {period_name} » en choisissant ces trois inventions :\n\n"
+                "Tu es l'archiviste cosmique de l'Univers, dans le style de Terry Pratchett.\n\n"
+                "Style Pratchett à respecter impérativement :\n"
+                "- Personnification des abstractions (La Mort, Le Progrès, La Peur ont des bureaux)\n"
+                "- Ironie tendre : l'humanité fait des choses absurdes avec beaucoup de sérieux\n"
+                "- Digressions érudites sur des détails insignifiants qui révèlent quelque chose d'essentiel\n"
+                "- Humour bienveillant : jamais méchant, toujours affectueux envers l'espèce humaine\n"
+                "- Formulations cosmiques : 'quelque part dans l'Univers', 'dans le registre cosmique'\n\n"
+                f"L'humanité vient de traverser l'époque « {period_name} » en faisant ces trois choix :\n\n"
                 f"{context}\n\n"
-                f"Écris UN seul paragraphe de 4 à 6 phrases qui tisse ces trois inventions ensemble "
-                f"de façon cohérente et narrative. Les trois éléments doivent se répondre, se causer "
-                f"ou s'enrichir mutuellement — pas trois observations indépendantes. "
-                f"Ton registre : Pratchett pur. Pas de liste, pas de titres, pas de guillemets autour "
-                f"des noms de technologies. En français."
+                f"Les mots que l'humanité a choisi de garder de cette époque : {words_str}.\n\n"
+                "Écris 2 à 3 paragraphes qui constituent le BILAN de cette époque dans le registre cosmique. "
+                "Les trois inventions doivent se CAUSER mutuellement — montre comment la première a rendu "
+                "la deuxième inévitable, comment la deuxième a préparé le terrain pour la troisième, "
+                "et quelle transformation profonde et inattendue résulte de leur combinaison. "
+                "Inclus la voix de l'archiviste cosmique qui note tout ça avec le détachement bienveillant "
+                "d'un fonctionnaire qui a vu beaucoup trop de civilisations pour être surpris, "
+                "mais qui trouve celle-ci intéressante quand même. "
+                "En français, sans liste, sans titre."
             )
             response = _openai_client.chat.completions.create(
                 model="gpt-4o-mini",
                 messages=[{"role": "user", "content": prompt}],
-                max_tokens=300,
-                temperature=0.85,
+                max_tokens=550,
+                temperature=0.88,
             )
             llm_text = response.choices[0].message.content.strip()
-            words_str = ", ".join(f"« {w} »" for w in memory_words)
             intro = (
                 f"Dans le grand registre de l'Univers — celui que personne n'a jamais vu mais "
                 f"que tout le monde redoute vaguement —, l'archiviste cosmique consigne, à la "
-                f"page « {period_name} », les mots que l'humanité a choisi de garder : "
-                f"{words_str}."
+                f"page « {period_name} », les mots que l'humanité a choisi de garder : {words_str}."
             )
             return f"{intro}\n\n{llm_text}"
         except Exception:
@@ -340,35 +356,57 @@ def _final_chronicle(picked_path: List[str], personality: Dict[str, Any]) -> str
 
     if _openai_client:
         try:
-            epoch_lines = []
             periods_meta = GAME_DATA.get("periods_meta", {})
+            epoch_sections = []
             for p in period_order:
                 names = techs_per_epoch.get(p, [])
                 if names:
                     label = periods_meta.get(p, {}).get("name", p)
-                    epoch_lines.append(f"- {label} : {', '.join(names)}")
-            path_desc = f"{path['name']} ({path['flavor']}) — {path['description']}"
-            words_str = ", ".join(unique_words[:8]) if unique_words else "silence"
+                    epoch_sections.append(f"  Époque {label} : {', '.join(names)}")
+
+            traits = personality.get("traits", {})
+            traits_desc = (
+                f"pragmatique/efficacité {traits.get('pragmatic', 0)}%, "
+                f"spirituel/culturel {traits.get('spiritual', 0)}%, "
+                f"coopératif/social {traits.get('cooperative', 0)}%"
+            )
+            words_str = ", ".join(unique_words) if unique_words else "silence"
+            path_desc = f"{path['name']} — {path['flavor']} — {path['description']}"
 
             prompt = (
-                "Tu es l'archiviste cosmique, style Terry Pratchett : ironie tendre, "
-                "bureaucratie cosmique, personnification des abstractions, humour bienveillant. "
-                "Voici le chemin complet d'une civilisation humaine à travers l'histoire :\n\n"
-                + "\n".join(epoch_lines) + "\n\n"
-                f"Profil final : {path_desc}\n"
-                f"Mots-mémoire retenus : {words_str}\n\n"
-                "Écris la chronique finale de cette civilisation spécifique. "
-                "3 à 4 paragraphes. Chaque paragraphe doit référencer des inventions concrètes "
-                "du chemin — pas de généralités vagues. La chronique doit être UNIQUE à ce chemin : "
-                "quelqu'un qui a suivi un chemin différent doit avoir une chronique différente. "
-                "Termine par une phrase de conclusion mémorable sur ce que cette civilisation "
-                "particulière laisse comme trace dans le registre de l'Univers. "
-                "Ton registre : Pratchett pur, en français. Pas de titres, pas de liste."
+                "Tu es l'archiviste cosmique de l'Univers, dans le style de Terry Pratchett.\n\n"
+                "Style Pratchett à respecter impérativement :\n"
+                "- Personnification des abstractions (La Mort, Le Progrès, La Civilisation ont des bureaux et des opinions)\n"
+                "- Ironie tendre et bienveillante : l'humanité fait des choses absurdes avec un sérieux admirable\n"
+                "- Digressions sur des détails révélateurs ('ce qui est remarquable, c'est que...')\n"
+                "- Causalité inattendue : chaque invention mène à une conséquence que personne n'avait prévue\n"
+                "- Ton affectueux : l'archiviste aime l'humanité même quand elle est ridicule\n"
+                "- Formules cosmiques : registres, tampons, cases à cocher, fonctionnaires de l'Univers\n\n"
+                "Voici le chemin complet de cette civilisation, époque par époque :\n"
+                + "\n".join(epoch_sections) + "\n\n"
+                f"Mots-mémoire conservés à travers les âges : {words_str}\n"
+                f"Profil de civilisation : {path_desc}\n"
+                f"Répartition des valeurs : {traits_desc}\n\n"
+                "Écris la CHRONIQUE FINALE de cette civilisation spécifique en 5 à 6 paragraphes.\n\n"
+                "Structure attendue :\n"
+                "1. Ouverture : l'archiviste cosmique ouvre le dossier de cette civilisation particulière "
+                "et note ce qui la distingue immédiatement des autres\n"
+                "2-4. Le fil rouge : raconte comment les choix des premières époques ont CAUSÉ et PRÉPARÉ "
+                "ceux des époques suivantes — montre la logique interne de ce chemin spécifique. "
+                "Cite des inventions concrètes par leur nom. Montre les conséquences inattendues. "
+                "Chaque époque doit résonner avec la précédente.\n"
+                "5. Le bilan : ce que cette combinaison particulière de choix dit sur le caractère "
+                "profond de cette civilisation — pas une autre, celle-ci précisément\n"
+                "6. La clôture : l'archiviste ferme le dossier avec une observation finale mémorable\n\n"
+                "IMPORTANT : la chronique doit être UNIQUE à ce chemin précis. Quelqu'un qui a choisi "
+                "différemment doit avoir une chronique complètement différente. Cite des noms d'inventions "
+                "réels du chemin, pas des généralités. Montre des LIENS DE CAUSE À EFFET entre les époques.\n\n"
+                "En français. Pas de titres, pas de liste, pas de puces. Prose Pratchett pure."
             )
             response = _openai_client.chat.completions.create(
                 model="gpt-4o-mini",
                 messages=[{"role": "user", "content": prompt}],
-                max_tokens=500,
+                max_tokens=1200,
                 temperature=0.95,
             )
             body = response.choices[0].message.content.strip()
