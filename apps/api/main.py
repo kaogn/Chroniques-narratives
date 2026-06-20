@@ -122,9 +122,40 @@ def _immediate_narrative(tech_id: str) -> str:
 
 
 def _major_event(epoch_picks: List[str]) -> str:
-    """Événement majeur survenu à la fin de l'époque, basé sur le dernier choix."""
+    """Événement majeur de l'époque, synthèse des 3 choix via LLM ou fallback dernier choix."""
     techs = GAME_DATA["technologies"]
-    # On prend le dernier choix de l'époque comme pivot narratif
+
+    if _openai_client and len(epoch_picks) >= 2:
+        try:
+            picks_info = []
+            for tid in epoch_picks:
+                t = techs.get(tid, {})
+                name = t.get("name", tid)
+                event = t.get("majorEvent", "")[:200]
+                picks_info.append(f"- {name} : {event}")
+            context = "\n".join(picks_info)
+            prompt = (
+                "Tu es l'archiviste cosmique, style Terry Pratchett : ironie tendre, "
+                "bureaucratie cosmique, humour bienveillant, personnification des abstractions. "
+                "Ces trois inventions ont marqué cette époque :\n\n"
+                f"{context}\n\n"
+                "Écris UN seul paragraphe de 3 à 5 phrases qui raconte l'événement marquant "
+                "de cette époque en tissant les trois inventions ensemble. Ce n'est pas un résumé "
+                "abstrait : c'est une scène concrète, un moment précis où quelque chose a changé. "
+                "Les trois inventions doivent apparaître et se causer mutuellement. "
+                "Ton registre : Pratchett pur, en français, sans liste ni titres."
+            )
+            response = _openai_client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=250,
+                temperature=0.9,
+            )
+            return response.choices[0].message.content.strip()
+        except Exception:
+            pass
+
+    # Fallback : majorEvent du dernier pick
     for tech_id in reversed(epoch_picks):
         tech = techs.get(tech_id)
         if not tech:
@@ -287,17 +318,70 @@ _EPITAPHS = {
 
 def _final_chronicle(picked_path: List[str], personality: Dict[str, Any]) -> str:
     techs = GAME_DATA["technologies"]
-    words = []
+    period_order = ["prehistoric", "ancient_early", "ancient_classical", "medieval_early",
+                    "medieval_late", "renaissance", "industrial", "contemporary"]
+
+    # Construire un résumé du chemin par époque
+    techs_per_epoch: Dict[str, List[str]] = {p: [] for p in period_order}
+    words: List[str] = []
     for tech_id in picked_path:
-        word = techs.get(tech_id, {}).get("narrative", {}).get("memoryWord")
+        t = techs.get(tech_id, {})
+        period = t.get("period", "")
+        name = t.get("name", tech_id)
+        word = t.get("narrative", {}).get("memoryWord", "")
+        if period in techs_per_epoch:
+            techs_per_epoch[period].append(name)
         if word:
             words.append(word)
-    unique_words = list(dict.fromkeys(words))
-    words_list = ", ".join(unique_words[:8]) if unique_words else "silence"
 
+    unique_words = list(dict.fromkeys(words))
     path = personality["evolutionaryPath"]
     epitaph = _EPITAPHS.get(path["id"], _EPITAPHS["harmonious"])
 
+    if _openai_client:
+        try:
+            epoch_lines = []
+            periods_meta = GAME_DATA.get("periods_meta", {})
+            for p in period_order:
+                names = techs_per_epoch.get(p, [])
+                if names:
+                    label = periods_meta.get(p, {}).get("name", p)
+                    epoch_lines.append(f"- {label} : {', '.join(names)}")
+            path_desc = f"{path['name']} ({path['flavor']}) — {path['description']}"
+            words_str = ", ".join(unique_words[:8]) if unique_words else "silence"
+
+            prompt = (
+                "Tu es l'archiviste cosmique, style Terry Pratchett : ironie tendre, "
+                "bureaucratie cosmique, personnification des abstractions, humour bienveillant. "
+                "Voici le chemin complet d'une civilisation humaine à travers l'histoire :\n\n"
+                + "\n".join(epoch_lines) + "\n\n"
+                f"Profil final : {path_desc}\n"
+                f"Mots-mémoire retenus : {words_str}\n\n"
+                "Écris la chronique finale de cette civilisation spécifique. "
+                "3 à 4 paragraphes. Chaque paragraphe doit référencer des inventions concrètes "
+                "du chemin — pas de généralités vagues. La chronique doit être UNIQUE à ce chemin : "
+                "quelqu'un qui a suivi un chemin différent doit avoir une chronique différente. "
+                "Termine par une phrase de conclusion mémorable sur ce que cette civilisation "
+                "particulière laisse comme trace dans le registre de l'Univers. "
+                "Ton registre : Pratchett pur, en français. Pas de titres, pas de liste."
+            )
+            response = _openai_client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=500,
+                temperature=0.95,
+            )
+            body = response.choices[0].message.content.strip()
+            intro = (
+                "Dans le grand Registre de l'Univers — celui que personne n'a jamais vu mais "
+                "que tout le monde redoute vaguement —, votre civilisation laisse cette entrée :"
+            )
+            return f"{intro}\n\n{body}\n\n{epitaph}"
+        except Exception:
+            pass
+
+    # Fallback statique
+    words_list = ", ".join(unique_words[:8]) if unique_words else "silence"
     intro = (
         "Dans le grand Registre de l'Univers — celui que personne n'a jamais vu mais "
         "que tout le monde redoute vaguement —, votre civilisation laisse cette entrée :"
