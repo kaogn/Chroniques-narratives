@@ -114,10 +114,44 @@ def _immediate_narrative(tech_id: str) -> str:
     tech = GAME_DATA["technologies"].get(tech_id)
     if not tech:
         return "Dans le Registre de l'Univers, ce choix s'inscrit en silence."
+
+    name = tech.get("name", tech_id)
+    word = tech.get("narrative", {}).get("memoryWord", "souvenir")
+    category = tech.get("category", "")
+    description = tech.get("description", "")[:200]
+    period = GAME_DATA.get("periods_meta", {}).get(tech.get("period", ""), {}).get("name", "")
+
+    if _openai_client:
+        try:
+            prompt = (
+                "Tu es l'archiviste cosmique de l'Univers, dans le style de Terry Pratchett.\n\n"
+                "Style à respecter : ironie tendre, bureaucratie cosmique, personnification des "
+                "abstractions, humour bienveillant, formules cosmiques ('quelque part', 'dans le "
+                "registre', 'un fonctionnaire de l'Univers'). Ton affectueux envers l'humanité.\n\n"
+                f"L'humanité vient de choisir : {name}\n"
+                f"Époque : {period}\n"
+                f"Mot-mémoire : {word}\n"
+                f"Contexte : {description}\n\n"
+                "Écris 2 à 3 phrases qui constituent la note immédiate de l'archiviste cosmique "
+                "au moment précis où ce choix est fait. Ce doit être différent à chaque fois — "
+                "une observation surprenante, un détail inattendu, une conséquence immédiate vue "
+                "depuis le registre de l'Univers. Pas de résumé de ce qu'est la technologie — "
+                "une réaction vivante au moment du choix. En français, sans guillemets, sans titre."
+            )
+            response = _openai_client.chat.completions.create(
+                model="gpt-4o",
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=120,
+                temperature=1.0,
+            )
+            return response.choices[0].message.content.strip()
+        except Exception:
+            pass
+
+    # Fallback statique
     immediates = tech.get("narrative", {}).get("immediate") or []
     if immediates:
         return random.choice(immediates)
-    word = tech.get("narrative", {}).get("memoryWord", "souvenir")
     return f"La {word} rejoint le grand catalogue des choses que l'humanité a décidé de garder."
 
 
@@ -154,7 +188,7 @@ def _major_event(epoch_picks: List[str]) -> str:
                 "En français, sans liste, sans titre, sans guillemets autour des noms de technologies."
             )
             response = _openai_client.chat.completions.create(
-                model="gpt-4o-mini",
+                model="gpt-4o",
                 messages=[{"role": "user", "content": prompt}],
                 max_tokens=500,
                 temperature=0.92,
@@ -235,7 +269,7 @@ def _epoch_summary(period: str, epoch_picks: List[str]) -> str:
                 "En français, sans liste, sans titre."
             )
             response = _openai_client.chat.completions.create(
-                model="gpt-4o-mini",
+                model="gpt-4o",
                 messages=[{"role": "user", "content": prompt}],
                 max_tokens=550,
                 temperature=0.88,
@@ -404,7 +438,7 @@ def _final_chronicle(picked_path: List[str], personality: Dict[str, Any]) -> str
                 "En français. Pas de titres, pas de liste, pas de puces. Prose Pratchett pure."
             )
             response = _openai_client.chat.completions.create(
-                model="gpt-4o-mini",
+                model="gpt-4o",
                 messages=[{"role": "user", "content": prompt}],
                 max_tokens=1200,
                 temperature=0.95,
