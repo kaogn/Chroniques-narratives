@@ -155,137 +155,86 @@ def _immediate_narrative(tech_id: str) -> str:
     return f"La {word} rejoint le grand catalogue des choses que l'humanité a décidé de garder."
 
 
-def _major_event(epoch_picks: List[str]) -> str:
-    """Événement majeur de l'époque — scène concrète qui tisse les 3 choix."""
-    techs = GAME_DATA["technologies"]
-
-    if _openai_client and len(epoch_picks) >= 2:
-        try:
-            picks_info = []
-            for tid in epoch_picks:
-                t = techs.get(tid, {})
-                name = t.get("name", tid)
-                event = t.get("majorEvent", "")[:300]
-                word = t.get("narrative", {}).get("memoryWord", "")
-                picks_info.append(f"- {name} (mot-clé : {word})\n  {event}")
-            context = "\n\n".join(picks_info)
-            prompt = (
-                "Tu es l'archiviste cosmique de l'Univers, dans le style de Terry Pratchett.\n\n"
-                "Style Pratchett à respecter impérativement :\n"
-                "- Personnification des abstractions (La Mort, Le Progrès, La Peur ont des bureaux)\n"
-                "- Ironie tendre : l'humanité fait des choses absurdes avec beaucoup de sérieux\n"
-                "- Digressions érudites sur des détails insignifiants qui révèlent quelque chose d'essentiel\n"
-                "- Humour bienveillant : jamais méchant, toujours affectueux envers l'espèce humaine\n"
-                "- Formulations cosmiques : 'quelque part dans l'Univers', 'dans le registre', 'depuis l'aube des temps'\n\n"
-                f"Ces trois inventions ont marqué cette époque, dans cet ordre chronologique :\n\n{context}\n\n"
-                "Raconte l'événement marquant de cette époque en 2 à 3 paragraphes. "
-                "Ce doit être une SCÈNE VIVANTE, pas un résumé : montre des personnages anonymes "
-                "(un forgeron, un scribe, une mère, un roi stupide), des lieux précis, des moments "
-                "concrets où les trois inventions se CAUSENT mutuellement — la première rend la "
-                "deuxième possible, la deuxième appelle la troisième, la troisième change tout. "
-                "Inclus au moins une digression Pratchett et une observation cosmique. "
-                "Termine sur une conséquence inattendue mais logique de ces trois choix combinés. "
-                "En français, sans liste, sans titre, sans guillemets autour des noms de technologies."
-            )
-            response = _openai_client.chat.completions.create(
-                model="gpt-4o",
-                messages=[{"role": "user", "content": prompt}],
-                max_tokens=500,
-                temperature=0.92,
-            )
-            return response.choices[0].message.content.strip()
-        except Exception:
-            pass
-
-    # Fallback : majorEvent du dernier pick
-    for tech_id in reversed(epoch_picks):
-        tech = techs.get(tech_id)
-        if not tech:
-            continue
-        event = tech.get("majorEvent")
-        if event:
-            return event
-    return (
-        "L'époque s'acheva sans fracas particulier, ce qui est en soi remarquable. "
-        "Quelque part, un archiviste cosmique nota « rien à signaler » et passa à la suivante."
-    )
-
-
-def _epoch_summary(period: str, epoch_picks: List[str]) -> str:
+def _epoch_narrative(period: str, epoch_picks: List[str]) -> tuple[str, str]:
+    """Génère (epoch_summary, major_event) en un seul appel GPT — JSON mode."""
     techs = GAME_DATA["technologies"]
     period_name = GAME_DATA["periods_meta"].get(period, {}).get("name", period)
 
-    fragments: List[str] = []
+    picks_data = []
     memory_words: List[str] = []
-    tech_names: List[str] = []
+    fragments: List[str] = []
     for tech_id in epoch_picks:
-        tech = techs.get(tech_id)
-        if not tech:
-            continue
-        narrative = tech.get("narrative", {})
-        word = narrative.get("memoryWord", "trace")
-        template = narrative.get("epochTemplate", "")
-        if template:
-            fragments.append(template.replace("{memoryWord}", word))
+        t = techs.get(tech_id, {})
+        name = t.get("name", tech_id)
+        word = t.get("narrative", {}).get("memoryWord", "trace")
+        template = t.get("narrative", {}).get("epochTemplate", "")
+        event_hint = t.get("majorEvent", "")[:200]
+        picks_data.append({"name": name, "word": word, "template": template, "event_hint": event_hint})
         if word:
             memory_words.append(word)
-        if tech.get("name"):
-            tech_names.append(tech["name"])
+        if template:
+            fragments.append(template.replace("{memoryWord}", word))
 
-    if not fragments:
-        return (
-            f"L'époque « {period_name} » s'achève sans que rien de notable n'ait été "
-            "préservé. Quelque part, un fonctionnaire de l'Univers inscrit « néant » "
-            "dans une case prévue à cet effet, et soupire."
-        )
+    words_str = ", ".join(f"« {w} »" for w in memory_words)
 
-    # Générer une synthèse liée via LLM si disponible
-    if _openai_client and len(fragments) >= 2:
+    if _openai_client:
         try:
             context = "\n\n".join(
-                f"Invention {i+1} — {tech_names[i] if i < len(tech_names) else '?'} "
-                f"(mot-mémoire : « {memory_words[i] if i < len(memory_words) else '?'} »)\n{fragments[i]}"
-                for i in range(len(fragments))
+                f"Choix {i+1} — {p['name']} (mot-mémoire : « {p['word']} »)\n"
+                f"Sens narratif : {p['template']}\nAnecdote de référence : {p['event_hint']}"
+                for i, p in enumerate(picks_data)
             )
-            words_str = ", ".join(f"« {w} »" for w in memory_words)
             prompt = (
                 "Tu es l'archiviste cosmique de l'Univers, dans le style de Terry Pratchett.\n\n"
-                "Style Pratchett à respecter impérativement :\n"
-                "- Personnification des abstractions (La Mort, Le Progrès, La Peur ont des bureaux)\n"
-                "- Ironie tendre : l'humanité fait des choses absurdes avec beaucoup de sérieux\n"
-                "- Digressions érudites sur des détails insignifiants qui révèlent quelque chose d'essentiel\n"
-                "- Humour bienveillant : jamais méchant, toujours affectueux envers l'espèce humaine\n"
-                "- Formulations cosmiques : 'quelque part dans l'Univers', 'dans le registre cosmique'\n\n"
-                f"L'humanité vient de traverser l'époque « {period_name} » en faisant ces trois choix :\n\n"
+                "STYLE à respecter absolument :\n"
+                "- Personnification des abstractions : La Mort, Le Progrès, La Peur, L'Ennui ont des bureaux "
+                "et des opinions sur l'humanité\n"
+                "- Ironie tendre et bienveillante : l'humanité fait des choses absurdes avec un sérieux admirable\n"
+                "- Digressions sur des détails révélateurs qui semblent anodins mais disent tout\n"
+                "- Chaque invention CAUSE la suivante de façon concrète et souvent inattendue\n"
+                "- Formules cosmiques : 'quelque part dans l'Univers', 'dans le grand registre', "
+                "'un fonctionnaire cocha la case'\n\n"
+                f"L'humanité vient de traverser l'époque « {period_name} » avec ces trois inventions :\n\n"
                 f"{context}\n\n"
-                f"Les mots que l'humanité a choisi de garder de cette époque : {words_str}.\n\n"
-                "Écris 2 à 3 paragraphes qui constituent le BILAN de cette époque dans le registre cosmique. "
-                "Les trois inventions doivent se CAUSER mutuellement — montre comment la première a rendu "
-                "la deuxième inévitable, comment la deuxième a préparé le terrain pour la troisième, "
-                "et quelle transformation profonde et inattendue résulte de leur combinaison. "
-                "Inclus la voix de l'archiviste cosmique qui note tout ça avec le détachement bienveillant "
-                "d'un fonctionnaire qui a vu beaucoup trop de civilisations pour être surpris, "
-                "mais qui trouve celle-ci intéressante quand même. "
-                "En français, sans liste, sans titre."
+                f"Mots retenus dans le registre : {words_str}\n\n"
+                "Produis un JSON avec exactement deux champs :\n\n"
+                "{\n"
+                '  "registre": "2 à 3 paragraphes — le bilan de l\'archiviste cosmique. '
+                "Montre comment les TROIS inventions se causent mutuellement dans une même logique narrative. "
+                "Chaque paragraphe doit référencer au moins DEUX des trois inventions. "
+                "L'archiviste observe avec détachement bienveillant. Ton Pratchett pur.\",\n"
+                '  "evenement": "2 à 3 paragraphes — une SCÈNE VIVANTE avec des personnages concrets '
+                "(un artisan anonyme, une femme, un chef, un enfant). "
+                "Les TROIS inventions doivent apparaître dans la scène et se CAUSER mutuellement. "
+                "Inclus une digression Pratchett et une conséquence inattendue. "
+                "Pas un résumé — une scène qui se passe sous les yeux du lecteur.\"\n"
+                "}\n\n"
+                "Réponds UNIQUEMENT avec le JSON, sans markdown, sans texte avant ou après."
             )
             response = _openai_client.chat.completions.create(
                 model="gpt-4o",
                 messages=[{"role": "user", "content": prompt}],
-                max_tokens=550,
-                temperature=0.88,
+                max_tokens=900,
+                temperature=0.92,
+                response_format={"type": "json_object"},
             )
-            llm_text = response.choices[0].message.content.strip()
+            data = json.loads(response.choices[0].message.content)
+            registre_text = data.get("registre", "").strip()
+            evenement_text = data.get("evenement", "").strip()
+
             intro = (
                 f"Dans le grand registre de l'Univers — celui que personne n'a jamais vu mais "
                 f"que tout le monde redoute vaguement —, l'archiviste cosmique consigne, à la "
                 f"page « {period_name} », les mots que l'humanité a choisi de garder : {words_str}."
             )
-            return f"{intro}\n\n{llm_text}"
-        except Exception:
-            pass  # Fallback sur la version statique ci-dessous
+            epoch_summary = f"{intro}\n\n{registre_text}"
+            major_event = evenement_text
+            return epoch_summary, major_event
+        except Exception as e:
+            import logging
+            logging.warning(f"_epoch_narrative GPT error: {e}")
 
-    # Fallback statique (pas de clé ou erreur API)
-    words_str = ", ".join(f"« {w} »" for w in memory_words)
+    # Fallback statique
     intro = (
         f"Dans le grand registre de l'Univers — celui que personne n'a jamais vu mais "
         f"que tout le monde redoute vaguement —, l'archiviste cosmique consigne, à la "
@@ -293,8 +242,12 @@ def _epoch_summary(period: str, epoch_picks: List[str]) -> str:
         f"{words_str}. Il retourne ensuite la page et écrit, d'une écriture appliquée, "
         f"ce qui suit."
     )
-    body = "\n\n".join(fragments)
-    return f"{intro}\n\n{body}"
+    epoch_summary = f"{intro}\n\n" + "\n\n".join(fragments)
+    major_event = next(
+        (techs[tid].get("majorEvent", "") for tid in reversed(epoch_picks) if tid in techs and techs[tid].get("majorEvent")),
+        "L'époque s'acheva. Quelque part, un archiviste cosmique cocha une case et passa à la suivante."
+    )
+    return epoch_summary, major_event
 
 
 def _personality_from_picked(picked_path: List[str]) -> Dict[str, Any]:
@@ -726,8 +679,7 @@ async def pick_technology(game_id: str, request: PickRequest):
     final_chronicle = None
 
     if epoch_complete:
-        major_event = _major_event(game["epochPicks"])
-        epoch_summary = _epoch_summary(game["currentEpoch"], game["epochPicks"])
+        epoch_summary, major_event = _epoch_narrative(game["currentEpoch"], game["epochPicks"])
         next_epoch_idx = game["epochIndex"] + 1
         playable = GAME_DATA["playable_periods"]
 
@@ -757,7 +709,7 @@ async def pick_technology(game_id: str, request: PickRequest):
     return {
         "success": True,
         "data": {
-            "immediateNarrative": _immediate_narrative(tech_id),
+            "immediateNarrative": None if epoch_complete else _immediate_narrative(tech_id),
             "majorEvent": major_event,
             "epochSummary": epoch_summary,
             "finalChronicle": final_chronicle,
